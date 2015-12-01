@@ -33,7 +33,7 @@ namespace reverse_ebay
         Boolean aufArtikelBieten(int gebot);
         List<Artikel> meineGeboteAnzeigen();
         Boolean istArtikelAktiv(int id);
-        List<Artikel> sucheArtikel(string name_suchstring, string kurzbeschr_suchstring, string langbeschr_suchstring);
+        List<Artikel> gibArtikelListe(string suchstring);
 
     }
 }
