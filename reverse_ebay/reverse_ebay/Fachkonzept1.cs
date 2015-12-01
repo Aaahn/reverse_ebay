@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace reverse_ebay
 {
-    class Program
+    class Fachkonzept1: IFachkonzept
     {
-        static void Main(string[] args)
+        public Fachkonzept1()
         {
-            var programm = new GUI(new Fachkonzept1());
-
-            programm.start();
         }
     }
 }
