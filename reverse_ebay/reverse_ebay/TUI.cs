@@ -6,33 +6,53 @@ using System.Threading.Tasks;
 
 namespace reverse_ebay
 {
-    class TUI:IOberflaeche  
+    class TUI : IOberflaeche
     {
         private IFachkonzept fachkonzept;
-        private int round;
+        private int runde, maxAnzahl;
+        private List<string> alleArtikel;
 
         public TUI(IFachkonzept _fachkonzept)
         {
             this.fachkonzept = _fachkonzept;
+            this.alleArtikel = new List<string>();
+            this.runde = 0;
+            this.maxAnzahl = 10;
         }
 
         public void start()
         {
-            mainmenue();
+            hauptmenue();
         }
 
-        private void mainmenue()
+        private void hauptmenue()
         {
+            int zaehler = 0;
+
+            Console.Clear();
+
             Console.WriteLine("Willkommen bei reverse-ebay");
             Console.WriteLine();
             Console.WriteLine("Aktuelle Wunschliste");
-            // fachkonzept.getItemNames(10)
+            List<string> aktuelleArtikel = holeAnzahlAnArtikeln();
+            foreach (string artikel in aktuelleArtikel)
+            {
+                Console.WriteLine("({0}) {1}", zaehler, artikel);
+                zaehler++;
+            }
             Console.WriteLine();
             Console.WriteLine("    - Zahl eingeben um Details zu sehen");
             Console.WriteLine("[L] - Anmelden");
             Console.WriteLine("[R] - Registrieren");
             Console.WriteLine("[W] - Wunsch eintragen");
-            Console.WriteLine("[N] - Die nächsten 10 Wünsche");
+            if (aktuelleArtikel.Count == maxAnzahl)
+            {
+                Console.WriteLine("[N] - Die nächsten 10 Wünsche");
+            }
+            if (runde != 0)
+            {
+                Console.WriteLine("[V] - Die vorherigen 10 Wünsche");
+            }
             Console.WriteLine("[Q] - Beenden");
             Console.WriteLine("");
             Console.Write("Ihre Auswahl: ");
@@ -50,16 +70,74 @@ namespace reverse_ebay
                 case "7":
                 case "8":
                 case "9":
-                    //GetItemByID(Convert.ToInt32(eingabe),round);
+                    int auswahl = Convert.ToInt32(eingabe);
+                    if (auswahl < aktuelleArtikel.Count)
+                    {
+                        //artikelDetails(aktuelleArtikel[auswahl];
+                    }
                     break;
                 case "L":
-                    //GetItemByID(0,round);
+                case "l":
+                    //anmelden
+                    break;
+                case "R":
+                case "r":
+                    //registrieren
+                    break;
+                case "W":
+                case "w":
+                    //Wunsch eintragen
+                    break;
+                case "N":
+                case "n":
+                    //die nächsten 10 Wünsche
+                    if (aktuelleArtikel.Count == maxAnzahl)
+                    {
+                        runde++;
+                    }
+                    break;
+                case "V":
+                case "v":
+                    //die vorherigen 10 Wünsche
+                    if (runde != 0)
+                    {
+                        runde--;
+                    }
+                    break;
+                case "Q":
+                case "q":
+                    //Beenden
+                    Environment.Exit(0);
                     break;
             }
-            
-            Console.WriteLine("\n"+eingabe);
-            Console.Read();
+            hauptmenue();
+        }
 
+        private List<string> holeAnzahlAnArtikeln()
+        {
+            List<string> artikel = new List<string>();
+            int versatz = runde * maxAnzahl;
+
+            if (alleArtikel.Count == 0)
+            {
+                //allItems = fachkonzept.getItems();
+            }
+            artikel.Clear();
+            if ((alleArtikel.Count >= versatz) && (alleArtikel.Count < versatz + maxAnzahl))
+            {
+                for (int i = versatz; i < alleArtikel.Count; i++)
+                {
+                    artikel.Add(alleArtikel[i]);
+                }
+            }
+            else if (alleArtikel.Count >= versatz + maxAnzahl)
+            {
+                for (int i = versatz; i < versatz + maxAnzahl; i++)
+                {
+                    artikel.Add(alleArtikel[i]);
+                }
+            }
+            return artikel;
         }
     }
 }
