@@ -158,11 +158,11 @@ namespace reverse_ebay
             Console.WriteLine("Suchender:        {0}", suchender.name);
             Console.WriteLine("Aktueller Bieter: {0}", bieter.name);
             Console.WriteLine();
-            if (fachkonzept.aktuellerNutzer != artikel.anbieter_id)
+            if (fachkonzept.eingeloggterUser() != artikel.anbieter_id)
             {
                 Console.WriteLine("[B] - Niedrigeres Gebot abgeben");
             }
-            if (fachkonzept.aktuellerNutzer == artikel.anbieter_id)
+            if (fachkonzept.eingeloggterUser() == artikel.anbieter_id)
             {
                 Console.WriteLine("[A] - Artikel ändern");
                 Console.WriteLine("[E] - Auktion beenden");

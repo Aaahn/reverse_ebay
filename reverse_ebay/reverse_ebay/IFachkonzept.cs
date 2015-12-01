@@ -15,6 +15,7 @@ namespace reverse_ebay
         Benutzer gibBenutzer(int id);
         Boolean einloggen();
         Boolean ausloggen();
+        int eingeloggterUser();
         List<Adresse> meineAdressen();
         List<Artikel> meineArtikel();
 
