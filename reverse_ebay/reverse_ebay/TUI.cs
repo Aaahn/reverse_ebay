@@ -10,12 +10,12 @@ namespace reverse_ebay
     {
         private IFachkonzept fachkonzept;
         private int runde, maxAnzahl;
-        private List<string> alleArtikel;
+        private List<Artikel> alleArtikel;
 
         public TUI(IFachkonzept _fachkonzept)
         {
             this.fachkonzept = _fachkonzept;
-            this.alleArtikel = new List<string>();
+            this.alleArtikel = new List<Artikel>();
             this.runde = 0;
             this.maxAnzahl = 10;
         }
@@ -34,8 +34,8 @@ namespace reverse_ebay
             Console.WriteLine("Willkommen bei reverse-ebay");
             Console.WriteLine();
             Console.WriteLine("Aktuelle Wunschliste");
-            List<string> aktuelleArtikel = holeAnzahlAnArtikeln();
-            foreach (string artikel in aktuelleArtikel)
+            List<Artikel> aktuelleArtikel = holeAnzahlAnArtikeln();
+            foreach (Artikel artikel in aktuelleArtikel)
             {
                 Console.WriteLine("({0}) {1}", zaehler, artikel);
                 zaehler++;
@@ -113,14 +113,14 @@ namespace reverse_ebay
             hauptmenue();
         }
 
-        private List<string> holeAnzahlAnArtikeln()
+        private List<Artikel> holeAnzahlAnArtikeln()
         {
-            List<string> artikel = new List<string>();
+            List<Artikel> artikel = new List<Artikel>();
             int versatz = runde * maxAnzahl;
 
             if (alleArtikel.Count == 0)
             {
-                //allItems = fachkonzept.getItems();
+                alleArtikel = fachkonzept.sucheArtikel("","","");
             }
             artikel.Clear();
             if ((alleArtikel.Count >= versatz) && (alleArtikel.Count < versatz + maxAnzahl))

@@ -12,3 +12,6 @@ C:\Users\um461\Desktop\reverse-ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_
 C:\Users\Stefanie\Desktop\AS\reverse_ebay\reverse_ebay\reverse_ebay\bin\Debug\reverse_ebay.exe.config
 C:\Users\Stefanie\Desktop\AS\reverse_ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.exe
 C:\Users\Stefanie\Desktop\AS\reverse_ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.pdb
+C:\Users\Stefanie\Desktop\AS2\reverse_ebay\reverse_ebay\bin\Debug\reverse_ebay.exe.config
+C:\Users\Stefanie\Desktop\AS2\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.exe
+C:\Users\Stefanie\Desktop\AS2\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.pdb
