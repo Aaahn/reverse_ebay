@@ -24,7 +24,7 @@ namespace reverse_ebay
         }
     }
 
-    class MeineAdresse
+    class BenutzerAdresse
     {
         private Boolean rech_addr { get; set; }
         private Boolean lief_addr { get; set; }
@@ -33,7 +33,7 @@ namespace reverse_ebay
         private string addr_zusatz { get; set; }
         private Adresse addresse { get; set; }
 
-        MeineAdresse(Boolean rech_addr, Boolean lief_addr, string vname, string nname, string addr_zusatz, Adresse addresse)
+        BenutzerAdresse(Boolean rech_addr, Boolean lief_addr, string vname, string nname, string addr_zusatz, Adresse addresse)
         {
             this.rech_addr = rech_addr;
             this.lief_addr = lief_addr;
@@ -48,9 +48,9 @@ namespace reverse_ebay
         private int id { get; set; }
         private string name { get; set; }
         private string passwort { get; set; }
-        private List<MeineAdresse> adressen { get; set; }
+        private List<BenutzerAdresse> adressen { get; set; }
 
-        Benutzer(int id, string name, string passwort, List<MeineAdresse> adressen)
+        Benutzer(int id, string name, string passwort, List<BenutzerAdresse> adressen)
         {
             this.id = id;
             this.name = name;
