@@ -37,7 +37,7 @@ namespace reverse_ebay
             List<Artikel> aktuelleArtikel = holeAnzahlAnArtikeln();
             foreach (Artikel artikel in aktuelleArtikel)
             {
-                Console.WriteLine("({0}) {1}", zaehler, artikel);
+                Console.WriteLine("({0}) {1}", zaehler, artikel.name);
                 zaehler++;
             }
             Console.WriteLine();
@@ -74,6 +74,7 @@ namespace reverse_ebay
                     if (auswahl < aktuelleArtikel.Count)
                     {
                         //artikelDetails(aktuelleArtikel[auswahl];
+                        ArtikelMenue(aktuelleArtikel[auswahl]);
                     }
                     break;
                 case "L":
@@ -90,7 +91,7 @@ namespace reverse_ebay
                     break;
                 case "N":
                 case "n":
-                    //die nächsten 10 Wünsche
+                    //die nächsten Wünsche
                     if (aktuelleArtikel.Count == maxAnzahl)
                     {
                         runde++;
@@ -98,7 +99,7 @@ namespace reverse_ebay
                     break;
                 case "V":
                 case "v":
-                    //die vorherigen 10 Wünsche
+                    //die vorherigen Wünsche
                     if (runde != 0)
                     {
                         runde--;
@@ -120,7 +121,7 @@ namespace reverse_ebay
 
             if (alleArtikel.Count == 0)
             {
-                alleArtikel = fachkonzept.sucheArtikel("","","");
+                alleArtikel = fachkonzept.gibArtikelListe("");
             }
             artikel.Clear();
             if ((alleArtikel.Count >= versatz) && (alleArtikel.Count < versatz + maxAnzahl))
@@ -138,6 +139,60 @@ namespace reverse_ebay
                 }
             }
             return artikel;
+        }
+
+        public void ArtikelMenue(Artikel artikel)
+        {
+            string eingabe;
+            Benutzer suchender = fachkonzept.gibBenutzer(artikel.anbieter_id);
+            Benutzer bieter = fachkonzept.gibBenutzer(artikel.bieter_id);
+            Console.Clear();
+            Console.WriteLine("Artikelmenü");
+            Console.WriteLine("-----------");
+            Console.WriteLine();
+            Console.WriteLine("Name:             {0}", artikel.name);
+            Console.WriteLine("Kurzbeschreibung: {0}", artikel.kurzbeschr);
+            Console.WriteLine("Langbeschreibung: {0}", artikel.langbeschr);
+            Console.WriteLine("Höchstgebot:      {0} EUR", artikel.hoechstgebot.ToString("0,00"));
+            Console.WriteLine("Ablaufdatum:      {0}", artikel.ablaufdatum);
+            Console.WriteLine("Suchender:        {0}", suchender.name);
+            Console.WriteLine("Aktueller Bieter: {0}", bieter.name);
+            Console.WriteLine();
+            if (fachkonzept.aktuellerNutzer != artikel.anbieter_id)
+            {
+                Console.WriteLine("[B] - Niedrigeres Gebot abgeben");
+            }
+            if (fachkonzept.aktuellerNutzer == artikel.anbieter_id)
+            {
+                Console.WriteLine("[A] - Artikel ändern");
+                Console.WriteLine("[E] - Auktion beenden");
+            }
+            Console.WriteLine("[Z] - Zurück zum Hauptmenü");
+            Console.WriteLine();
+            Console.Write("Ihre Auswahl: ");
+            eingabe = Console.ReadLine();
+            switch (eingabe)
+            {
+                case "B":
+                case "b":
+                    // Bieten
+                    break;
+                case "A":
+                case "a":
+                    // Ändern
+                    break;
+                case "E":
+                case "e":
+                    //Auktion beenden
+                    break;
+                case "Z":
+                case "z":
+                    hauptmenue();
+                    break;
+                default:
+                    ArtikelMenue(artikel);
+                    break;
+            }
         }
     }
 }

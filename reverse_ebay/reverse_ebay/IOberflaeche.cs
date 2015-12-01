@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace reverse_ebay
 {
-    abstract class IOberflaeche
+    interface IOberflaeche
     {
-        void start () {}
+        void start();
     }
 }

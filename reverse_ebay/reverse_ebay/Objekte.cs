@@ -46,7 +46,7 @@ namespace reverse_ebay
     class Benutzer
     {
         private int id { get; set; }
-        private string name { get; set; }
+        public string name { get; set; }
         private string passwort { get; set; }
         private List<BenutzerAdresse> adressen { get; set; }
 
@@ -60,14 +60,14 @@ namespace reverse_ebay
     }
     class Artikel
     {
-        private int id { get; set; }
-        private string name { get; set; }
-        private string kurzbeschr { get; set; }
-        private string langbeschr { get; set; }
-        private DateTime ablaufdatum { get; set; }
-        private float hoechstgebot { get; set; }
-        private int bieter_id { get; set; }
-        private int anbieter_id { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string kurzbeschr { get; set; }
+        public string langbeschr { get; set; }
+        public DateTime ablaufdatum { get; set; }
+        public float hoechstgebot { get; set; }
+        public int bieter_id { get; set; }
+        public int anbieter_id { get; set; }
 
         Artikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, float hoechstgebot, int bieter_id, int anbieter_id) 
         {
