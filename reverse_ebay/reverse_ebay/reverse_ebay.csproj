@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="IFachkonzept.cs" />
     <Compile Include="IOberflaeche.cs" />
+    <Compile Include="Objekte.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TUI.cs" />
