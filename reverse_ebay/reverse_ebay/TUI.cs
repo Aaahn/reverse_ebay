@@ -194,5 +194,35 @@ namespace reverse_ebay
                     break;
             }
         }
+        private void BietenMenue(Artikel artikel)
+        {
+            string eingabe;
+            double gebotNeu = 0f;
+            Console.Clear();
+            Console.WriteLine("Bieten");
+            Console.WriteLine("-----------");
+            Console.WriteLine();
+            Console.WriteLine("Artikel:          {0}", artikel.name);
+            Console.WriteLine("Kurzbeschreibung: {0}", artikel.kurzbeschr);
+            Console.WriteLine("Aktuelles Gebot:  {0} EUR", artikel.hoechstgebot.ToString("0,00"));
+            Console.WriteLine();
+            Console.Write("Ihr Gebot: ");
+            eingabe = Console.ReadLine();
+            try
+            {
+                gebotNeu = Convert.ToDouble(eingabe);
+                if (!fachkonzept.aufArtikelBieten(artikel, gebotNeu))
+                {
+                    throw new Exception();
+                }
+                ArtikelMenue(artikel);
+            } catch (Exception e)
+            {
+                Console.Write("Das Gebot ist ungültig. Bitte versuchen Sie es erneut!");
+                Console.Read();
+                BietenMenue(artikel);
+            }
+
+        }
     }
 }

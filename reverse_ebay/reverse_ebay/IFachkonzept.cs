@@ -25,13 +25,13 @@ namespace reverse_ebay
         Boolean loescheAdresse(int id);
 
         // Artikel-Management
-        Boolean erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, int gebot);
-        Boolean aendereArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, int gebot);
+        Boolean erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
+        Boolean aendereArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
         Boolean loescheArtikel(int id);
         Artikel gibArtikel(int id);
 
         // Sonstige Funktionen
-        Boolean aufArtikelBieten(int gebot);
+        Boolean aufArtikelBieten(Artikel artikel, double gebot);
         List<Artikel> meineGeboteAnzeigen();
         Boolean istArtikelAktiv(int id);
         List<Artikel> gibArtikelListe(string suchstring);

@@ -65,11 +65,11 @@ namespace reverse_ebay
         public string kurzbeschr { get; set; }
         public string langbeschr { get; set; }
         public DateTime ablaufdatum { get; set; }
-        public float hoechstgebot { get; set; }
+        public double hoechstgebot { get; set; }
         public int bieter_id { get; set; }
         public int anbieter_id { get; set; }
 
-        Artikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, float hoechstgebot, int bieter_id, int anbieter_id) 
+        Artikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id) 
         {
             this.id = id;
             this.name = name;
