@@ -45,10 +45,10 @@ namespace reverse_ebay
     }
     class Benutzer
     {
-        private int id { get; set; }
+        public int id { get; set; }
         public string name { get; set; }
-        private string passwort { get; set; }
-        private List<BenutzerAdresse> adressen { get; set; }
+        public string passwort { get; set; }
+        public List<BenutzerAdresse> adressen { get; set; }
 
         Benutzer(int id, string name, string passwort, List<BenutzerAdresse> adressen)
         {

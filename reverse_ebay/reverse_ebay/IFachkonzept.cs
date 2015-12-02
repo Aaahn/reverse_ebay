@@ -10,10 +10,10 @@ namespace reverse_ebay
     {
         // Benutzer-Management
         Boolean erzeugeBenutzer(string name, string passwort);
-        Boolean aendereBenutzer(string name, string passwort);
+        Boolean aendereBenutzer(int id, string name, string passwort);
         Boolean loescheBenutzer(int id);
         Benutzer gibBenutzer(int id);
-        Boolean einloggen();
+        Boolean einloggen(string name, string passwort);
         Boolean ausloggen();
         int eingeloggterUser();
         List<Adresse> meineAdressen();
@@ -21,12 +21,12 @@ namespace reverse_ebay
 
         // Adressen-Management
         Boolean erzeugeAdresse(string str_nr, int plz, string stadt, string land);
-        Boolean aendereAdresse(string str_nr, int plz, string stadt, string land);
+        Boolean aendereAdresse(int id, string str_nr, int plz, string stadt, string land);
         Boolean loescheAdresse(int id);
 
         // Artikel-Management
         Boolean erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
-        Boolean aendereArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
+        Boolean aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
         Boolean loescheArtikel(int id);
         Artikel gibArtikel(int id);
 

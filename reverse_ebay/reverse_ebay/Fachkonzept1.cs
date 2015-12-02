@@ -17,6 +17,11 @@ namespace reverse_ebay
             throw new NotImplementedException();
         }
 
+        public bool aendereAdresse(int id, string str_nr, int plz, string stadt, string land)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool aendereArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot)
         {
             throw new NotImplementedException();
@@ -27,7 +32,17 @@ namespace reverse_ebay
             throw new NotImplementedException();
         }
 
+        public bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool aendereBenutzer(string name, string passwort)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool aendereBenutzer(int id, string name, string passwort)
         {
             throw new NotImplementedException();
         }
@@ -53,6 +68,11 @@ namespace reverse_ebay
         }
 
         public bool einloggen()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool einloggen(string name, string passwort)
         {
             throw new NotImplementedException();
         }

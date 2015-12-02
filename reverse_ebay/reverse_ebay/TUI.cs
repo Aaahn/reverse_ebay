@@ -42,8 +42,15 @@ namespace reverse_ebay
             }
             Console.WriteLine();
             Console.WriteLine("    - Zahl eingeben um Details zu sehen");
-            Console.WriteLine("[L] - Anmelden");
-            Console.WriteLine("[R] - Registrieren");
+            if (fachkonzept.eingeloggterUser() < 0)
+            {
+                Console.WriteLine("[L] - Anmelden");
+                Console.WriteLine("[R] - Registrieren");
+            } else
+            {
+                Console.WriteLine("[A] - Abmelden");
+                Console.WriteLine("[M] - meine Seite");
+            }
             Console.WriteLine("[W] - Wunsch eintragen");
             if (aktuelleArtikel.Count == maxAnzahl)
             {
@@ -80,10 +87,35 @@ namespace reverse_ebay
                 case "L":
                 case "l":
                     //anmelden
+                    if (fachkonzept.eingeloggterUser() < 0)
+                    {
+                        LoginMenue();
+                    }
                     break;
                 case "R":
                 case "r":
                     //registrieren
+                    if (fachkonzept.eingeloggterUser() < 0)
+                    {
+                        RegistrierenMenue();
+                    }
+                    break;
+                case "A":
+                case "a":
+                    //Abmelden
+                    if (!fachkonzept.ausloggen())
+                    {
+                        Console.WriteLine("Abmelden nicht erfolgreich, bitte versuchen Sie es erneut.");
+                        Console.Read();
+                    }
+                    break;
+                case "M":
+                case "m":
+                    // meine Seite
+                    if (fachkonzept.eingeloggterUser() >= 0)
+                    {
+                        UserMenue(fachkonzept.gibBenutzer(fachkonzept.eingeloggterUser()));
+                    }
                     break;
                 case "W":
                 case "w":
@@ -141,7 +173,7 @@ namespace reverse_ebay
             return artikel;
         }
 
-        public void ArtikelMenue(Artikel artikel)
+        private void ArtikelMenue(Artikel artikel)
         {
             string eingabe;
             Benutzer suchender = fachkonzept.gibBenutzer(artikel.anbieter_id);
@@ -176,14 +208,29 @@ namespace reverse_ebay
                 case "B":
                 case "b":
                     // Bieten
+                    if (fachkonzept.eingeloggterUser() != artikel.anbieter_id)
+                    {
+                        BietenMenue(artikel);
+                    }
                     break;
                 case "A":
                 case "a":
                     // Ändern
+                    ArtikelAendernMenue(artikel);
                     break;
                 case "E":
                 case "e":
                     //Auktion beenden
+                    if (!BeendeAuktion(artikel))
+                    {
+                        Console.WriteLine("Auktion beenden nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Auktion erfolgreich beendet.");
+                    }
+                    Console.Read();
+                    ArtikelMenue(artikel);
                     break;
                 case "Z":
                 case "z":
@@ -194,6 +241,7 @@ namespace reverse_ebay
                     break;
             }
         }
+
         private void BietenMenue(Artikel artikel)
         {
             string eingabe;
@@ -223,6 +271,296 @@ namespace reverse_ebay
                 BietenMenue(artikel);
             }
 
+        }
+
+        private void ArtikelAendernMenue (Artikel artikel)
+        {
+            string eingabe;
+            Console.Clear();
+            Console.WriteLine("Artikel ändern");
+            Console.WriteLine("--------------");
+            Console.WriteLine();
+            Console.WriteLine("Name:             {0}", artikel.name);
+            Console.WriteLine("Kurzbeschreibung: {0}", artikel.kurzbeschr);
+            Console.WriteLine("Langbeschreibung: {0}", artikel.langbeschr);
+            Console.WriteLine();
+            Console.WriteLine("[N] - Name ändern");
+            Console.WriteLine("[K] - Kurzbeschreibung ändern");
+            Console.WriteLine("[L] - Langbeschreibung ändern");
+            Console.WriteLine("[A] - zurück zum Artikelmenü");
+            Console.WriteLine("[Z] - Zurück zum Hauptmenü");
+            Console.WriteLine();
+            Console.Write("Ihre Auswahl: ");
+            eingabe = Console.ReadLine();
+            switch (eingabe)
+            {
+                case "N":
+                case "n":
+                    //Name ändern
+                    Console.WriteLine();
+                    Console.WriteLine("Name alt: {0}", artikel.name);
+                    Console.Write("Name neu: ");
+                    if (!AendereArtikelName(artikel, Console.ReadLine()))
+                    {
+                        Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                    } else
+                    {
+                        Console.WriteLine("Ändern erfolgreich.");
+                    }
+                    Console.Read();
+                    ArtikelAendernMenue(artikel);
+                    break;
+                case "K":
+                case "k":
+                    //Kurzbeschreibung ändern
+                    Console.WriteLine();
+                    Console.WriteLine("Kurzbeschreibung alt: {0}", artikel.kurzbeschr);
+                    Console.Write("Kurzbeschreibung neu: ");
+                    if (!AendereArtikelName(artikel, Console.ReadLine()))
+                    {
+                        Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ändern erfolgreich.");
+                    }
+                    Console.Read();
+                    ArtikelAendernMenue(artikel);
+                    break;
+                case "L":
+                case "l":
+                    //Langebschreibung ändern
+                    Console.WriteLine();
+                    Console.WriteLine("Langbeschreibung alt: {0}", artikel.kurzbeschr);
+                    Console.Write("Langbeschreibung neu: ");
+                    if (!AendereArtikelName(artikel, Console.ReadLine()))
+                    {
+                        Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ändern erfolgreich.");
+                    }
+                    Console.Read();
+                    ArtikelAendernMenue(artikel);
+                    break;
+                case "A":
+                case "a":
+                    //Artikelmenü
+                    ArtikelMenue(artikel);
+                    break;
+                case "Z":
+                case "z":
+                    // Hauptmenü
+                    hauptmenue();
+                    break;
+                default:
+                    ArtikelAendernMenue(artikel);
+                    break;
+            }
+        }
+        private Boolean AendereArtikelName(Artikel artikel, string name)
+        {
+            if (!name.Equals(artikel.name))
+            {
+                if (fachkonzept.aendereArtikel(artikel.id, name, artikel.kurzbeschr, artikel.langbeschr, artikel.anbieter_id, artikel.bieter_id, artikel.ablaufdatum, artikel.hoechstgebot))
+                {
+                    artikel.name = name;
+                    return true;
+                }
+            }
+            return false;
+        }
+        private Boolean AendereArtikelKurzbeschr(Artikel artikel, string kurzbeschr)
+        {
+            if (!kurzbeschr.Equals(artikel.kurzbeschr))
+            {
+                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, kurzbeschr, artikel.langbeschr, artikel.anbieter_id, artikel.bieter_id, artikel.ablaufdatum, artikel.hoechstgebot))
+                {
+                    artikel.kurzbeschr = kurzbeschr;
+                    return true;
+                }
+            }
+            return false;
+        }
+        private Boolean AendereArtikelLangbeschr(Artikel artikel, string langbeschr)
+        {
+            if (!langbeschr.Equals(artikel.langbeschr))
+            {
+                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, langbeschr, artikel.anbieter_id, artikel.bieter_id, artikel.ablaufdatum, artikel.hoechstgebot))
+                {
+                    artikel.langbeschr = langbeschr;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private Boolean BeendeAuktion (Artikel artikel)
+        {
+            DateTime jetzt = DateTime.Now;
+            if (artikel.ablaufdatum > jetzt)
+            {
+                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.anbieter_id, artikel.bieter_id, jetzt, artikel.hoechstgebot))
+                {
+                    artikel.ablaufdatum = jetzt;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void LoginMenue()
+        {
+            string name,passwort;
+            Console.Clear();
+            Console.WriteLine("Login");
+            Console.WriteLine("-----");
+            Console.WriteLine();
+            Console.Write("Name:     ");
+            name = Console.ReadLine();
+            Console.Write("Passwort: ");
+            passwort = Console.ReadLine();
+
+            if (!fachkonzept.einloggen(name, passwort))
+            {
+                Console.WriteLine("Login nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                Console.Read();
+            }
+            hauptmenue();
+        }
+
+        private void RegistrierenMenue()
+        {
+            string name, passwort;
+            Console.Clear();
+            Console.WriteLine("Registrieren");
+            Console.WriteLine("------------");
+            Console.WriteLine();
+            Console.Write("Name:     ");
+            name = Console.ReadLine();
+            Console.Write("Passwort: ");
+            passwort = Console.ReadLine();
+
+            if (!fachkonzept.erzeugeBenutzer(name, passwort))
+            {
+                Console.WriteLine("Registrierung nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                Console.Read();
+            }
+            hauptmenue();
+        }
+
+        private void UserMenue(Benutzer benutzer)
+        {
+            string eingabe;
+            int zaehler = 0, auswahl;
+            List<Artikel> meineArtikel = fachkonzept.meineArtikel();
+            Console.Clear();
+            Console.WriteLine("Benutzermenü");
+            Console.WriteLine("------------");
+            Console.WriteLine();
+            Console.WriteLine("Name:             {0}", benutzer.name);
+            Console.WriteLine();
+            Console.WriteLine("Meine Wunschliste");
+            foreach (Artikel artikel in meineArtikel)
+            {
+                Console.WriteLine("({0}) {1}", zaehler, artikel.name);
+                zaehler++;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("    - Zahl eingeben um Details zu sehen");
+            Console.WriteLine("[A] - Adressen verwalten");
+            Console.WriteLine("[N] - Name ändern");
+            Console.WriteLine("[P] - Passwort ändern");
+            Console.WriteLine("[Z] - Zurück zum Hauptmenü");
+            Console.WriteLine();
+            Console.Write("Ihre Auswahl: ");
+            eingabe = Console.ReadLine();
+            try
+            {
+                auswahl = Convert.ToInt32(eingabe);
+                if ((auswahl < meineArtikel.Count)&& (auswahl >= 0))
+                {
+                    ArtikelMenue(meineArtikel[auswahl]);
+                }
+            }
+            catch
+            {
+                switch (eingabe)
+                {
+                    case "A":
+                    case "a":
+                        // Adressen verwalten
+                        break;
+                    case "N":
+                    case "n":
+                        // Name ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Name alt: {0}", benutzer.name);
+                        Console.Write("Name neu: ");
+                        if (!AendereBenutzerName(benutzer, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
+                    case "P":
+                    case "p":
+                        //Passwort ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Passwort alt: {0}", benutzer.passwort);
+                        Console.Write("Passwort neu: ");
+                        if (!AendereBenutzerPasswort(benutzer, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
+                    case "Z":
+                    case "z":
+                        hauptmenue();
+                        break;
+                }
+            }
+            UserMenue(benutzer);
+        }
+        private Boolean AendereBenutzerName(Benutzer benutzer, string name)
+        {
+            if (!name.Equals(benutzer.name))
+            {
+                if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+                {
+                    benutzer.name = name;
+                    return true;
+                }
+            }
+            return false;
+        }
+        private Boolean AendereBenutzerPasswort(Benutzer benutzer, string passwort)
+        {
+            if (!passwort.Equals(benutzer.passwort))
+            {
+                if (fachkonzept.aendereBenutzer(benutzer.id, benutzer.name, passwort))
+                {
+                    benutzer.passwort = passwort;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void AdressMenue(Benutzer benutzer)
+        {
+            //TODO
         }
     }
 }
