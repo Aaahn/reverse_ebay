@@ -9,10 +9,10 @@ namespace reverse_ebay
     class Adresse
     {
         private int id { get; set; }
-        private string str_nr { get; set; }
-        private string plz { get; set; }
-        private string ort { get; set; }
-        private string land { get; set; }
+        public string str_nr { get; set; }
+        public string plz { get; set; }
+        public string ort { get; set; }
+        public string land { get; set; }
 
         public Adresse(int id, string str_nr, string plz, string ort, string land = "Deutschland")
         {
@@ -26,12 +26,12 @@ namespace reverse_ebay
 
     class BenutzerAdresse
     {
-        private Boolean rech_addr { get; set; }
-        private Boolean lief_addr { get; set; }
-        private string vname { get; set; }
-        private string nname { get; set; }
-        private string addr_zusatz { get; set; }
-        private Adresse addresse { get; set; }
+        public Boolean rech_addr { get; set; }
+        public Boolean lief_addr { get; set; }
+        public string vname { get; set; }
+        public string nname { get; set; }
+        public string addr_zusatz { get; set; }
+        public Adresse addresse { get; set; }
 
         BenutzerAdresse(Boolean rech_addr, Boolean lief_addr, string vname, string nname, string addr_zusatz, Adresse addresse)
         {

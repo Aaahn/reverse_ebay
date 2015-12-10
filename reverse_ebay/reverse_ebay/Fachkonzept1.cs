@@ -146,5 +146,10 @@ namespace reverse_ebay
         {
             throw new NotImplementedException();
         }
+
+        List<BenutzerAdresse> IFachkonzept.meineAdressen()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

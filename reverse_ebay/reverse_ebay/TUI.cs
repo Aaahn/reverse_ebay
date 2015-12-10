@@ -264,7 +264,7 @@ namespace reverse_ebay
                     throw new Exception();
                 }
                 ArtikelMenue(artikel);
-            } catch (Exception e)
+            } catch
             {
                 Console.Write("Das Gebot ist ungültig. Bitte versuchen Sie es erneut!");
                 Console.Read();
@@ -560,7 +560,66 @@ namespace reverse_ebay
 
         private void AdressMenue(Benutzer benutzer)
         {
-            //TODO
+            string eingabe;
+            int zaehler = 0, auswahl;
+            List<BenutzerAdresse> meineAdressen = fachkonzept.meineAdressen();
+            Console.Clear();
+            Console.WriteLine("Adressen");
+            Console.WriteLine("--------");
+            foreach (BenutzerAdresse adresse in meineAdressen)
+            {
+                Console.WriteLine("({0}) {1} {2}", zaehler, adresse.vname, adresse.nname);
+                Console.WriteLine("    {1}", adresse.addr_zusatz);
+                Console.WriteLine("    {1}", adresse.addresse.str_nr);
+                Console.WriteLine("    {1} {2}", adresse.addresse.plz, adresse.addresse.ort);
+                Console.WriteLine("    {1}", adresse.addresse.land);
+                if (adresse.rech_addr)
+                {
+                    Console.WriteLine("    # Rechnungsadresse");
+                }
+                if (adresse.lief_addr)
+                {
+                    Console.WriteLine("    # Lieferadresse");
+                }
+                zaehler++;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("    - Zahl eingeben um zu bearbeiten");
+            Console.WriteLine("[M] - Zurück zum Benutzermenü");
+            Console.WriteLine("[Z] - Zurück zum Hauptmenü");
+            Console.WriteLine();
+            Console.Write("Ihre Auswahl: ");
+            eingabe = Console.ReadLine();
+            try
+            {
+                auswahl = Convert.ToInt32(eingabe);
+                if ((auswahl < meineAdressen.Count) && (auswahl >= 0))
+                {
+                    AdressMgtMenue(meineAdressen[auswahl]);
+                }
+            }
+            catch
+            {
+                switch (eingabe)
+                {
+                    case "M":
+                    case "m":
+                        //Zurück zum BenutzerMenü
+                        UserMenue(benutzer);
+                        break;
+                    case "Z":
+                    case "z":
+                        //Zurück zum HauptMenü
+                        hauptmenue();
+                        break;
+                }
+            }
+            UserMenue(benutzer);
+        }
+        private void AdressMgtMenue (BenutzerAdresse benutzerAdresse)
+        {
+
         }
     }
 }

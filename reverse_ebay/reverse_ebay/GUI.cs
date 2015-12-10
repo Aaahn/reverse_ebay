@@ -18,9 +18,8 @@ namespace reverse_ebay
 
         public void start()
         {
-            GUI_View view = new GUI_View();
+            GUI_Main view = new GUI_Main(fachkonzept);
             view.ShowDialog();
-            //mainmenue();
         }
     }
 }

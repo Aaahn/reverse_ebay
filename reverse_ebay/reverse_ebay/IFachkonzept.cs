@@ -16,7 +16,7 @@ namespace reverse_ebay
         Boolean einloggen(string name, string passwort);
         Boolean ausloggen();
         int eingeloggterUser();
-        List<Adresse> meineAdressen();
+        List<BenutzerAdresse> meineAdressen();
         List<Artikel> meineArtikel();
 
         // Adressen-Management

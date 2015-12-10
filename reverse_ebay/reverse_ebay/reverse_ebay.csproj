@@ -45,7 +45,10 @@
   <ItemGroup>
     <Compile Include="Fachkonzept1.cs" />
     <Compile Include="GUI.cs" />
-    <Compile Include="GUI_View.cs">
+    <Compile Include="GUI_Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IFachkonzept.cs" />
@@ -59,8 +62,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GUI_View.resx">
-      <DependentUpon>GUI_View.cs</DependentUpon>
+    <EmbeddedResource Include="GUI_Login.resx">
+      <DependentUpon>GUI_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_Main.resx">
+      <DependentUpon>GUI_Main.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
