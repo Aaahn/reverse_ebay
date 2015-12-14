@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace reverse_ebay
 {
@@ -359,7 +356,7 @@ namespace reverse_ebay
                     break;
             }
         }
-        private Boolean AendereArtikelName(Artikel artikel, string name)
+        private bool AendereArtikelName(Artikel artikel, string name)
         {
             if (!name.Equals(artikel.name))
             {
@@ -371,7 +368,7 @@ namespace reverse_ebay
             }
             return false;
         }
-        private Boolean AendereArtikelKurzbeschr(Artikel artikel, string kurzbeschr)
+        private bool AendereArtikelKurzbeschr(Artikel artikel, string kurzbeschr)
         {
             if (!kurzbeschr.Equals(artikel.kurzbeschr))
             {
@@ -383,7 +380,7 @@ namespace reverse_ebay
             }
             return false;
         }
-        private Boolean AendereArtikelLangbeschr(Artikel artikel, string langbeschr)
+        private bool AendereArtikelLangbeschr(Artikel artikel, string langbeschr)
         {
             if (!langbeschr.Equals(artikel.langbeschr))
             {
@@ -396,7 +393,7 @@ namespace reverse_ebay
             return false;
         }
 
-        private Boolean BeendeAuktion (Artikel artikel)
+        private bool BeendeAuktion (Artikel artikel)
         {
             DateTime jetzt = DateTime.Now;
             if (artikel.ablaufdatum > jetzt)
@@ -533,7 +530,7 @@ namespace reverse_ebay
             }
             UserMenue(benutzer);
         }
-        private Boolean AendereBenutzerName(Benutzer benutzer, string name)
+        private bool AendereBenutzerName(Benutzer benutzer, string name)
         {
             if (!name.Equals(benutzer.name))
             {
@@ -545,7 +542,7 @@ namespace reverse_ebay
             }
             return false;
         }
-        private Boolean AendereBenutzerPasswort(Benutzer benutzer, string passwort)
+        private bool AendereBenutzerPasswort(Benutzer benutzer, string passwort)
         {
             if (!passwort.Equals(benutzer.passwort))
             {

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace reverse_ebay
 {
@@ -26,14 +23,14 @@ namespace reverse_ebay
 
     class BenutzerAdresse
     {
-        public Boolean rech_addr { get; set; }
-        public Boolean lief_addr { get; set; }
+        public bool rech_addr { get; set; }
+        public bool lief_addr { get; set; }
         public string vname { get; set; }
         public string nname { get; set; }
         public string addr_zusatz { get; set; }
         public Adresse addresse { get; set; }
 
-        BenutzerAdresse(Boolean rech_addr, Boolean lief_addr, string vname, string nname, string addr_zusatz, Adresse addresse)
+        BenutzerAdresse(bool rech_addr, bool lief_addr, string vname, string nname, string addr_zusatz, Adresse addresse)
         {
             this.rech_addr = rech_addr;
             this.lief_addr = lief_addr;
@@ -48,14 +45,12 @@ namespace reverse_ebay
         public int id { get; set; }
         public string name { get; set; }
         public string passwort { get; set; }
-        public List<BenutzerAdresse> adressen { get; set; }
 
-        Benutzer(int id, string name, string passwort, List<BenutzerAdresse> adressen)
+        Benutzer(int id, string name, string passwort)
         {
             this.id = id;
             this.name = name;
             this.passwort = passwort;
-            this.adressen = adressen;
         }
     }
     class Artikel

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace reverse_ebay
+﻿namespace reverse_ebay
 {
-    class Program
+    class Start
     {
         static void Main(string[] args)
         {

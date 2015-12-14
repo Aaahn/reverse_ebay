@@ -43,31 +43,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fachkonzept1.cs" />
-    <Compile Include="GUI.cs" />
-    <Compile Include="GUI_Login.cs">
+    <Compile Include="Fachkonzept\Fachkonzept1\Fachkonzept1.cs" />
+    <Compile Include="Oberflaeche\GUI\GUI.cs" />
+    <Compile Include="Oberflaeche\GUI\GUI_Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI_Main.cs">
+    <Compile Include="Oberflaeche\GUI\GUI_Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IFachkonzept.cs" />
-    <Compile Include="IOberflaeche.cs" />
+    <Compile Include="Fachkonzept\IFachkonzept.cs" />
+    <Compile Include="Oberflaeche\IOberflaeche.cs" />
     <Compile Include="Objekte.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Start.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TUI.cs" />
+    <Compile Include="Oberflaeche\TUI\TUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GUI_Login.resx">
+    <EmbeddedResource Include="Oberflaeche\GUI\GUI_Login.resx">
       <DependentUpon>GUI_Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI_Main.resx">
+    <EmbeddedResource Include="Oberflaeche\GUI\GUI_Main.resx">
       <DependentUpon>GUI_Main.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Datenhaltung\SQL\" />
+    <Folder Include="Datenhaltung\XML\" />
+    <Folder Include="Fachkonzept\Fachkonzept2\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
