@@ -94,7 +94,7 @@ namespace reverse_ebay
 
         private void LoginOnClick(object sender, EventArgs e)
         {
-            if (fachkonzept.eingeloggterUser() < 0)
+            if (fachkonzept.gibAktBenutzer() == null)
             {
                 GUI_Login loginPage = new GUI_Login(fachkonzept);
                 loginPage.ShowDialog();
@@ -107,7 +107,7 @@ namespace reverse_ebay
 
         private void Reload()
         {
-            if (fachkonzept.eingeloggterUser() < 0)
+            if (fachkonzept.gibAktBenutzer() == null)
             {
                 anmeldenToolStripMenuItem.Text = "Anmelden";
             } else

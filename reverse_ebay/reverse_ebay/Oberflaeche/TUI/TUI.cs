@@ -39,7 +39,7 @@ namespace reverse_ebay
             }
             Console.WriteLine();
             Console.WriteLine("    - Zahl eingeben um Details zu sehen");
-            if (fachkonzept.eingeloggterUser() < 0)
+            if (fachkonzept.gibAktBenutzer() == null)
             {
                 Console.WriteLine("[L] - Anmelden");
                 Console.WriteLine("[R] - Registrieren");
@@ -84,7 +84,7 @@ namespace reverse_ebay
                 case "L":
                 case "l":
                     //anmelden
-                    if (fachkonzept.eingeloggterUser() < 0)
+                    if (fachkonzept.gibAktBenutzer() == null)
                     {
                         LoginMenue();
                     }
@@ -92,7 +92,7 @@ namespace reverse_ebay
                 case "R":
                 case "r":
                     //registrieren
-                    if (fachkonzept.eingeloggterUser() < 0)
+                    if (fachkonzept.gibAktBenutzer() == null)
                     {
                         RegistrierenMenue();
                     }
@@ -109,9 +109,9 @@ namespace reverse_ebay
                 case "M":
                 case "m":
                     // meine Seite
-                    if (fachkonzept.eingeloggterUser() >= 0)
+                    if (fachkonzept.gibAktBenutzer() == null)
                     {
-                        UserMenue(fachkonzept.gibBenutzer(fachkonzept.eingeloggterUser()));
+                        UserMenue(fachkonzept.gibAktBenutzer());
                     }
                     break;
                 case "W":
@@ -187,11 +187,11 @@ namespace reverse_ebay
             Console.WriteLine("Suchender:        {0}", suchender.name);
             Console.WriteLine("Aktueller Bieter: {0}", bieter.name);
             Console.WriteLine();
-            if (fachkonzept.eingeloggterUser() != artikel.anbieter_id)
+            if (fachkonzept.gibAktBenutzer().id != artikel.anbieter_id)
             {
                 Console.WriteLine("[B] - Niedrigeres Gebot abgeben");
             }
-            if (fachkonzept.eingeloggterUser() == artikel.anbieter_id)
+            if (fachkonzept.gibAktBenutzer().id == artikel.anbieter_id)
             {
                 Console.WriteLine("[A] - Artikel ändern");
                 Console.WriteLine("[E] - Auktion beenden");
@@ -205,7 +205,7 @@ namespace reverse_ebay
                 case "B":
                 case "b":
                     // Bieten
-                    if (fachkonzept.eingeloggterUser() != artikel.anbieter_id)
+                    if (fachkonzept.gibAktBenutzer().id != artikel.anbieter_id)
                     {
                         BietenMenue(artikel);
                     }
@@ -360,7 +360,7 @@ namespace reverse_ebay
         {
             if (!name.Equals(artikel.name))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, name, artikel.kurzbeschr, artikel.langbeschr, artikel.anbieter_id, artikel.bieter_id, artikel.ablaufdatum, artikel.hoechstgebot))
+                if (fachkonzept.aendereArtikel(artikel.id, name, artikel.kurzbeschr, artikel.langbeschr))
                 {
                     artikel.name = name;
                     return true;
@@ -372,7 +372,7 @@ namespace reverse_ebay
         {
             if (!kurzbeschr.Equals(artikel.kurzbeschr))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, kurzbeschr, artikel.langbeschr, artikel.anbieter_id, artikel.bieter_id, artikel.ablaufdatum, artikel.hoechstgebot))
+                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, kurzbeschr, artikel.langbeschr))
                 {
                     artikel.kurzbeschr = kurzbeschr;
                     return true;
@@ -384,7 +384,7 @@ namespace reverse_ebay
         {
             if (!langbeschr.Equals(artikel.langbeschr))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, langbeschr, artikel.anbieter_id, artikel.bieter_id, artikel.ablaufdatum, artikel.hoechstgebot))
+                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, langbeschr))
                 {
                     artikel.langbeschr = langbeschr;
                     return true;
@@ -395,15 +395,15 @@ namespace reverse_ebay
 
         private bool BeendeAuktion (Artikel artikel)
         {
-            DateTime jetzt = DateTime.Now;
-            if (artikel.ablaufdatum > jetzt)
-            {
-                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.anbieter_id, artikel.bieter_id, jetzt, artikel.hoechstgebot))
-                {
-                    artikel.ablaufdatum = jetzt;
-                    return true;
-                }
-            }
+            // TODO
+            //DateTime jetzt = DateTime.Now;
+            //if (artikel.ablaufdatum > jetzt)
+            //{
+            //    if (fachkonzept.beendeArtikelAution(artikel.id))
+            //    {
+            //        return true;
+            //    }
+            //}
             return false;
         }
 
