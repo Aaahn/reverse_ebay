@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datenhaltung\IDatenhaltung.cs" />
+    <Compile Include="Datenhaltung\SQL\SQLDatenzugriff.cs" />
     <Compile Include="Datenhaltung\XML\XMLDatenzugriff.cs" />
     <Compile Include="Fachkonzept\Fachkonzept1\Fachkonzept1.cs" />
     <Compile Include="Oberflaeche\GUI\GUI.cs" />
@@ -72,7 +73,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Datenhaltung\SQL\" />
     <Folder Include="Fachkonzept\Fachkonzept2\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

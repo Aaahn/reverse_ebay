@@ -39,7 +39,7 @@ namespace reverse_ebay
          * - anbieter_id und ablaufdatum sollten nicht geändert können
          * - bieter_id und gebot in der Funktion 'aufArtikelBieten()' geändert werden.
          */
-        bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr);
+        bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum);
         bool loescheArtikel(int id);
         Artikel gibArtikel(int id);
 
