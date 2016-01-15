@@ -22,7 +22,6 @@ namespace reverse_ebay
         bool einloggen(string name, string passwort);
         bool ausloggen();
         Benutzer gibAktBenutzer();
-        //int eingeloggterUser(); <! unnötige Funktion (siehe Dokumentation) >
         List<BenutzerAdresse> meineAdressen();
         List<Artikel> meineArtikel();
 
@@ -33,12 +32,6 @@ namespace reverse_ebay
 
         // Artikel-Management
         bool erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
-        /* Kurze Änderungserläuterung:
-         * bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
-         * Das habe ich etwas gekürzt, da:
-         * - anbieter_id und ablaufdatum sollten nicht geändert können
-         * - bieter_id und gebot in der Funktion 'aufArtikelBieten()' geändert werden.
-         */
         bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum);
         bool loescheArtikel(int id);
         Artikel gibArtikel(int id);
