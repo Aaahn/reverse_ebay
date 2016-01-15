@@ -125,15 +125,15 @@ namespace reverse_ebay
 
 
         // BenutzerAdressen-Management
-        bool erzeugeBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
+        public bool erzeugeBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
         {
             return datenhaltung.insertUserAddress(benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr);
         }
-        bool aendereBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
+        public bool aendereBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
         {
             return datenhaltung.updateUserAddress(benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr);
         }
-        bool loescheBenutzerAdresse(int benutzer_id, int adresse_id)
+        public bool loescheBenutzerAdresse(int benutzer_id, int adresse_id)
         {
             return datenhaltung.deleteUserAddress(benutzer_id, adresse_id);
         }
