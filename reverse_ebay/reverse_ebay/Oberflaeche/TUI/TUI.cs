@@ -611,8 +611,8 @@ namespace reverse_ebay
                 {
                     case "N":
                     case "n":
-                        //Zurück zum BenutzerMenü
-                        //UserMenue(benutzer);
+                        //Neue Adresse anlegen
+                        AdresseEinfuegen(benutzer);
                         break;
                     case "M":
                     case "m":
@@ -628,17 +628,91 @@ namespace reverse_ebay
             }
             UserMenue(benutzer);
         }
+        private void AdresseEinfuegen(Benutzer benutzer)
+        {
+            string vname, nname, addr_zusatz, strNr, plz, ort, land, rech, lief;
+            bool rech_addr, lief_addr;
+            Console.Write("Vorname:      ");
+            vname = Console.ReadLine();
+            while (vname.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie einen Vornamen ein.");
+                Console.Write("Vorname:      ");
+                vname = Console.ReadLine();
+            }
+            Console.Write("Nachname:     ");
+            nname = Console.ReadLine();
+            while (nname.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie einen Nachnamen ein.");
+                Console.Write("Nachname:     ");
+                nname = Console.ReadLine();
+            }
+            Console.Write("Adresszusatz: ");
+            addr_zusatz = Console.ReadLine();
+            Console.Write("Straße, Nr.:  ");
+            strNr = Console.ReadLine();
+            while (strNr.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie Straße und Hausnummer ein.");
+                Console.Write("Straße, Nr.:  ");
+                strNr = Console.ReadLine();
+            }
+            Console.Write("Postleitzahl: ");
+            plz = Console.ReadLine();
+            while (plz.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie eine Postleitzahl ein.");
+                Console.Write("Postleitzahl: ");
+                plz = Console.ReadLine();
+
+            }
+            Console.Write("Ort:          ");
+            ort = Console.ReadLine();
+            while (ort.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie einen Ort ein.");
+                Console.Write("Ort:          ");
+                ort = Console.ReadLine();
+            }
+            Console.Write("Land:         ");
+            land = Console.ReadLine();
+            while (land.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie ein Land ein.");
+                Console.Write("Land:         ");
+                land = Console.ReadLine();
+            }
+            Console.WriteLine("Rechnungsadresse? [J/N]: ");
+            rech = Console.ReadLine();
+            while ((!rech.Equals("J")) && (!rech.Equals("N"))){
+                Console.WriteLine("Bitte geben Sie gültige Zeichen (J für \"Ja\" oder N für \"Nein\") ein.");
+                Console.WriteLine("Rechnungsadresse? [J/N]: ");
+                rech = Console.ReadLine();
+            }
+            rech_addr = (rech.Equals("J") ? true : false);
+
+            Console.WriteLine("Lieferadresse? [J/N]:    ");
+            lief = Console.ReadLine();
+            while ((!lief.Equals("J")) && (!lief.Equals("N")))
+            {
+                Console.WriteLine("Bitte geben Sie gültige Zeichen (J für \"Ja\" oder N für \"Nein\") ein.");
+                Console.WriteLine("Lieferadresse? [J/N]:    ");
+                lief = Console.ReadLine();
+            }
+            lief_addr = (lief.Equals("J") ? true : false);
+        }
         private void AdressMgtMenue (BenutzerAdresse benutzerAdresse)
         {
             string eingabe;
             int auswahl;
-            Console.WriteLine("[1] Vorname:      {0}", benutzerAdresse.vname);
-            Console.WriteLine("[2] Nachname:     {0}", benutzerAdresse.nname);
-            Console.WriteLine("[3] Adresszusatz: {0}", benutzerAdresse.addr_zusatz);
-            Console.WriteLine("[4] Straße, Nr.:  {0}", benutzerAdresse.adresse.str_nr);
-            Console.WriteLine("[5] Postleitzahl: {0}", benutzerAdresse.adresse.plz);
-            Console.WriteLine("[6] Ort:          {0}", benutzerAdresse.adresse.ort);
-            Console.WriteLine("[7] Land:         {0}", benutzerAdresse.adresse.land);
+            Console.WriteLine("Vorname:      {0}", benutzerAdresse.vname);
+            Console.WriteLine("Nachname:     {0}", benutzerAdresse.nname);
+            Console.WriteLine("Adresszusatz: {0}", benutzerAdresse.addr_zusatz);
+            Console.WriteLine("Straße, Nr.:  {0}", benutzerAdresse.adresse.str_nr);
+            Console.WriteLine("Postleitzahl: {0}", benutzerAdresse.adresse.plz);
+            Console.WriteLine("Ort:          {0}", benutzerAdresse.adresse.ort);
+            Console.WriteLine("Land:         {0}", benutzerAdresse.adresse.land);
             if (benutzerAdresse.rech_addr)
             {
                 Console.WriteLine("    # Rechnungsadresse");
@@ -649,7 +723,7 @@ namespace reverse_ebay
             }
             Console.WriteLine();
             Console.WriteLine("    - Zahl eingeben um zu bearbeiten");
-            Console.WriteLine("[N] - Neue Adresse anlegen");
+            Console.WriteLine("[A] - Zurück zum Adressmenü");
             Console.WriteLine("[M] - Zurück zum Benutzermenü");
             Console.WriteLine("[Z] - Zurück zum Hauptmenü");
             Console.WriteLine();
@@ -678,7 +752,7 @@ namespace reverse_ebay
                     case 2:
                         //Nachnamen ändern
                         Console.WriteLine();
-                        Console.WriteLine("Nachname alt: {0}", benutzerAdresse.vname);
+                        Console.WriteLine("Nachname alt: {0}", benutzerAdresse.nname);
                         Console.Write("Nachname neu: ");
                         if (!AendereNachname(benutzerAdresse, Console.ReadLine()))
                         {
@@ -691,15 +765,79 @@ namespace reverse_ebay
                         Console.Read();
                         break;
                     case 3:
+                        //Adresszusätze ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Adresszusatz alt: {0}", benutzerAdresse.addr_zusatz);
+                        Console.Write("Adresszusatz neu: ");
+                        if (!AendereAdresszusatz(benutzerAdresse, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
                     case 4:
-                        //Zurück zum BenutzerMenü
-                        UserMenue(fachkonzept.gibAktBenutzer());
+                        //Str. und Nr. ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Straße, Nr. alt: {0}", benutzerAdresse.adresse.str_nr);
+                        Console.Write("Straße, Nr. neu: ");
+                        if (!AendereStrNr(benutzerAdresse, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
                         break;
                     case 5:
+                        //PLZ ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Postleitzahl alt: {0}", benutzerAdresse.adresse.plz);
+                        Console.Write("Postleitzahl neu: ");
+                        if (!AenderePLZ(benutzerAdresse, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
                     case 6:
+                        //Ort ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Ort alt: {0}", benutzerAdresse.adresse.ort);
+                        Console.Write("Ort neu: ");
+                        if (!AendereNachname(benutzerAdresse, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
                     case 7:
-                        //Zurück zum HauptMenü
-                        hauptmenue();
+                        //Land ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Land alt: {0}", benutzerAdresse.adresse.land);
+                        Console.Write("Land neu: ");
+                        if (!AendereNachname(benutzerAdresse, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
                         break;
                 }
             }
@@ -707,10 +845,10 @@ namespace reverse_ebay
             {
                 switch (eingabe)
                 {
-                    case "N":
-                    case "n":
-                        //Zurück zum BenutzerMenü
-                        //UserMenue(benutzer);
+                    case "A":
+                    case "a":
+                        //Zurück zum Adressmenü
+                        AdressMenue(fachkonzept.gibAktBenutzer());
                         break;
                     case "M":
                     case "m":
@@ -724,6 +862,7 @@ namespace reverse_ebay
                         break;
                 }
             }
+            AdressMgtMenue(benutzerAdresse);
         }
         private bool AendereVorname(BenutzerAdresse adresse, string vname) // TODO
         {
@@ -731,7 +870,7 @@ namespace reverse_ebay
             //{
             //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
             //    {
-            //        benutzer.name = name;
+            //        adresse.vname = vname;
             //        return true;
             //    }
             //}
@@ -743,7 +882,7 @@ namespace reverse_ebay
             //{
             //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
             //    {
-            //        benutzer.name = name;
+            //        adresse.nname = nname;
             //        return true;
             //    }
             //}
@@ -755,7 +894,7 @@ namespace reverse_ebay
             //{
             //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
             //    {
-            //        benutzer.name = name;
+            //        adresse.adr_zusatz = name;
             //        return true;
             //    }
             //}
@@ -767,7 +906,7 @@ namespace reverse_ebay
             //{
             //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
             //    {
-            //        benutzer.name = name;
+            //        adresse.adresse.str_nr = strNr;
             //        return true;
             //    }
             //}
@@ -787,11 +926,23 @@ namespace reverse_ebay
         }
         private bool AendereOrt(BenutzerAdresse adresse, string ort) // TODO
         {
-            //if ((!nname.Equals(adresse.nname)) && (nname != ""))
+            //if ((!ort.Equals(adresse.adresse.ort)) && (ort != ""))
             //{
             //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
             //    {
-            //        benutzer.name = name;
+            //        adresse.adresse.ort = ort;
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+        private bool AendereLand(BenutzerAdresse adresse, string land) // TODO
+        {
+            //if ((!land.Equals(adresse.adresse.land)) && (land != ""))
+            //{
+            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+            //    {
+            //        adresse.adresse.land = land;
             //        return true;
             //    }
             //}
