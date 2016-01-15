@@ -676,16 +676,19 @@ namespace reverse_ebay
         }
         public List<Artikel> getItemList()
         {
-            loadItemFile();
-            List<Artikel> itemList = null;
-            IEnumerable<XElement> items =
-                from el in ItemXML.Elements("item")
-                select el;
-            foreach (XElement el in items)
-            {
-                itemList.Add(getItem((int)el.Element("id")));
+            try {
+                loadItemFile();
+                List<Artikel> itemList = null;
+                IEnumerable<XElement> items =
+                    from el in ItemXML.Elements("item")
+                    select el;
+                foreach (XElement el in items)
+                {
+                    itemList.Add(getItem((int)el.Element("id")));
+                }
+                return itemList;
             }
-            return itemList;
+            catch { return null; }
 
         }
         private Boolean itemExists(int id)

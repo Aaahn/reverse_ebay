@@ -146,21 +146,22 @@ namespace reverse_ebay
         private List<Artikel> holeAnzahlAnArtikeln()
         {
             List<Artikel> artikel = new List<Artikel>();
-            int versatz = runde * maxAnzahl;
-
-            if (alleArtikel.Count == 0)
+            int versatz = runde * maxAnzahl, anzahl;
+            try {anzahl = alleArtikel.Count; } // TODO
+            catch {anzahl = 0; }
+            if (anzahl == 0)
             {
                 alleArtikel = fachkonzept.gibArtikelListe("");
             }
             artikel.Clear();
-            if ((alleArtikel.Count >= versatz) && (alleArtikel.Count < versatz + maxAnzahl))
+            if ((anzahl >= versatz) && (anzahl < versatz + maxAnzahl))
             {
-                for (int i = versatz; i < alleArtikel.Count; i++)
+                for (int i = versatz; i < anzahl; i++)
                 {
                     artikel.Add(alleArtikel[i]);
                 }
             }
-            else if (alleArtikel.Count >= versatz + maxAnzahl)
+            else if (anzahl >= versatz + maxAnzahl)
             {
                 for (int i = versatz; i < versatz + maxAnzahl; i++)
                 {

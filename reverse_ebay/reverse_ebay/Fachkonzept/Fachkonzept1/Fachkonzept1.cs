@@ -172,7 +172,7 @@ namespace reverse_ebay
         {
             // Derzeit ist nur eine Volltextsuch auf die Kurzbeschreibung möglich
             List<Artikel> artikelListe = datenhaltung.getItemList();
-            if (suchstring != null)
+            if ((suchstring != null) && (artikelListe != null))
             {
                 foreach (Artikel artikel in artikelListe)
                 {

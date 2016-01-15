@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<users lastUsedID="1">
+<users lastUsedID="2">
   <user>
     <id>1</id>
     <name>Max</name>
     <passwort>NeuTest</passwort>
+  </user>
+  <user>
+    <id>2</id>
+    <name>test</name>
+    <passwort>blabla</passwort>
   </user>
 </users>
