@@ -4,14 +4,14 @@
     <id>1</id>
     <str_nr>Breitenbach Straße 10</str_nr>
     <plz>13509</plz>
-    <stadt>Berlin</stadt>
+    <ort>Berlin</ort>
     <land>Deutschland</land>
   </address>
   <address>
     <id>2</id>
     <str_nr>Karl-Fischer-Weg 2</str_nr>
     <plz>12169</plz>
-    <stadt>Berlin</stadt>
+    <ort>Berlin</ort>
     <land>Deutschland</land>
   </address>
 </addresses>

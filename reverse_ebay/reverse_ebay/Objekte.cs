@@ -5,7 +5,7 @@ namespace reverse_ebay
 {
     class Adresse
     {
-        private int id { get; set; }
+        public int id { get; set; }
         public string str_nr { get; set; }
         public string plz { get; set; }
         public string ort { get; set; }
@@ -23,36 +23,42 @@ namespace reverse_ebay
 
     class BenutzerAdresse
     {
-        public bool rech_addr { get; set; }
-        public bool lief_addr { get; set; }
+        public Boolean rech_addr { get; set; }
+        public Boolean lief_addr { get; set; }
         public string vname { get; set; }
         public string nname { get; set; }
         public string addr_zusatz { get; set; }
-        public Adresse addresse { get; set; }
+        public int benutzer_id { get; set; }
+        public Adresse adresse { get; set; }
 
-        BenutzerAdresse(bool rech_addr, bool lief_addr, string vname, string nname, string addr_zusatz, Adresse addresse)
+        public BenutzerAdresse(Boolean rech_addr, Boolean lief_addr, string vname, string nname, string addr_zusatz, int benutzer_id, Adresse addresse)
         {
             this.rech_addr = rech_addr;
             this.lief_addr = lief_addr;
             this.vname = vname;
             this.nname = nname;
             this.addr_zusatz = addr_zusatz;
-            this.addresse = addresse;
+            this.benutzer_id = benutzer_id;
+            this.adresse = adresse;
         }
     }
+
     class Benutzer
     {
         public int id { get; set; }
         public string name { get; set; }
         public string passwort { get; set; }
+        public List<BenutzerAdresse> adressen { get; set; }
 
-        Benutzer(int id, string name, string passwort)
+        public Benutzer(int id, string name, string passwort, List<BenutzerAdresse> adressen)
         {
             this.id = id;
             this.name = name;
             this.passwort = passwort;
+            this.adressen = adressen;
         }
     }
+
     class Artikel
     {
         public int id { get; set; }
@@ -60,11 +66,11 @@ namespace reverse_ebay
         public string kurzbeschr { get; set; }
         public string langbeschr { get; set; }
         public DateTime ablaufdatum { get; set; }
-        public double hoechstgebot { get; set; }
+        public float hoechstgebot { get; set; }
         public int bieter_id { get; set; }
         public int anbieter_id { get; set; }
 
-        Artikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id) 
+        public Artikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, float hoechstgebot, int bieter_id, int anbieter_id) 
         {
             this.id = id;
             this.name = name;

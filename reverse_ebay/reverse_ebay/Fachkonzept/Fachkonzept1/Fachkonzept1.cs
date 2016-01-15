@@ -94,18 +94,18 @@ namespace reverse_ebay
 
 
         // Adressen-Management
-        public Boolean erzeugeAdresse(string str_nr, string plz, string stadt, string land)
+        public Boolean erzeugeAdresse(string str_nr, string plz, string ort, string land)
         {
-            return datenhaltung.insertAddress(str_nr, plz, stadt, land);
+            return datenhaltung.insertAddress(str_nr, plz, ort, land);
         }
-        public Boolean aendereAdresse(int id, string str_nr = null, string plz = null, string stadt = null, string land = null)
+        public Boolean aendereAdresse(int id, string str_nr = null, string plz = null, string ort = null, string land = null)
         {
             Adresse adresse = datenhaltung.getAddress(id);
             if (str_nr == null) { str_nr = adresse.str_nr; }
             if (plz == null) { plz = adresse.plz; }
-            if (stadt == null) { stadt = adresse.stadt; }
+            if (ort == null) { ort = adresse.ort; }
             if (land == null) { land = adresse.land; }
-            return datenhaltung.updateAddress(id, str_nr, plz, stadt, land);
+            return datenhaltung.updateAddress(id, str_nr, plz, ort, land);
         }
         public Boolean loescheAdresse(int id)
         {
