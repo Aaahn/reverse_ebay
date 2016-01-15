@@ -109,7 +109,7 @@ namespace reverse_ebay
                 case "M":
                 case "m":
                     // meine Seite
-                    if (fachkonzept.gibAktBenutzer() == null)
+                    if (fachkonzept.gibAktBenutzer() != null)
                     {
                         UserMenue(fachkonzept.gibAktBenutzer());
                     }
@@ -458,15 +458,22 @@ namespace reverse_ebay
             Console.WriteLine();
             Console.WriteLine("Name:             {0}", benutzer.name);
             Console.WriteLine();
-            Console.WriteLine("Meine Wunschliste");
-            foreach (Artikel artikel in meineArtikel)
+            if (meineArtikel != null)
             {
-                Console.WriteLine("({0}) {1}", zaehler, artikel.name);
-                zaehler++;
+                Console.WriteLine("Meine Wunschliste");
+                foreach (Artikel artikel in meineArtikel)
+                {
+                    Console.WriteLine("({0}) {1}", zaehler, artikel.name);
+                    zaehler++;
+                }
+                Console.WriteLine();
+                Console.WriteLine("    - Zahl eingeben um Details zu sehen");
             }
-
-            Console.WriteLine();
-            Console.WriteLine("    - Zahl eingeben um Details zu sehen");
+            else
+            {
+                Console.WriteLine("Noch keine Wunschliste vorhanden");
+                Console.WriteLine();
+            }
             Console.WriteLine("[A] - Adressen verwalten");
             Console.WriteLine("[N] - Name ändern");
             Console.WriteLine("[P] - Passwort ändern");
@@ -489,6 +496,7 @@ namespace reverse_ebay
                     case "A":
                     case "a":
                         // Adressen verwalten
+                        AdressMenue(benutzer);
                         break;
                     case "N":
                     case "n":
@@ -583,6 +591,7 @@ namespace reverse_ebay
 
             Console.WriteLine();
             Console.WriteLine("    - Zahl eingeben um zu bearbeiten");
+            Console.WriteLine("[N] - Neue Adresse anlegen");
             Console.WriteLine("[M] - Zurück zum Benutzermenü");
             Console.WriteLine("[Z] - Zurück zum Hauptmenü");
             Console.WriteLine();
@@ -600,6 +609,11 @@ namespace reverse_ebay
             {
                 switch (eingabe)
                 {
+                    case "N":
+                    case "n":
+                        //Zurück zum BenutzerMenü
+                        //UserMenue(benutzer);
+                        break;
                     case "M":
                     case "m":
                         //Zurück zum BenutzerMenü
