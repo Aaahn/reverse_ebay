@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.IO;
 
 namespace reverse_ebay
 {
@@ -13,8 +14,12 @@ namespace reverse_ebay
         private XElement AddressXML;
         private XElement UserAddressXML;
         private XElement ItemXML;
+        private string speicherort;
 
-        public XMLDatenzugriff() {}
+        public XMLDatenzugriff(string _speicherort)
+        {
+            this.speicherort = _speicherort;
+        }
 
         // Benutzer-Zugriff
         public Boolean insertUser(string name, string passwort)
@@ -217,17 +222,17 @@ namespace reverse_ebay
         {
             try
             {
-                UserXML = XElement.Load(@"xml/user.xml");
+                UserXML = XElement.Load(speicherort+"user.xml");
             }
             catch
             {
-                throw new NullReferenceException();
+                throw new FileNotFoundException();
             }
             
         }
         private void saveUserFile()
         {
-            UserXML.Save(@"xml/user.xml");
+            UserXML.Save(speicherort + "user.xml");
         }
 
       
@@ -372,16 +377,16 @@ namespace reverse_ebay
         {
             try
             {
-                AddressXML = XElement.Load(@"xml/address.xml");
+                AddressXML = XElement.Load(speicherort + "address.xml");
             }
             catch
             {
-                throw new NullReferenceException();
+                throw new FileNotFoundException();
             }
         }
         private void saveAddressFile()
         {
-            AddressXML.Save(@"xml/address.xml");
+            AddressXML.Save(speicherort + "user.xml");
         }
         
 
@@ -541,16 +546,16 @@ namespace reverse_ebay
         {
             try
             {
-                UserAddressXML = XElement.Load(@"xml/user_address.xml");
+                UserAddressXML = XElement.Load(speicherort + "user_address.xml");
             }
             catch
             {
-                throw new NullReferenceException();
+                throw new FileNotFoundException();
             }
         }
         private void saveUserAddressFile()
         {
-            UserAddressXML.Save(@"xml/user_address.xml");
+            UserAddressXML.Save(speicherort + "user.xml");
         }
         private Boolean deleteUserAddressByUserID(int user_id)
         {
@@ -714,16 +719,16 @@ namespace reverse_ebay
         {
             try
             {
-                ItemXML = XElement.Load(@"xml/item.xml");
+                ItemXML = XElement.Load(speicherort + "item.xml");
             }
             catch
             {
-                throw new NullReferenceException();
+                throw new FileNotFoundException();
             }
         }
         private void saveItemFile()
         {
-            ItemXML.Save(@"xml/item.xml");
+            ItemXML.Save(speicherort + "user.xml");
         }
         private Boolean deleteItemByVendorID(int vendor_id)
         {

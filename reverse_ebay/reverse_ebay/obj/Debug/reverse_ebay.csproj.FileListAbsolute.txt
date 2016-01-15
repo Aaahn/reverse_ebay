@@ -32,3 +32,4 @@ C:\Users\Stefanie\Desktop\Projekt reverse ebay\reverse_ebay\reverse_ebay\obj\Deb
 C:\Users\um461\Desktop\reverse_ebay\reverse_ebay\reverse_ebay\bin\Debug\reverse_ebay.exe.config
 C:\Users\um461\Desktop\reverse_ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.exe
 C:\Users\um461\Desktop\reverse_ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.pdb
+C:\Users\um461\Desktop\reverse_ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.csprojResolveAssemblyReference.cache
