@@ -360,7 +360,7 @@ namespace reverse_ebay
         {
             if (!name.Equals(artikel.name))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, name, artikel.kurzbeschr, artikel.langbeschr))
+                if (fachkonzept.aendereArtikel(artikel.id, name, artikel.kurzbeschr, artikel.langbeschr,artikel.ablaufdatum))
                 {
                     artikel.name = name;
                     return true;
@@ -372,7 +372,7 @@ namespace reverse_ebay
         {
             if (!kurzbeschr.Equals(artikel.kurzbeschr))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, kurzbeschr, artikel.langbeschr))
+                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, kurzbeschr, artikel.langbeschr, artikel.ablaufdatum))
                 {
                     artikel.kurzbeschr = kurzbeschr;
                     return true;
@@ -384,7 +384,7 @@ namespace reverse_ebay
         {
             if (!langbeschr.Equals(artikel.langbeschr))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, langbeschr))
+                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, langbeschr, artikel.ablaufdatum))
                 {
                     artikel.langbeschr = langbeschr;
                     return true;
@@ -395,15 +395,14 @@ namespace reverse_ebay
 
         private bool BeendeAuktion (Artikel artikel)
         {
-            // TODO
-            //DateTime jetzt = DateTime.Now;
-            //if (artikel.ablaufdatum > jetzt)
-            //{
-            //    if (fachkonzept.beendeArtikelAution(artikel.id))
-            //    {
-            //        return true;
-            //    }
-            //}
+            DateTime jetzt = DateTime.Now;
+            if (artikel.ablaufdatum > jetzt)
+            {
+                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum))
+                {
+                    return true;
+                }
+            }
             return false;
         }
 
