@@ -451,7 +451,7 @@ namespace reverse_ebay
         {
             string eingabe;
             int zaehler = 0, auswahl;
-            List<Artikel> meineArtikel = fachkonzept.meineArtikel();
+            List<Artikel> meineArtikel = fachkonzept.meineArtikel(false);
             Console.Clear();
             Console.WriteLine("Benutzermenü");
             Console.WriteLine("------------");
@@ -701,6 +701,13 @@ namespace reverse_ebay
                 lief = Console.ReadLine();
             }
             lief_addr = (lief.Equals("J") ? true : false);
+
+            if (fachkonzept.erzeugeBenutzerAdresse(fachkonzept.gibAktBenutzer().id,0,vname, nname, addr_zusatz, rech_addr, lief_addr))
+            {
+                Console.WriteLine("Erstellen erfolgreich!");
+                Console.Read();
+
+            }
         }
         private void AdressMgtMenue (BenutzerAdresse benutzerAdresse)
         {
@@ -866,26 +873,26 @@ namespace reverse_ebay
         }
         private bool AendereVorname(BenutzerAdresse adresse, string vname) // TODO
         {
-            //if ((!vname.Equals(adresse.vname)) && (vname != ""))
-            //{
-            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
-            //    {
-            //        adresse.vname = vname;
-            //        return true;
-            //    }
-            //}
+            if ((!vname.Equals(adresse.vname)) && (!vname.Equals("")))
+            {
+                if (fachkonzept.aendereBenutzerAdresse(adresse.benutzer_id,adresse.adresse.id,vname,adresse.nname,adresse.addr_zusatz,adresse.rech_addr,adresse.lief_addr))
+                {
+                    adresse.vname = vname;
+                    return true;
+                }
+            }
             return false;
         }
         private bool AendereNachname(BenutzerAdresse adresse, string nname) // TODO
         {
-            //if ((!nname.Equals(adresse.nname)) && (nname != ""))
-            //{
-            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
-            //    {
-            //        adresse.nname = nname;
-            //        return true;
-            //    }
-            //}
+            if ((!nname.Equals(adresse.nname)) && (nname != ""))
+            {
+                if (fachkonzept.aendereBenutzerAdresse(adresse.benutzer_id, adresse.adresse.id, adresse.vname, nname, adresse.addr_zusatz, adresse.rech_addr, adresse.lief_addr))
+                {
+                    adresse.nname = nname;
+                    return true;
+                }
+            }
             return false;
         }
         private bool AendereAdresszusatz(BenutzerAdresse adresse, string zusatz) // TODO
