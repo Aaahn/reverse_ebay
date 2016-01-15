@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<items lastUsedID="2">
+  <item>
+    <id>1</id>
+    <name>Fussball</name>
+    <kurzbeschr>WM2014 Fussball</kurzbeschr>
+    <langbeschr>Ein Fussball der WM2014</langbeschr>
+    <ablaufdatum>2016-01-14T10:02:44.5714166+01:00</ablaufdatum>
+    <hoechstgebot>0</hoechstgebot>
+    <bieter_id>1</bieter_id>
+    <anbieter_id>1</anbieter_id>
+  </item>
+  <item>
+    <id>2</id>
+    <name>Testball</name>
+    <kurzbeschr>Test</kurzbeschr>
+    <langbeschr />
+    <ablaufdatum>2017-01-14T16:48:05.517761+01:00</ablaufdatum>
+    <hoechstgebot>10</hoechstgebot>
+    <bieter_id>1</bieter_id>
+    <anbieter_id>0</anbieter_id>
+  </item>
+</items>

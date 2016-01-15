@@ -1,152 +1,190 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace reverse_ebay
 {
-    class Fachkonzept1: IFachkonzept
+    class Fachkonzept1 : IFachkonzept
     {
-        public Fachkonzept1()
+        private Benutzer aktBenutzer { get; set; }
+        private IDatenhaltung datenhaltung;
+
+        public Fachkonzept1(IDatenhaltung _datenhaltung)
         {
+            this.datenhaltung = _datenhaltung;
+            this.aktBenutzer = null;
         }
 
-        public bool aendereAdresse(string str_nr, int plz, string stadt, string land)
+        // Ausgabe des aktuellen Nutzers
+        public Benutzer gibAktBenutzer()
         {
-            throw new NotImplementedException();
+            return aktBenutzer;
         }
 
-        public bool aendereAdresse(int id, string str_nr, int plz, string stadt, string land)
-        {
-            throw new NotImplementedException();
-        }
 
-        public bool aendereArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot)
+        // Benutzer-Management
+        public Boolean erzeugeBenutzer(string name, string passwort)
         {
-            throw new NotImplementedException();
+            return datenhaltung.insertUser(name, passwort);
         }
-
-        public bool aendereArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, int gebot)
+        public Boolean aendereBenutzer(int id, string name = null, string passwort = null)
         {
-            throw new NotImplementedException();
+            Benutzer benutzer = datenhaltung.getUser(id);
+            if (name == null) { name = benutzer.name; }
+            if (passwort == null) { passwort = benutzer.passwort; }
+            return datenhaltung.updateUser(id, name, passwort);
         }
-
-        public bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot)
+        public Boolean loescheBenutzer(int id)
         {
-            throw new NotImplementedException();
+            return datenhaltung.deleteUser(id);
         }
-
-        public bool aendereBenutzer(string name, string passwort)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool aendereBenutzer(int id, string name, string passwort)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool aufArtikelBieten(int gebot)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool aufArtikelBieten(Artikel artikel, double gebot)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ausloggen()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int eingeloggterUser()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool einloggen()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool einloggen(string name, string passwort)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool erzeugeAdresse(string str_nr, int plz, string stadt, string land)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, int gebot)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool erzeugeBenutzer(string name, string passwort)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Artikel gibArtikel(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Artikel> gibArtikelListe(string suchstring)
-        {
-            throw new NotImplementedException();
-        }
-
         public Benutzer gibBenutzer(int id)
         {
-            throw new NotImplementedException();
+            try { return datenhaltung.getUser(id); }
+            catch { return null; }
         }
-
-        public bool istArtikelAktiv(int id)
+        public Boolean einloggen(string name, string passwort)
         {
-            throw new NotImplementedException();
+            Benutzer benutzer = datenhaltung.getUserByName(name);
+            try
+            {
+                if (benutzer.passwort == passwort)
+                {
+                    aktBenutzer = benutzer;
+                    return true;
+                } else { return false; }
+            }
+            catch { return false; }
+            
         }
-
-        public bool loescheAdresse(int id)
+        public Boolean ausloggen()
         {
-            throw new NotImplementedException();
+            aktBenutzer = null;
+            if (aktBenutzer == null) { return true; } else { return false; }
         }
-
-        public bool loescheArtikel(int id)
+        public List<BenutzerAdresse> meineAdressen()
         {
-            throw new NotImplementedException();
+            List<BenutzerAdresse> benutzeradressen = null;
+            try
+            {
+                benutzeradressen = aktBenutzer.adressen;
+                return benutzeradressen;
+            } catch { return null; }
         }
-
-        public bool loescheBenutzer(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Adresse> meineAdressen()
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Artikel> meineArtikel()
         {
-            throw new NotImplementedException();
+            List<Artikel> benutzerartikel = null;
+            try
+            {
+                benutzerartikel = datenhaltung.getItemList();
+                foreach (Artikel artikel in benutzerartikel)
+                {
+                    if(artikel.anbieter_id != aktBenutzer.id)
+                    {
+                        benutzerartikel.Remove(artikel);
+                    }
+                }
+                return benutzerartikel;
+            }
+            catch { return null; }
+
         }
 
+
+        // Adressen-Management
+        public Boolean erzeugeAdresse(string str_nr, string plz, string stadt, string land)
+        {
+            return datenhaltung.insertAddress(str_nr, plz, stadt, land);
+        }
+        public Boolean aendereAdresse(int id, string str_nr = null, string plz = null, string stadt = null, string land = null)
+        {
+            Adresse adresse = datenhaltung.getAddress(id);
+            if (str_nr == null) { str_nr = adresse.str_nr; }
+            if (plz == null) { plz = adresse.plz; }
+            if (stadt == null) { stadt = adresse.stadt; }
+            if (land == null) { land = adresse.land; }
+            return datenhaltung.updateAddress(id, str_nr, plz, stadt, land);
+        }
+        public Boolean loescheAdresse(int id)
+        {
+            return datenhaltung.deleteAddress(id);
+        }
+
+
+        // Artikel-Management
+        public Boolean erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, float mindestgebot)
+        {
+            return datenhaltung.insertItem(name, kurzbeschr, langbeschr, ablaufdatum, mindestgebot, bieter_id, anbieter_id);
+        }
+        public Boolean aendereArtikel(int id, string name = null, string kurzbeschr = null, string langbeschr = null)
+        {
+            Artikel artikel = datenhaltung.getItem(id);
+            if (name == null) { name = artikel.name; }
+            if (kurzbeschr == null) { kurzbeschr = artikel.kurzbeschr; }
+            if (langbeschr == null) { kurzbeschr = artikel.langbeschr; }
+            return datenhaltung.updateItem(id, name, kurzbeschr, langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+        }
+        public Boolean loescheArtikel(int id)
+        {
+            return datenhaltung.deleteItem(id);
+        }
+        public Artikel gibArtikel(int id)
+        {
+            try { return datenhaltung.getItem(id); }
+            catch { return null; }
+        }
+
+
+        // Sonstige Funktionen
+        public Boolean aufArtikelBieten(int artikel_id, float gebot)
+        {
+            Artikel artikel = gibArtikel(artikel_id);
+            return datenhaltung.updateItem(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, gebot, aktBenutzer.id, artikel.anbieter_id);
+        }
         public List<Artikel> meineGeboteAnzeigen()
         {
-            throw new NotImplementedException();
+            List<Artikel> artikelListe = datenhaltung.getItemList();
+            foreach (Artikel artikel in artikelListe)
+            {
+                if(artikel.bieter_id != aktBenutzer.id)
+                {
+                    artikelListe.Remove(artikel);
+                }
+            }
+            return artikelListe;
+        }
+        public Boolean istArtikelAktiv(int artikel_id)
+        {
+            Artikel artikel = datenhaltung.getItem(artikel_id);
+            if (artikel.ablaufdatum > DateTime.Now)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+            
+        }
+        public List<Artikel> gibArtikelListe(string suchstring = null)
+        {
+            // Derzeit ist nur eine Volltextsuch auf die Kurzbeschreibung möglich
+            List<Artikel> artikelListe = datenhaltung.getItemList();
+            if (suchstring != null)
+            {
+                foreach (Artikel artikel in artikelListe)
+                {
+                    if (artikel.kurzbeschr != suchstring)
+                    {
+                        artikelListe.Remove(artikel);
+                    }
+                }
+            }
+            return artikelListe;
         }
 
-        List<BenutzerAdresse> IFachkonzept.meineAdressen()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

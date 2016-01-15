@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datenhaltung\IDatenhaltung.cs" />
+    <Compile Include="Datenhaltung\XML\XMLDatenzugriff.cs" />
     <Compile Include="Fachkonzept\Fachkonzept1\Fachkonzept1.cs" />
     <Compile Include="Oberflaeche\GUI\GUI.cs" />
     <Compile Include="Oberflaeche\GUI\GUI_Login.cs">
@@ -71,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Datenhaltung\SQL\" />
-    <Folder Include="Datenhaltung\XML\" />
     <Folder Include="Fachkonzept\Fachkonzept2\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
