@@ -118,7 +118,7 @@ namespace reverse_ebay
         {
             return datenhaltung.insertItem(name, kurzbeschr, langbeschr, ablaufdatum, mindestgebot, bieter_id, anbieter_id);
         }
-        public Boolean aendereArtikel(int id, string name = null, string kurzbeschr = null, string langbeschr = null)
+        public Boolean aendereArtikel(int id, string name = null, string kurzbeschr = null, string langbeschr = null, DateTime ablaufdatum = default(DateTime))
         {
             Artikel artikel = datenhaltung.getItem(id);
             if (name == null) { name = artikel.name; }

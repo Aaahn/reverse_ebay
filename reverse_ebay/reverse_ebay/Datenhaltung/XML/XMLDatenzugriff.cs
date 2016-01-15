@@ -215,7 +215,15 @@ namespace reverse_ebay
         }
         private void loadUserFile()
         {
-            UserXML = XElement.Load(@"xml/user.xml");
+            try
+            {
+                UserXML = XElement.Load(@"xml/user.xml");
+            }
+            catch
+            {
+                throw new NullReferenceException();
+            }
+            
         }
         private void saveUserFile()
         {
@@ -362,7 +370,14 @@ namespace reverse_ebay
         }
         private void loadAddressFile()
         {
-            AddressXML = XElement.Load(@"xml/address.xml");
+            try
+            {
+                AddressXML = XElement.Load(@"xml/address.xml");
+            }
+            catch
+            {
+                throw new NullReferenceException();
+            }
         }
         private void saveAddressFile()
         {
@@ -524,7 +539,14 @@ namespace reverse_ebay
         }
         private void loadUserAddressFile()
         {
-            UserAddressXML = XElement.Load(@"xml/user_address.xml");
+            try
+            {
+                UserAddressXML = XElement.Load(@"xml/user_address.xml");
+            }
+            catch
+            {
+                throw new NullReferenceException();
+            }
         }
         private void saveUserAddressFile()
         {
@@ -687,7 +709,14 @@ namespace reverse_ebay
         }
         private void loadItemFile()
         {
-            ItemXML = XElement.Load(@"xml/item.xml");
+            try
+            {
+                ItemXML = XElement.Load(@"xml/item.xml");
+            }
+            catch
+            {
+                throw new NullReferenceException();
+            }
         }
         private void saveItemFile()
         {
