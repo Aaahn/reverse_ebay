@@ -541,7 +541,7 @@ namespace reverse_ebay
 
 
         //Artikel-Zugriff
-        public Boolean insertItem(string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, float hoechstgebot, int bieter_id, int anbieter_id)
+        public Boolean insertItem(string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id)
         {
             loadItemFile();
             int new_id = (int)ItemXML.Attribute("lastUsedID") + 1;
@@ -569,7 +569,7 @@ namespace reverse_ebay
                 return false;
             }
         }
-        public Boolean updateItem(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, float hoechstgebot, int bieter_id, int anbieter_id)
+        public Boolean updateItem(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id)
         {
             loadItemFile();
             if (itemExists(id))
@@ -641,7 +641,7 @@ namespace reverse_ebay
                     (string)item.Element("kurzbeschr"),
                     (string)item.Element("langbeschr"),
                     (DateTime)item.Element("ablaufdatum"),
-                    (float)item.Element("hoechstgebot"),
+                    (double)item.Element("hoechstgebot"),
                     (int)item.Element("bieter_id"),
                     (int)item.Element("anbieter_id"));
 

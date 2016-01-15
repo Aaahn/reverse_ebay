@@ -114,7 +114,7 @@ namespace reverse_ebay
 
 
         // Artikel-Management
-        public Boolean erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, float mindestgebot)
+        public Boolean erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double mindestgebot)
         {
             return datenhaltung.insertItem(name, kurzbeschr, langbeschr, ablaufdatum, mindestgebot, bieter_id, anbieter_id);
         }
@@ -138,9 +138,8 @@ namespace reverse_ebay
 
 
         // Sonstige Funktionen
-        public Boolean aufArtikelBieten(int artikel_id, float gebot)
+        public Boolean aufArtikelBieten(Artikel artikel, double gebot)
         {
-            Artikel artikel = gibArtikel(artikel_id);
             return datenhaltung.updateItem(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, gebot, aktBenutzer.id, artikel.anbieter_id);
         }
         public List<Artikel> meineGeboteAnzeigen()

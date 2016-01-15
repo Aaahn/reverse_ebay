@@ -30,8 +30,8 @@ namespace reverse_ebay
         BenutzerAdresse getUserAddress(int user_id, int address_id);
 
         //Artikel-Zugriff
-        Boolean insertItem(string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, float hoechstgebot, int bieter_id, int anbieter_id);
-        Boolean updateItem(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, float hoechstgebot, int bieter_id, int anbieter_id);
+        Boolean insertItem(string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id);
+        Boolean updateItem(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id);
         Boolean deleteItem(int id);
         Artikel getItem(int id);
         List<Artikel> getItemList();

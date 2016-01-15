@@ -27,13 +27,19 @@ namespace reverse_ebay
         List<Artikel> meineArtikel();
 
         // Adressen-Management
-        bool erzeugeAdresse(string str_nr, int plz, string stadt, string land);
-        bool aendereAdresse(int id, string str_nr, int plz, string stadt, string land);
+        bool erzeugeAdresse(string str_nr, string plz, string stadt, string land);
+        bool aendereAdresse(int id, string str_nr, string plz, string stadt, string land);
         bool loescheAdresse(int id);
 
         // Artikel-Management
         bool erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
-        bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
+        /* Kurze Änderungserläuterung:
+         * bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);
+         * Das habe ich etwas gekürzt, da:
+         * - anbieter_id und ablaufdatum sollten nicht geändert können
+         * - bieter_id und gebot in der Funktion 'aufArtikelBieten()' geändert werden.
+         */
+        bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr);
         bool loescheArtikel(int id);
         Artikel gibArtikel(int id);
 

@@ -567,9 +567,9 @@ namespace reverse_ebay
             {
                 Console.WriteLine("({0}) {1} {2}", zaehler, adresse.vname, adresse.nname);
                 Console.WriteLine("    {1}", adresse.addr_zusatz);
-                Console.WriteLine("    {1}", adresse.addresse.str_nr);
-                Console.WriteLine("    {1} {2}", adresse.addresse.plz, adresse.addresse.ort);
-                Console.WriteLine("    {1}", adresse.addresse.land);
+                Console.WriteLine("    {1}", adresse.adresse.str_nr);
+                Console.WriteLine("    {1} {2}", adresse.adresse.plz, adresse.adresse.ort);
+                Console.WriteLine("    {1}", adresse.adresse.land);
                 if (adresse.rech_addr)
                 {
                     Console.WriteLine("    # Rechnungsadresse");
