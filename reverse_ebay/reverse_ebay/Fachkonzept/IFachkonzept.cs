@@ -23,12 +23,17 @@ namespace reverse_ebay
         bool ausloggen();
         Benutzer gibAktBenutzer();
         List<BenutzerAdresse> meineAdressen();
-        List<Artikel> meineArtikel();
+        List<Artikel> meineArtikel(bool nuroffen);
 
         // Adressen-Management
-        bool erzeugeAdresse(string str_nr, string plz, string stadt, string land);
-        bool aendereAdresse(int id, string str_nr, string plz, string stadt, string land);
+        bool erzeugeAdresse(string str_nr, string plz, string ort, string land);
+        bool aendereAdresse(int id, string str_nr, string plz, string ort, string land);
         bool loescheAdresse(int id);
+
+        // BenutzerAdressen-Management
+        bool erzeugeBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr);
+        bool aendereBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr);
+        bool loescheBenutzerAdresse(int benutzer_id, int adresse_id);
 
         // Artikel-Management
         bool erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double gebot);

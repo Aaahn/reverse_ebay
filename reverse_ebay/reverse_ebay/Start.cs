@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            var programm = new TUI(new Fachkonzept1(new XMLDatenzugriff(@"C:\reverse_ebay\xml\")));
+            var programm = new TUI(new Fachkonzept1(new XMLDatenzugriff()));
 
             programm.start();
         }

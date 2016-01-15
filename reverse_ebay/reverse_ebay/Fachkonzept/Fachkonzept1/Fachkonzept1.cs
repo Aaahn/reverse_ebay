@@ -73,7 +73,7 @@ namespace reverse_ebay
                 return benutzeradressen;
             } catch { return null; }
         }
-        public List<Artikel> meineArtikel()
+        public List<Artikel> meineArtikel(bool nuroffen)
         {
             List<Artikel> benutzerartikel = null;
             try
@@ -83,7 +83,18 @@ namespace reverse_ebay
                 {
                     if(artikel.anbieter_id != aktBenutzer.id)
                     {
-                        benutzerartikel.Remove(artikel);
+                        if (nuroffen)
+                        {
+                            if (artikel.ablaufdatum < DateTime.Now)
+                            {
+                                benutzerartikel.Remove(artikel);
+                            }
+                        }
+                        else
+                        {
+                            benutzerartikel.Remove(artikel);
+                        }
+                        
                     }
                 }
                 return benutzerartikel;
@@ -110,6 +121,21 @@ namespace reverse_ebay
         public Boolean loescheAdresse(int id)
         {
             return datenhaltung.deleteAddress(id);
+        }
+
+
+        // BenutzerAdressen-Management
+        public bool erzeugeBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
+        {
+            return datenhaltung.insertUserAddress(benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr);
+        }
+        public bool aendereBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
+        {
+            return datenhaltung.updateUserAddress(benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr);
+        }
+        public bool loescheBenutzerAdresse(int benutzer_id, int adresse_id)
+        {
+            return datenhaltung.deleteUserAddress(benutzer_id, adresse_id);
         }
 
 

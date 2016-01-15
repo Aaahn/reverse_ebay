@@ -17,8 +17,8 @@ namespace reverse_ebay
         List<Benutzer> getUserList();
 
         // Adressen-Zugriff
-        Boolean insertAddress(string str_nr, string plz, string stadt, string land);
-        Boolean updateAddress(int id, string str_nr, string plz, string stadt, string land);
+        Boolean insertAddress(string str_nr, string plz, string ort, string land);
+        Boolean updateAddress(int id, string str_nr, string plz, string ort, string land);
         Boolean deleteAddress(int id);
         Adresse getAddress(int id);
         List<Adresse> getAddressList();
