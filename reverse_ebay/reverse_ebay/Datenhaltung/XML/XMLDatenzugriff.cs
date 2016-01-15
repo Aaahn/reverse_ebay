@@ -242,17 +242,18 @@ namespace reverse_ebay
 
       
         // Adressen-Zugriff
-        public Boolean insertAddress(string str_nr, string plz, string stadt, string land)
+        public Boolean insertAddress(string str_nr, string plz, string ort, string land)
         {
             loadAddressFile();
             int new_id = (int)AddressXML.Attribute("lastUsedID") + 1;
-            if (!addressExists(new_id))
+            if (!addressExists(new_id) & !addressExists(str_nr, plz, ort, land))
             {
                 XElement address = new XElement("address");
+
                 address.Add(new XElement("id", new_id));
                 address.Add(new XElement("str_nr", str_nr));
                 address.Add(new XElement("plz", plz));
-                address.Add(new XElement("stadt", stadt));
+                address.Add(new XElement("ort", ort));
                 address.Add(new XElement("land", land));
 
                 AddressXML.Add(address);
@@ -266,7 +267,7 @@ namespace reverse_ebay
                 return false;
             }
         }
-        public Boolean updateAddress(int id, string str_nr, string plz, string stadt, string land)
+        public Boolean updateAddress(int id, string str_nr, string plz, string ort, string land)
         {
             loadAddressFile();
             if (addressExists(id))
@@ -282,7 +283,30 @@ namespace reverse_ebay
                 address.Remove();
                 address.SetElementValue("str_nr", str_nr);
                 address.SetElementValue("plz", plz);
-                address.SetElementValue("stadt", stadt);
+                address.SetElementValue("ort", ort);
+                address.SetElementValue("land", land);
+                AddressXML.Add(address);
+
+                saveAddressFile();
+                return true;
+            }
+            else if (addressExists(str_nr, plz, ort, land))
+            {
+                XElement address = null;
+                IEnumerable<XElement> addresses =
+                    from el in AddressXML.Elements("address")
+                    where (((string)el.Element("str_nr") == str_nr)
+                         & ((string)el.Element("plz") == plz)
+                         & ((string)el.Element("ort") == ort)
+                         & ((string)el.Element("land") == land))
+                    select el;
+
+                foreach (XElement el in addresses) { address = el; }
+
+                address.Remove();
+                address.SetElementValue("str_nr", str_nr);
+                address.SetElementValue("plz", plz);
+                address.SetElementValue("ort", ort);
                 address.SetElementValue("land", land);
                 AddressXML.Add(address);
 
@@ -372,6 +396,29 @@ namespace reverse_ebay
             foreach (XElement adress in addressList)
             {
                 if ((int)adress.Element("id") == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private Boolean addressExists(string str_nr, string plz, string ort, string land)
+        {
+            loadUserFile();
+            IEnumerable<XElement> addressList = null;
+            try
+            {
+                addressList = AddressXML.Elements();
+            }
+            catch { return true; }
+
+            foreach (XElement adress in addressList)
+            {
+                
+                if (((string)adress.Element("str_nr") == str_nr) 
+                  & ((string)adress.Element("plz") == plz)
+                  & ((string)adress.Element("ort") == ort)
+                  & ((string)adress.Element("land") == land))
                 {
                     return true;
                 }
