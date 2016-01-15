@@ -574,10 +574,10 @@ namespace reverse_ebay
             foreach (BenutzerAdresse adresse in meineAdressen)
             {
                 Console.WriteLine("({0}) {1} {2}", zaehler, adresse.vname, adresse.nname);
-                Console.WriteLine("    {1}", adresse.addr_zusatz);
-                Console.WriteLine("    {1}", adresse.adresse.str_nr);
-                Console.WriteLine("    {1} {2}", adresse.adresse.plz, adresse.adresse.ort);
-                Console.WriteLine("    {1}", adresse.adresse.land);
+                Console.WriteLine("    {0}", adresse.addr_zusatz);
+                Console.WriteLine("    {0}", adresse.adresse.str_nr);
+                Console.WriteLine("    {0} {1}", adresse.adresse.plz, adresse.adresse.ort);
+                Console.WriteLine("    {0}", adresse.adresse.land);
                 if (adresse.rech_addr)
                 {
                     Console.WriteLine("    # Rechnungsadresse");
@@ -630,7 +630,60 @@ namespace reverse_ebay
         }
         private void AdressMgtMenue (BenutzerAdresse benutzerAdresse)
         {
-
+            string eingabe;
+            int auswahl;
+            Console.WriteLine("Vorname:      {0}", benutzerAdresse.vname);
+            Console.WriteLine("Nachname:     {0}", benutzerAdresse.nname);
+            Console.WriteLine("Adresszusatz: {0}", benutzerAdresse.addr_zusatz);
+            Console.WriteLine("Straße, Nr.:  {0}", benutzerAdresse.adresse.str_nr);
+            Console.WriteLine("Postleitzahl: {0}", benutzerAdresse.adresse.plz);
+            Console.WriteLine("Ort:          {0}", benutzerAdresse.adresse.ort);
+            Console.WriteLine("Land:         {0}", benutzerAdresse.adresse.land);
+            if (benutzerAdresse.rech_addr)
+            {
+                Console.WriteLine("    # Rechnungsadresse");
+            }
+            if (benutzerAdresse.lief_addr)
+            {
+                Console.WriteLine("    # Lieferadresse");
+            }
+            Console.WriteLine();
+            Console.WriteLine("    - Zahl eingeben um zu bearbeiten");
+            Console.WriteLine("[N] - Neue Adresse anlegen");
+            Console.WriteLine("[M] - Zurück zum Benutzermenü");
+            Console.WriteLine("[Z] - Zurück zum Hauptmenü");
+            Console.WriteLine();
+            Console.Write("Ihre Auswahl: ");
+            eingabe = Console.ReadLine();
+            try
+            {
+                auswahl = Convert.ToInt32(eingabe);
+                if ((auswahl < benutzerAdresse.Count) && (auswahl >= 0))
+                {
+                    AdressMgtMenue(meineAdressen[auswahl]);
+                }
+            }
+            catch
+            {
+                switch (eingabe)
+                {
+                    case "N":
+                    case "n":
+                        //Zurück zum BenutzerMenü
+                        //UserMenue(benutzer);
+                        break;
+                    case "M":
+                    case "m":
+                        //Zurück zum BenutzerMenü
+                        UserMenue(fachkonzept.gibAktBenutzer());
+                        break;
+                    case "Z":
+                    case "z":
+                        //Zurück zum HauptMenü
+                        hauptmenue();
+                        break;
+                }
+            }
         }
     }
 }
