@@ -16,9 +16,9 @@ namespace reverse_ebay
         private XElement ItemXML;
         private string speicherort;
 
-        public XMLDatenzugriff(string _speicherort)
+        public XMLDatenzugriff()
         {
-            this.speicherort = _speicherort;
+            this.speicherort = @"C:\reverse_ebay\xml\";
         }
 
         // Benutzer-Zugriff
@@ -85,11 +85,16 @@ namespace reverse_ebay
 
                 user.Remove();
 
-                deleteUserAddressByUserID(id);
-                deleteItemByVendorID(id);
-
-                saveUserFile();
-                return true;
+                if (deleteItemByVendorID(id))
+                {
+                    if (deleteUserAddressByUserID(id))
+                    {
+                        saveUserFile();
+                        return true;
+                    }
+                }
+                return false;
+                
             }
             else
             {
