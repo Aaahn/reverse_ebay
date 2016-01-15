@@ -632,13 +632,13 @@ namespace reverse_ebay
         {
             string eingabe;
             int auswahl;
-            Console.WriteLine("Vorname:      {0}", benutzerAdresse.vname);
-            Console.WriteLine("Nachname:     {0}", benutzerAdresse.nname);
-            Console.WriteLine("Adresszusatz: {0}", benutzerAdresse.addr_zusatz);
-            Console.WriteLine("Straße, Nr.:  {0}", benutzerAdresse.adresse.str_nr);
-            Console.WriteLine("Postleitzahl: {0}", benutzerAdresse.adresse.plz);
-            Console.WriteLine("Ort:          {0}", benutzerAdresse.adresse.ort);
-            Console.WriteLine("Land:         {0}", benutzerAdresse.adresse.land);
+            Console.WriteLine("[1] Vorname:      {0}", benutzerAdresse.vname);
+            Console.WriteLine("[2] Nachname:     {0}", benutzerAdresse.nname);
+            Console.WriteLine("[3] Adresszusatz: {0}", benutzerAdresse.addr_zusatz);
+            Console.WriteLine("[4] Straße, Nr.:  {0}", benutzerAdresse.adresse.str_nr);
+            Console.WriteLine("[5] Postleitzahl: {0}", benutzerAdresse.adresse.plz);
+            Console.WriteLine("[6] Ort:          {0}", benutzerAdresse.adresse.ort);
+            Console.WriteLine("[7] Land:         {0}", benutzerAdresse.adresse.land);
             if (benutzerAdresse.rech_addr)
             {
                 Console.WriteLine("    # Rechnungsadresse");
@@ -658,9 +658,49 @@ namespace reverse_ebay
             try
             {
                 auswahl = Convert.ToInt32(eingabe);
-                if ((auswahl < benutzerAdresse.Count) && (auswahl >= 0))
+                switch (auswahl)
                 {
-                    AdressMgtMenue(meineAdressen[auswahl]);
+                    case 1:
+                        //Vornamen ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Vorname alt: {0}", benutzerAdresse.vname);
+                        Console.Write("Vorname neu: ");
+                        if (!AendereVorname(benutzerAdresse, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
+                    case 2:
+                        //Nachnamen ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Nachname alt: {0}", benutzerAdresse.vname);
+                        Console.Write("Nachname neu: ");
+                        if (!AendereNachname(benutzerAdresse, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
+                    case 3:
+                    case 4:
+                        //Zurück zum BenutzerMenü
+                        UserMenue(fachkonzept.gibAktBenutzer());
+                        break;
+                    case 5:
+                    case 6:
+                    case 7:
+                        //Zurück zum HauptMenü
+                        hauptmenue();
+                        break;
                 }
             }
             catch
@@ -684,6 +724,78 @@ namespace reverse_ebay
                         break;
                 }
             }
+        }
+        private bool AendereVorname(BenutzerAdresse adresse, string vname) // TODO
+        {
+            //if ((!vname.Equals(adresse.vname)) && (vname != ""))
+            //{
+            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+            //    {
+            //        benutzer.name = name;
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+        private bool AendereNachname(BenutzerAdresse adresse, string nname) // TODO
+        {
+            //if ((!nname.Equals(adresse.nname)) && (nname != ""))
+            //{
+            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+            //    {
+            //        benutzer.name = name;
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+        private bool AendereAdresszusatz(BenutzerAdresse adresse, string zusatz) // TODO
+        {
+            //if (!zusatz.Equals(adresse.adr_zusatz))
+            //{
+            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+            //    {
+            //        benutzer.name = name;
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+        private bool AendereStrNr(BenutzerAdresse adresse, string strNr) // TODO
+        {
+            //if ((!strNr.Equals(adresse.adresse.str_nr)) && (strNr != ""))
+            //{
+            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+            //    {
+            //        benutzer.name = name;
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+        private bool AenderePLZ(BenutzerAdresse adresse, string plz) // TODO
+        {
+            //if ((!plz.Equals(adresse.adresse.plz)) && (plz != ""))
+            //{
+            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+            //    {
+            //        adresse.adresse.plz = plz;
+            //        return true;
+            //    }
+            //}
+            return false;
+        }
+        private bool AendereOrt(BenutzerAdresse adresse, string ort) // TODO
+        {
+            //if ((!nname.Equals(adresse.nname)) && (nname != ""))
+            //{
+            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+            //    {
+            //        benutzer.name = name;
+            //        return true;
+            //    }
+            //}
+            return false;
         }
     }
 }
