@@ -22,7 +22,7 @@ namespace reverse_ebay
         }
 
         // Benutzer-Zugriff
-        public bool insertUser(string name, string passwort)
+        public int insertUser(string name, string passwort)
         {
             loadUserFile();
             int new_id = (int)UserXML.Attribute("lastUsedID") + 1;
@@ -37,11 +37,10 @@ namespace reverse_ebay
                 UserXML.SetAttributeValue("lastUsedID", new_id);
 
                 saveUserFile();
-                return true;
-            } else
-            {
-                return false;
+                return new_id;
             }
+            else
+                return 0;
             
         }
         public bool updateUser(int id, string name, string passwort)
@@ -244,7 +243,7 @@ namespace reverse_ebay
 
       
         // Adressen-Zugriff
-        public bool insertAddress(string str_nr, string plz, string ort, string land)
+        public int insertAddress(string str_nr, string plz, string ort, string land)
         {
             loadAddressFile();
             int new_id = (int)AddressXML.Attribute("lastUsedID") + 1;
@@ -262,12 +261,9 @@ namespace reverse_ebay
                 AddressXML.SetAttributeValue("lastUsedID", new_id);
 
                 saveAddressFile();
-                return true;
+                return new_id;
             }
-            else
-            {
-                return false;
-            }
+            return 0;
         }
         public bool updateAddress(int id, string str_nr, string plz, string ort, string land)
         {
@@ -664,7 +660,7 @@ namespace reverse_ebay
 
 
         //Artikel-Zugriff
-        public bool insertItem(string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id)
+        public int insertItem(string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id)
         {
             loadItemFile();
             int new_id = (int)ItemXML.Attribute("lastUsedID") + 1;
@@ -685,12 +681,9 @@ namespace reverse_ebay
                 ItemXML.SetAttributeValue("lastUsedID", new_id);
 
                 saveItemFile();
-                return true;
+                return new_id;
             }
-            else
-            {
-                return false;
-            }
+            return 0;
         }
         public bool updateItem(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id)
         {

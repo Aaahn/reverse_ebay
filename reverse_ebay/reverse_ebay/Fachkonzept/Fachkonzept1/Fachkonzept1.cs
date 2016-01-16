@@ -27,7 +27,11 @@ namespace reverse_ebay
         // Benutzer-Management
         public bool erzeugeBenutzer(Benutzer benutzer)
         {
-            return datenhaltung.insertUser(benutzer.name, benutzer.passwort);
+            if (datenhaltung.insertUser(benutzer.name, benutzer.passwort) != 0)
+            {
+                return true;
+            }
+            return false;
         }
         public bool aendereBenutzer(Benutzer benutzer)
         {
@@ -110,20 +114,21 @@ namespace reverse_ebay
                                                            benutzeradresse.adresse.ort,
                                                            benutzeradresse.adresse.land);
 
+            int adresse_id;
             if (temp_adresse == null)
             {
-                datenhaltung.insertAddress(benutzeradresse.adresse.str_nr,
-                                           benutzeradresse.adresse.plz,
-                                           benutzeradresse.adresse.ort,
-                                           benutzeradresse.adresse.land);
-                temp_adresse = datenhaltung.getAddress(benutzeradresse.adresse.str_nr,
-                                                       benutzeradresse.adresse.plz,
-                                                       benutzeradresse.adresse.ort,
-                                                       benutzeradresse.adresse.land);
+                adresse_id = datenhaltung.insertAddress(benutzeradresse.adresse.str_nr,
+                                                        benutzeradresse.adresse.plz,
+                                                        benutzeradresse.adresse.ort,
+                                                        benutzeradresse.adresse.land);
+            }
+            else
+            {
+                adresse_id = temp_adresse.id;
             }
 
             return datenhaltung.insertUserAddress(benutzeradresse.benutzer_id,
-                                                    temp_adresse.id, 
+                                                    adresse_id, 
                                                     benutzeradresse.vname, 
                                                     benutzeradresse.nname,
                                                     benutzeradresse.addr_zusatz, 
@@ -132,8 +137,25 @@ namespace reverse_ebay
         }
         public bool aendereBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
+            Adresse temp_adresse = datenhaltung.getAddress(benutzeradresse.adresse.str_nr,
+                                                           benutzeradresse.adresse.plz,
+                                                           benutzeradresse.adresse.ort,
+                                                           benutzeradresse.adresse.land);
+
+            int adresse_id;
+            if (temp_adresse == null)
+            {
+                adresse_id = datenhaltung.insertAddress(benutzeradresse.adresse.str_nr,
+                                                        benutzeradresse.adresse.plz,
+                                                        benutzeradresse.adresse.ort,
+                                                        benutzeradresse.adresse.land);
+            }
+            else
+            {
+                adresse_id = temp_adresse.id;
+            }
             return datenhaltung.updateUserAddress(benutzeradresse.benutzer_id,
-                                                  benutzeradresse.adresse.id,
+                                                  adresse_id,
                                                   benutzeradresse.vname,
                                                   benutzeradresse.nname, 
                                                   benutzeradresse.addr_zusatz, 
@@ -149,13 +171,17 @@ namespace reverse_ebay
         // Artikel-Management
         public bool erzeugeArtikel(Artikel artikel)
         {
-            return datenhaltung.insertItem(artikel.name, 
-                                           artikel.kurzbeschr,
-                                           artikel.langbeschr,
-                                           artikel.ablaufdatum,
-                                           artikel.hoechstgebot,
-                                           0, 
-                                           aktBenutzer.id);
+            if (datenhaltung.insertItem(artikel.name, 
+                                        artikel.kurzbeschr,
+                                        artikel.langbeschr,
+                                        artikel.ablaufdatum,
+                                        artikel.hoechstgebot,
+                                        0, 
+                                        aktBenutzer.id) != 0)
+            {
+                return true;
+            }
+            return false;
         }
         public bool aendereArtikel(Artikel artikel)
         {
