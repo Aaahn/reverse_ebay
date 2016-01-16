@@ -197,7 +197,7 @@ namespace reverse_ebay
             Console.WriteLine("Langbeschreibung: {0}", artikel.langbeschr);        
             if (bieter != null)
             {
-                Console.WriteLine("Höchstgebot:      {0} EUR", artikel.hoechstgebot.ToString("0,00"));
+                Console.WriteLine("Mindestgebot:      {0} EUR", artikel.hoechstgebot.ToString("0,00"));
                 Console.WriteLine("Aktueller Bieter: {0}", bieter.name);
             }
             else
@@ -223,7 +223,7 @@ namespace reverse_ebay
                     Console.WriteLine("[A] - Artikel ändern");
                     Console.WriteLine("[E] - Auktion beenden");
                 }
-                Console.WriteLine("[M] - zurück zu Mein Menü");
+                Console.WriteLine("[M] - zurück zu Meine Seite");
             }
             Console.WriteLine("[Z] - Zurück zum Hauptmenü");
             Console.WriteLine();
@@ -456,10 +456,11 @@ namespace reverse_ebay
         {
             if (!name.Equals(artikel.name))
             {
-                Artikel andererArtikel = new Artikel(artikel.id, name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+                Artikel andererArtikel = artikel;
+                andererArtikel.name = name; 
                 if (fachkonzept.aendereArtikel(andererArtikel))
                 {
-                    artikel.name = name;
+                    artikel =  andererArtikel;
                     return true;
                 }
             }
@@ -469,10 +470,11 @@ namespace reverse_ebay
         {
             if (!kurzbeschr.Equals(artikel.kurzbeschr))
             {
-                Artikel andererArtikel = new Artikel(artikel.id, artikel.name, kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+                Artikel andererArtikel = artikel;
+                andererArtikel.kurzbeschr = kurzbeschr;
                 if (fachkonzept.aendereArtikel(andererArtikel))
                 {
-                    artikel.kurzbeschr = kurzbeschr;
+                    artikel = andererArtikel;
                     return true;
                 }
             }
@@ -482,10 +484,11 @@ namespace reverse_ebay
         {
             if (!langbeschr.Equals(artikel.langbeschr))
             {
-                Artikel andererArtikel = new Artikel(artikel.id, artikel.name, artikel.kurzbeschr, langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+                Artikel andererArtikel = artikel;
+                andererArtikel.langbeschr = langbeschr;
                 if (fachkonzept.aendereArtikel(andererArtikel))
                 {
-                    artikel.langbeschr = langbeschr;
+                    artikel = andererArtikel;
                     return true;
                 }
             }
@@ -652,10 +655,11 @@ namespace reverse_ebay
         {
             if ((!name.Equals(benutzer.name)) && (!name.Equals("")))
             {
-                Benutzer andererBenutzer = new Benutzer(benutzer.id, name, benutzer.passwort, benutzer.adressen);
+                Benutzer andererBenutzer = benutzer;
+                andererBenutzer.name = name;
                 if (fachkonzept.aendereBenutzer(andererBenutzer))
                 {
-                    benutzer.name = name;
+                    benutzer = andererBenutzer;
                     return true;
                 }
             }
@@ -665,10 +669,11 @@ namespace reverse_ebay
         {
             if (!passwort.Equals(benutzer.passwort))
             {
-                Benutzer andererBenutzer = new Benutzer(benutzer.id, benutzer.name, passwort, benutzer.adressen);
+                Benutzer andererBenutzer = benutzer;
+                andererBenutzer.passwort = passwort;
                 if (fachkonzept.aendereBenutzer(andererBenutzer))
                 {
-                    benutzer.passwort = passwort;
+                    benutzer = andererBenutzer;
                     return true;
                 }
             }
@@ -744,6 +749,7 @@ namespace reverse_ebay
         {
             BenutzerAdresse neueBenutzerAdresse = new BenutzerAdresse();
             neueBenutzerAdresse.adresse = new Adresse();
+            neueBenutzerAdresse.benutzer_id = benutzer.id;
 
             string rech, lief;
             Console.Write("Vorname:      ");
@@ -828,21 +834,17 @@ namespace reverse_ebay
         {
             string eingabe;
             int auswahl;
-            Console.WriteLine("Vorname:      {0}", benutzerAdresse.vname);
-            Console.WriteLine("Nachname:     {0}", benutzerAdresse.nname);
-            Console.WriteLine("Adresszusatz: {0}", benutzerAdresse.addr_zusatz);
-            Console.WriteLine("Straße, Nr.:  {0}", benutzerAdresse.adresse.str_nr);
-            Console.WriteLine("Postleitzahl: {0}", benutzerAdresse.adresse.plz);
-            Console.WriteLine("Ort:          {0}", benutzerAdresse.adresse.ort);
-            Console.WriteLine("Land:         {0}", benutzerAdresse.adresse.land);
-            if (benutzerAdresse.rech_addr)
-            {
-                Console.WriteLine("    # Rechnungsadresse");
-            }
-            if (benutzerAdresse.lief_addr)
-            {
-                Console.WriteLine("    # Lieferadresse");
-            }
+            Console.WriteLine("[0] Vorname:      {0}", benutzerAdresse.vname);
+            Console.WriteLine("[1] Nachname:     {0}", benutzerAdresse.nname);
+            Console.WriteLine("[2] Adresszusatz: {0}", benutzerAdresse.addr_zusatz);
+            Console.WriteLine("[3] Straße, Nr.:  {0}", benutzerAdresse.adresse.str_nr);
+            Console.WriteLine("[4] Postleitzahl: {0}", benutzerAdresse.adresse.plz);
+            Console.WriteLine("[5] Ort:          {0}", benutzerAdresse.adresse.ort);
+            Console.WriteLine("[6] Land:         {0}", benutzerAdresse.adresse.land);
+            Console.Write("[7] Rechnungsadresse: ");
+            Console.WriteLine((benutzerAdresse.rech_addr ? "Ja" : "Nein"));
+            Console.Write("[8] Lieferadresse:    ");
+            Console.WriteLine((benutzerAdresse.lief_addr ? "Ja" : "Nein"));
             Console.WriteLine();
             Console.WriteLine("    - Zahl eingeben um zu bearbeiten");
             Console.WriteLine("[A] - Zurück zum Adressmenü");
@@ -856,7 +858,7 @@ namespace reverse_ebay
                 auswahl = Convert.ToInt32(eingabe);
                 switch (auswahl)
                 {
-                    case 1:
+                    case 0:
                         //Vornamen ändern
                         Console.WriteLine();
                         Console.WriteLine("Vorname alt: {0}", benutzerAdresse.vname);
@@ -871,7 +873,7 @@ namespace reverse_ebay
                         }
                         Console.Read();
                         break;
-                    case 2:
+                    case 1:
                         //Nachnamen ändern
                         Console.WriteLine();
                         Console.WriteLine("Nachname alt: {0}", benutzerAdresse.nname);
@@ -886,7 +888,7 @@ namespace reverse_ebay
                         }
                         Console.Read();
                         break;
-                    case 3:
+                    case 2:
                         //Adresszusätze ändern
                         Console.WriteLine();
                         Console.WriteLine("Adresszusatz alt: {0}", benutzerAdresse.addr_zusatz);
@@ -901,7 +903,7 @@ namespace reverse_ebay
                         }
                         Console.Read();
                         break;
-                    case 4:
+                    case 3:
                         //Str. und Nr. ändern
                         Console.WriteLine();
                         Console.WriteLine("Straße, Nr. alt: {0}", benutzerAdresse.adresse.str_nr);
@@ -916,7 +918,7 @@ namespace reverse_ebay
                         }
                         Console.Read();
                         break;
-                    case 5:
+                    case 4:
                         //PLZ ändern
                         Console.WriteLine();
                         Console.WriteLine("Postleitzahl alt: {0}", benutzerAdresse.adresse.plz);
@@ -931,12 +933,27 @@ namespace reverse_ebay
                         }
                         Console.Read();
                         break;
-                    case 6:
+                    case 5:
                         //Ort ändern
                         Console.WriteLine();
                         Console.WriteLine("Ort alt: {0}", benutzerAdresse.adresse.ort);
                         Console.Write("Ort neu: ");
-                        if (!AendereNachname(benutzerAdresse, Console.ReadLine()))
+                        if (!AendereOrt(benutzerAdresse, Console.ReadLine()))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
+                    case 6:
+                        //Land ändern
+                        Console.WriteLine();
+                        Console.WriteLine("Land alt: {0}", benutzerAdresse.adresse.land);
+                        Console.Write("Land neu: ");
+                        if (!AendereLand(benutzerAdresse, Console.ReadLine()))
                         {
                             Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
                         }
@@ -947,11 +964,20 @@ namespace reverse_ebay
                         Console.Read();
                         break;
                     case 7:
-                        //Land ändern
+                        string rech;
+                        //Rechnungsadresse ändern
                         Console.WriteLine();
-                        Console.WriteLine("Land alt: {0}", benutzerAdresse.adresse.land);
-                        Console.Write("Land neu: ");
-                        if (!AendereNachname(benutzerAdresse, Console.ReadLine()))
+                        Console.Write("Rechnungsadresse: ");
+                        Console.WriteLine((benutzerAdresse.rech_addr ? "Ja" : "Nein"));
+                        Console.Write("Rechnungsadresse? [J/N]: ");
+                        rech = Console.ReadLine();
+                        while ((!rech.Equals("J")) && (!rech.Equals("N")))
+                        {
+                            Console.WriteLine("Bitte geben Sie gültige Zeichen (J für \"Ja\" oder N für \"Nein\") ein.");
+                            Console.Write("Rechnungsadresse? [J/N]: ");
+                            rech = Console.ReadLine();
+                        }
+                        if (!AendereRechnungsadresse(benutzerAdresse, (rech.Equals("J") ? true : false)))
                         {
                             Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
                         }
@@ -986,90 +1012,138 @@ namespace reverse_ebay
             }
             AdressMgtMenue(benutzerAdresse);
         }
-        private bool AendereVorname(BenutzerAdresse adresse, string vname) // TODO
+        private bool AendereVorname(BenutzerAdresse adresse, string vname) 
         {
             if ((!vname.Equals(adresse.vname)) && (!vname.Equals("")))
             {
-                BenutzerAdresse andereBenutzeradresse = new BenutzerAdresse(adresse.rech_addr, adresse.lief_addr, vname, adresse.nname, adresse.addr_zusatz, adresse.benutzer_id, adresse.adresse);
+                BenutzerAdresse andereBenutzeradresse = adresse;
+                andereBenutzeradresse.vname = vname;
                 if (fachkonzept.aendereBenutzerAdresse(andereBenutzeradresse))
                 {
-                    adresse.vname = vname;
+                    adresse = andereBenutzeradresse;
                     return true;
                 }
             }
             return false;
         }
-        private bool AendereNachname(BenutzerAdresse adresse, string nname) // TODO
+        private bool AendereNachname(BenutzerAdresse adresse, string nname) 
         {
             if ((!nname.Equals(adresse.nname)) && (nname != ""))
             {
-                BenutzerAdresse andereBenutzeradresse = new BenutzerAdresse(adresse.rech_addr, adresse.lief_addr, adresse.vname, nname, adresse.addr_zusatz, adresse.benutzer_id, adresse.adresse);
+                BenutzerAdresse andereBenutzeradresse = adresse;
+                andereBenutzeradresse.nname = nname;
                 if (fachkonzept.aendereBenutzerAdresse(andereBenutzeradresse))
                 {
-                    adresse.nname = nname;
+                    adresse = andereBenutzeradresse;
                     return true;
                 }
             }
             return false;
         }
-        private bool AendereAdresszusatz(BenutzerAdresse adresse, string zusatz) // TODO
+        private bool AendereAdresszusatz(BenutzerAdresse adresse, string zusatz) 
         {
-            //if (!zusatz.Equals(adresse.adr_zusatz))
-            //{
-            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
-            //    {
-            //        adresse.adr_zusatz = name;
-            //        return true;
-            //    }
-            //}
+            if (!zusatz.Equals(adresse.addr_zusatz))
+            {
+                BenutzerAdresse andereBenutzeradresse = adresse;
+                andereBenutzeradresse.addr_zusatz = zusatz;
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzeradresse))
+                {
+                    adresse= andereBenutzeradresse;
+                    return true;
+                }
+            }
             return false;
         }
-        private bool AendereStrNr(BenutzerAdresse adresse, string strNr) // TODO
+        private bool AendereRechnungsadresse(BenutzerAdresse adresse, bool istRechAddr)
         {
-            //if ((!strNr.Equals(adresse.adresse.str_nr)) && (strNr != ""))
-            //{
-            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
-            //    {
-            //        adresse.adresse.str_nr = strNr;
-            //        return true;
-            //    }
-            //}
+            if (istRechAddr != adresse.rech_addr)
+            {
+                BenutzerAdresse andereBenutzeradresse = adresse;
+                andereBenutzeradresse.rech_addr = istRechAddr;
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzeradresse))
+                {
+                    adresse= andereBenutzeradresse;
+                    return true;
+                }
+            }
             return false;
         }
-        private bool AenderePLZ(BenutzerAdresse adresse, string plz) // TODO
+        private bool AendereLieferadresse(BenutzerAdresse adresse, bool istLiefAddr)
         {
-            //if ((!plz.Equals(adresse.adresse.plz)) && (plz != ""))
-            //{
-            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
-            //    {
-            //        adresse.adresse.plz = plz;
-            //        return true;
-            //    }
-            //}
+            if (istLiefAddr != adresse.lief_addr)
+            {
+                BenutzerAdresse andereBenutzeradresse = adresse;
+                andereBenutzeradresse.lief_addr = istLiefAddr;
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzeradresse))
+                {
+                    adresse = andereBenutzeradresse;
+                    return true;
+                }
+            }
             return false;
         }
-        private bool AendereOrt(BenutzerAdresse adresse, string ort) // TODO
+        private bool AendereStrNr(BenutzerAdresse adresse, string strNr) 
         {
-            //if ((!ort.Equals(adresse.adresse.ort)) && (ort != ""))
-            //{
-            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
-            //    {
-            //        adresse.adresse.ort = ort;
-            //        return true;
-            //    }
-            //}
+            if ((!strNr.Equals(adresse.adresse.str_nr)) && (strNr != ""))
+            {
+                BenutzerAdresse andereBenutzerAdresse = adresse;
+                Adresse andereAdresse = adresse.adresse;
+                andereAdresse.str_nr = strNr;
+                andereBenutzerAdresse.adresse = andereAdresse;
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzerAdresse))
+                {
+                    adresse = andereBenutzerAdresse;
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool AenderePLZ(BenutzerAdresse adresse, string plz) 
+        {
+            if ((!plz.Equals(adresse.adresse.str_nr)) && (plz != ""))
+            {
+                BenutzerAdresse andereBenutzerAdresse = adresse;
+                Adresse andereAdresse = adresse.adresse;
+                andereAdresse.plz = plz;
+                andereBenutzerAdresse.adresse = andereAdresse;
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzerAdresse))
+                {
+                    adresse = andereBenutzerAdresse;
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool AendereOrt(BenutzerAdresse adresse, string ort) 
+        {
+            if ((!ort.Equals(adresse.adresse.str_nr)) && (ort != ""))
+            {
+                BenutzerAdresse andereBenutzerAdresse = adresse;
+                Adresse andereAdresse = adresse.adresse;
+                andereAdresse.ort = ort;
+                andereBenutzerAdresse.adresse = andereAdresse;
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzerAdresse))
+                {
+                    adresse = andereBenutzerAdresse;
+                    return true;
+                }
+            }
             return false;
         }
         private bool AendereLand(BenutzerAdresse adresse, string land) // TODO
         {
-            //if ((!land.Equals(adresse.adresse.land)) && (land != ""))
-            //{
-            //    if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
-            //    {
-            //        adresse.adresse.land = land;
-            //        return true;
-            //    }
-            //}
+            if ((!land.Equals(adresse.adresse.str_nr)) && (land != ""))
+            {
+                BenutzerAdresse andereBenutzerAdresse = adresse;
+                Adresse andereAdresse = adresse.adresse;
+                andereAdresse.land = land;
+                andereBenutzerAdresse.adresse = andereAdresse;
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzerAdresse))
+                {
+                    adresse = andereBenutzerAdresse;
+                    return true;
+                }
+            }
             return false;
         }
     }
