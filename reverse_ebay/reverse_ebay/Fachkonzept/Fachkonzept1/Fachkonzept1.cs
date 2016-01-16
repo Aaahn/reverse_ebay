@@ -37,7 +37,11 @@ namespace reverse_ebay
         {
             if (datenhaltung.getUser(benutzer.id) != null)
             {
-                return datenhaltung.updateUser(benutzer.id, benutzer.name, benutzer.passwort);
+                if (datenhaltung.updateUser(benutzer.id, benutzer.name, benutzer.passwort))
+                {
+                    aktualisiereBenutzerdaten();
+                    return true;
+                }
             }
             return false;
         }
@@ -103,6 +107,12 @@ namespace reverse_ebay
             }
             return benutzerArtikelListe;
         }
+        private void aktualisiereBenutzerdaten()
+        {
+            Benutzer tempBenutzer = aktBenutzer;
+            ausloggen();
+            einloggen(tempBenutzer.name, tempBenutzer.passwort);
+        }
 
 
         // BenutzerAdressen-Management
@@ -126,13 +136,18 @@ namespace reverse_ebay
                 adresse_id = temp_adresse.id;
             }
 
-            return datenhaltung.insertUserAddress(benutzeradresse.benutzer_id,
+            if (datenhaltung.insertUserAddress(benutzeradresse.benutzer_id,
                                                     adresse_id, 
                                                     benutzeradresse.vname, 
                                                     benutzeradresse.nname,
                                                     benutzeradresse.addr_zusatz, 
                                                     benutzeradresse.rech_addr, 
-                                                    benutzeradresse.lief_addr);
+                                                    benutzeradresse.lief_addr))
+            {
+                aktualisiereBenutzerdaten();
+                return true;
+            }
+            return false;
         }
         public bool aendereBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
@@ -153,17 +168,27 @@ namespace reverse_ebay
             {
                 adresse_id = temp_adresse.id;
             }
-            return datenhaltung.updateUserAddress(benutzeradresse.benutzer_id,
+            if (datenhaltung.updateUserAddress(benutzeradresse.benutzer_id,
                                                   adresse_id,
                                                   benutzeradresse.vname,
-                                                  benutzeradresse.nname, 
-                                                  benutzeradresse.addr_zusatz, 
+                                                  benutzeradresse.nname,
+                                                  benutzeradresse.addr_zusatz,
                                                   benutzeradresse.rech_addr,
-                                                  benutzeradresse.lief_addr);
+                                                  benutzeradresse.lief_addr))
+            {
+                aktualisiereBenutzerdaten();
+                return true;
+            }
+            return false;
         }
         public bool loescheBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
-            return datenhaltung.deleteUserAddress(benutzeradresse.benutzer_id, benutzeradresse.adresse.id);
+            if (datenhaltung.deleteUserAddress(benutzeradresse.benutzer_id, benutzeradresse.adresse.id))
+            {
+                aktualisiereBenutzerdaten();
+                return true;
+            }
+            return false;
         }
 
 

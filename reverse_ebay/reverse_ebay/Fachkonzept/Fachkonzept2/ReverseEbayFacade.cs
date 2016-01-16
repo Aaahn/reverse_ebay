@@ -134,7 +134,7 @@ namespace reverse_ebay
             } catch { return false; }
         }
 
-        // Benutzer-Artikel-Management
+        // Artikel-Management
         public bool erzeugeBenutzerArtikel(Artikel artikel)
         {
             try
@@ -172,6 +172,26 @@ namespace reverse_ebay
                 }
                 return false;
             } catch { return false; }
+        }
+        public bool aendereArtikel(Artikel artikel)
+        {
+            try
+            {
+                if (datenhaltung.updateItem(artikel.id,
+                                            artikel.name,
+                                            artikel.kurzbeschr,
+                                            artikel.langbeschr,
+                                            artikel.ablaufdatum,
+                                            artikel.hoechstgebot,
+                                            artikel.bieter_id,
+                                            artikel.anbieter_id))
+                {
+                    aktualisiereBenutzerdaten();
+                    return true;
+                }
+                return false;
+            }
+            catch { return false; }
         }
         public bool loescheBenutzerArtikel(Artikel artikel)
         {

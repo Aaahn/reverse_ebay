@@ -137,7 +137,17 @@ namespace reverse_ebay
         // Sonstige Funktionen
         public bool aufArtikelBieten(Artikel artikel, double gebot)
         {
-
+            foreach (Artikel tempArtikel in reverseEbayFacade.gibAlleArtikelListe())
+            {
+                if (gebot >= 0 && gebot < artikel.hoechstgebot)
+                {
+                    artikel.hoechstgebot = gebot;
+                    artikel.bieter_id = reverseEbayFacade.gibAktBenutzer().id;
+                    return reverseEbayFacade.aendereArtikel(artikel);
+                }
+                return false;
+            }
+            return false;
         }
         public List<Artikel> meineGeboteAnzeigen()
         {
