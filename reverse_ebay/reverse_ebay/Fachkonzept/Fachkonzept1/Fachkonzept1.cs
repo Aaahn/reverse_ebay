@@ -66,12 +66,12 @@ namespace reverse_ebay
         }
         public List<BenutzerAdresse> meineAdressen()
         {
-            List<BenutzerAdresse> benutzeradressen = null;
+            List<BenutzerAdresse> benutzeradressen = new List<BenutzerAdresse>();
             try
             {
                 benutzeradressen = aktBenutzer.adressen;
                 return benutzeradressen;
-            } catch { return null; }
+            } catch { return benutzeradressen; }
         }
         public List<Artikel> meineArtikel(bool nuroffen)
         {

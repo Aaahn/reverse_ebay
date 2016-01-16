@@ -134,7 +134,7 @@ namespace reverse_ebay
             }
             else
             {
-                return new Benutzer(0, "nonexistent", "nonexistent", new List<BenutzerAdresse>());
+                return null;
             }
         }
         public Benutzer getUserByName(string name)
@@ -227,7 +227,7 @@ namespace reverse_ebay
         {
             try
             {
-                UserXML = XElement.Load(speicherort+"user.xml");
+                UserXML = XElement.Load(speicherort + "user.xml");
             }
             catch
             {
@@ -438,7 +438,7 @@ namespace reverse_ebay
         }
         private void saveAddressFile()
         {
-            AddressXML.Save(speicherort + "user.xml");
+            AddressXML.Save(speicherort + "address.xml");
         }
         
 
@@ -602,12 +602,13 @@ namespace reverse_ebay
             }
             catch
             {
-                throw new FileNotFoundException();
+                UserAddressXML = new XElement("useraddresses");
+                UserAddressXML.Save(speicherort + "user_address.xml");
             }
         }
         private void saveUserAddressFile()
         {
-            UserAddressXML.Save(speicherort + "user.xml");
+            UserAddressXML.Save(speicherort + "user_address.xml");
         }
         private Boolean deleteUserAddressByUserID(int user_id)
         {
@@ -780,7 +781,7 @@ namespace reverse_ebay
         }
         private void saveItemFile()
         {
-            ItemXML.Save(speicherort + "user.xml");
+            ItemXML.Save(speicherort + "item.xml");
         }
         private Boolean deleteItemByVendorID(int vendor_id)
         {
