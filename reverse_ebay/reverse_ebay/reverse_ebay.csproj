@@ -62,6 +62,9 @@
     <Compile Include="Datenhaltung\SQL\SQLDatenzugriff.cs" />
     <Compile Include="Datenhaltung\XML\XMLDatenzugriff.cs" />
     <Compile Include="Fachkonzept\Fachkonzept1\Fachkonzept1.cs" />
+    <Compile Include="Oberflaeche\GUI\GUI_Register.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Oberflaeche\GUI\GUI.cs" />
     <Compile Include="Oberflaeche\GUI\GUI_Login.cs">
       <SubType>Form</SubType>
@@ -78,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Properties\DataSources\Artikel.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Oberflaeche\GUI\GUI_Login.resx">
@@ -85,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Oberflaeche\GUI\GUI_Main.resx">
       <DependentUpon>GUI_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Oberflaeche\GUI\GUI_Register.resx">
+      <DependentUpon>GUI_Register.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

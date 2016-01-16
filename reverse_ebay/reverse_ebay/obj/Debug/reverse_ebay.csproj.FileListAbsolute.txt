@@ -35,3 +35,4 @@ C:\Users\um461\Desktop\reverse_ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_
 C:\Users\um461\Desktop\reverse_ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.csprojResolveAssemblyReference.cache
 C:\Users\Stefanie\Desktop\Projekt reverse ebay\reverse_ebay\reverse_ebay\bin\Debug\Datenhaltung\SQL\ReverseEbaySQL.mdf
 C:\Users\Stefanie\Desktop\Projekt reverse ebay\reverse_ebay\reverse_ebay\bin\Debug\Datenhaltung\SQL\ReverseEbaySQL_log.ldf
+C:\Users\Stefanie\Desktop\Projekt reverse ebay\reverse_ebay\reverse_ebay\obj\Debug\reverse_ebay.Oberflaeche.GUI.GUI_Register.resources

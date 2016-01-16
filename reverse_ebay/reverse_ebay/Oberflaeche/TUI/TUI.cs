@@ -25,6 +25,7 @@ namespace reverse_ebay
         private void hauptmenue()
         {
             int zaehler = 0;
+            int anzahlArtikel;
 
             Console.Clear();
 
@@ -32,13 +33,29 @@ namespace reverse_ebay
             Console.WriteLine();
             Console.WriteLine("Aktuelle Wunschliste");
             List<Artikel> aktuelleArtikel = holeAnzahlAnArtikeln();
-            foreach (Artikel artikel in aktuelleArtikel)
+            try
             {
-                Console.WriteLine("({0}) {1}", zaehler, artikel.name);
-                zaehler++;
+                anzahlArtikel = aktuelleArtikel.Count;
             }
-            Console.WriteLine();
-            Console.WriteLine("    - Zahl eingeben um Details zu sehen");
+            catch
+            {
+                anzahlArtikel = 0;
+            }
+            if (anzahlArtikel != 0)
+            {
+                foreach (Artikel artikel in aktuelleArtikel)
+                {
+                    Console.WriteLine("({0}) {1}", zaehler, artikel.name);
+                    zaehler++;
+                }
+                Console.WriteLine();
+                Console.WriteLine("    - Zahl eingeben um Details zu sehen");
+            }
+            else
+            {
+                Console.WriteLine(" Keine Artikel vorhanden");
+                Console.WriteLine();
+            }
             if (fachkonzept.gibAktBenutzer() == null)
             {
                 Console.WriteLine("[L] - Anmelden");
@@ -47,8 +64,8 @@ namespace reverse_ebay
             {
                 Console.WriteLine("[A] - Abmelden");
                 Console.WriteLine("[M] - meine Seite");
+                Console.WriteLine("[W] - Wunsch eintragen");
             }
-            Console.WriteLine("[W] - Wunsch eintragen");
             if (aktuelleArtikel.Count == maxAnzahl)
             {
                 Console.WriteLine("[N] - Die nächsten 10 Wünsche");
@@ -62,83 +79,80 @@ namespace reverse_ebay
             Console.Write("Ihre Auswahl: ");
             string eingabe = Console.ReadLine();
 
-            switch (eingabe)
+            try
             {
-                case "0":
-                case "1":
-                case "2":
-                case "3":
-                case "4":
-                case "5":
-                case "6":
-                case "7":
-                case "8":
-                case "9":
-                    int auswahl = Convert.ToInt32(eingabe);
-                    if (auswahl < aktuelleArtikel.Count)
-                    {
-                        //artikelDetails(aktuelleArtikel[auswahl];
-                        ArtikelMenue(aktuelleArtikel[auswahl]);
-                    }
-                    break;
-                case "L":
-                case "l":
-                    //anmelden
-                    if (fachkonzept.gibAktBenutzer() == null)
-                    {
-                        LoginMenue();
-                    }
-                    break;
-                case "R":
-                case "r":
-                    //registrieren
-                    if (fachkonzept.gibAktBenutzer() == null)
-                    {
-                        RegistrierenMenue();
-                    }
-                    break;
-                case "A":
-                case "a":
-                    //Abmelden
-                    if (!fachkonzept.ausloggen())
-                    {
-                        Console.WriteLine("Abmelden nicht erfolgreich, bitte versuchen Sie es erneut.");
-                        Console.Read();
-                    }
-                    break;
-                case "M":
-                case "m":
-                    // meine Seite
-                    if (fachkonzept.gibAktBenutzer() != null)
-                    {
-                        UserMenue(fachkonzept.gibAktBenutzer());
-                    }
-                    break;
-                case "W":
-                case "w":
-                    //Wunsch eintragen
-                    break;
-                case "N":
-                case "n":
-                    //die nächsten Wünsche
-                    if (aktuelleArtikel.Count == maxAnzahl)
-                    {
-                        runde++;
-                    }
-                    break;
-                case "V":
-                case "v":
-                    //die vorherigen Wünsche
-                    if (runde != 0)
-                    {
-                        runde--;
-                    }
-                    break;
-                case "Q":
-                case "q":
-                    //Beenden
-                    Environment.Exit(0);
-                    break;
+                int auswahl = Convert.ToInt32(eingabe);
+                if (auswahl < anzahlArtikel)
+                {
+                    //artikelDetails(aktuelleArtikel[auswahl];
+                    ArtikelMenue(aktuelleArtikel[auswahl]);
+                }
+            }
+            catch
+            {
+
+                switch (eingabe)
+                {
+                    case "L":
+                    case "l":
+                        //anmelden
+                        if (fachkonzept.gibAktBenutzer() == null)
+                        {
+                            LoginMenue();
+                        }
+                        break;
+                    case "R":
+                    case "r":
+                        //registrieren
+                        if (fachkonzept.gibAktBenutzer() == null)
+                        {
+                            RegistrierenMenue();
+                        }
+                        break;
+                    case "A":
+                    case "a":
+                        //Abmelden
+                        if (!fachkonzept.ausloggen())
+                        {
+                            Console.WriteLine("Abmelden nicht erfolgreich, bitte versuchen Sie es erneut.");
+                            Console.Read();
+                        }
+                        break;
+                    case "M":
+                    case "m":
+                        // meine Seite
+                        if (fachkonzept.gibAktBenutzer() != null)
+                        {
+                            UserMenue(fachkonzept.gibAktBenutzer());
+                        }
+                        break;
+                    case "W":
+                    case "w":
+                        //Wunsch eintragen
+                        ArtikelEinfuegen(fachkonzept.gibAktBenutzer());
+                        break;
+                    case "N":
+                    case "n":
+                        //die nächsten Wünsche
+                        if (aktuelleArtikel.Count == maxAnzahl)
+                        {
+                            runde++;
+                        }
+                        break;
+                    case "V":
+                    case "v":
+                        //die vorherigen Wünsche
+                        if (runde != 0)
+                        {
+                            runde--;
+                        }
+                        break;
+                    case "Q":
+                    case "q":
+                        //Beenden
+                        Environment.Exit(0);
+                        break;
+                }
             }
             hauptmenue();
         }
@@ -271,6 +285,48 @@ namespace reverse_ebay
 
         }
 
+        private void ArtikelEinfuegen (Benutzer benutzer)
+        {
+            string name, k_beschr, l_beschr;
+
+            Console.Clear();
+            Console.WriteLine("Wunsch eintragen");
+            Console.WriteLine("----------------");
+            Console.Write("Name:             ");
+            name = Console.ReadLine();
+            while (name.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie einen Namen ein.");
+                Console.Write("Name:             ");
+                name = Console.ReadLine();
+            }
+            Console.Write("Kurzbeschreibung: ");
+            k_beschr = Console.ReadLine();
+            while (k_beschr.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie eine Kurzbeschreibung ein.");
+                Console.Write("Kurzbeschreibung: ");
+                k_beschr = Console.ReadLine();
+            }
+            Console.Write("Langbeschreibung: ");
+            l_beschr = Console.ReadLine();
+            while (l_beschr.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie eine Langbeschreibung ein.");
+                Console.Write("Langbeschreibung: ");
+                l_beschr = Console.ReadLine();
+            }
+
+            Console.WriteLine();
+            if (fachkonzept.erzeugeArtikel(name,k_beschr,l_beschr,benutzer.id,-1,DateTime.Now.AddDays(14),-1.0))
+            {
+                Console.WriteLine("Anlegen erfolgreich!");
+            }
+            else
+            {
+                Console.WriteLine("Anlegen nicht erfolgreich!");
+            }
+        }
         private void ArtikelAendernMenue (Artikel artikel)
         {
             string eingabe;
@@ -474,6 +530,7 @@ namespace reverse_ebay
                 Console.WriteLine("Noch keine Wunschliste vorhanden");
                 Console.WriteLine();
             }
+            Console.WriteLine("[W] - Wunsch eintragen");
             Console.WriteLine("[A] - Adressen verwalten");
             Console.WriteLine("[N] - Name ändern");
             Console.WriteLine("[P] - Passwort ändern");
@@ -529,6 +586,11 @@ namespace reverse_ebay
                             Console.WriteLine("Ändern erfolgreich.");
                         }
                         Console.Read();
+                        break;
+                    case "W":
+                    case "w":
+                        // Wunsch eintragen
+                        ArtikelEinfuegen(benutzer);
                         break;
                     case "Z":
                     case "z":
@@ -626,7 +688,7 @@ namespace reverse_ebay
                         break;
                 }
             }
-            UserMenue(benutzer);
+            AdressMenue(benutzer);
         }
         private void AdresseEinfuegen(Benutzer benutzer)
         {
@@ -683,21 +745,21 @@ namespace reverse_ebay
                 Console.Write("Land:         ");
                 land = Console.ReadLine();
             }
-            Console.WriteLine("Rechnungsadresse? [J/N]: ");
+            Console.Write("Rechnungsadresse? [J/N]: ");
             rech = Console.ReadLine();
             while ((!rech.Equals("J")) && (!rech.Equals("N"))){
                 Console.WriteLine("Bitte geben Sie gültige Zeichen (J für \"Ja\" oder N für \"Nein\") ein.");
-                Console.WriteLine("Rechnungsadresse? [J/N]: ");
+                Console.Write("Rechnungsadresse? [J/N]: ");
                 rech = Console.ReadLine();
             }
             rech_addr = (rech.Equals("J") ? true : false);
 
-            Console.WriteLine("Lieferadresse? [J/N]:    ");
+            Console.Write("Lieferadresse? [J/N]:    ");
             lief = Console.ReadLine();
             while ((!lief.Equals("J")) && (!lief.Equals("N")))
             {
                 Console.WriteLine("Bitte geben Sie gültige Zeichen (J für \"Ja\" oder N für \"Nein\") ein.");
-                Console.WriteLine("Lieferadresse? [J/N]:    ");
+                Console.Write("Lieferadresse? [J/N]:    ");
                 lief = Console.ReadLine();
             }
             lief_addr = (lief.Equals("J") ? true : false);
