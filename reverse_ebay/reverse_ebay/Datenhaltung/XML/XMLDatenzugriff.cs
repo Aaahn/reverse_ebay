@@ -356,7 +356,7 @@ namespace reverse_ebay
                     (int)address.Element("id"),
                     (string)address.Element("str_nr"),
                     (string)address.Element("plz"),
-                    (string)address.Element("stadt"),
+                    (string)address.Element("ort"),
                     (string)address.Element("land"));
 
                 return adresse;
@@ -385,7 +385,7 @@ namespace reverse_ebay
                     (int)address.Element("id"),
                     (string)address.Element("str_nr"),
                     (string)address.Element("plz"),
-                    (string)address.Element("stadt"),
+                    (string)address.Element("ort"),
                     (string)address.Element("land"));
 
                 return adresse;
