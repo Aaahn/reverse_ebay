@@ -231,7 +231,9 @@ namespace reverse_ebay
             }
             catch
             {
-                throw new FileNotFoundException();
+                UserXML = new XElement("users");
+                UserXML.SetAttributeValue("lastUsedID", 0);
+                UserXML.Save(speicherort + "user.xml");
             }
             
         }
@@ -433,7 +435,9 @@ namespace reverse_ebay
             }
             catch
             {
-                throw new FileNotFoundException();
+                AddressXML = new XElement("addresses");
+                AddressXML.SetAttributeValue("lastUsedID", 0);
+                AddressXML.Save(speicherort + "address.xml");
             }
         }
         private void saveAddressFile()
@@ -776,7 +780,9 @@ namespace reverse_ebay
             }
             catch
             {
-                throw new FileNotFoundException();
+                ItemXML = new XElement("items");
+                ItemXML.SetAttributeValue("lastUsedID", 0);
+                ItemXML.Save(speicherort + "item.xml");
             }
         }
         private void saveItemFile()
