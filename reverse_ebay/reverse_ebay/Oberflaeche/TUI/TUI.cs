@@ -161,12 +161,10 @@ namespace reverse_ebay
         {
             List<Artikel> artikel = new List<Artikel>();
             int versatz = runde * maxAnzahl, anzahl;
-            try {anzahl = alleArtikel.Count; } // TODO
-            catch {anzahl = 0; }
-            if (anzahl == 0)
-            {
-                alleArtikel = fachkonzept.gibArtikelListe("");
-            }
+            alleArtikel = fachkonzept.gibArtikelListe("");
+            try { anzahl = alleArtikel.Count; } // TODO
+            catch { anzahl = 0; }
+
             artikel.Clear();
             if ((anzahl >= versatz) && (anzahl < versatz + maxAnzahl))
             {
@@ -196,17 +194,25 @@ namespace reverse_ebay
             Console.WriteLine();
             Console.WriteLine("Name:             {0}", artikel.name);
             Console.WriteLine("Kurzbeschreibung: {0}", artikel.kurzbeschr);
-            Console.WriteLine("Langbeschreibung: {0}", artikel.langbeschr);
-            Console.WriteLine("Höchstgebot:      {0} EUR", artikel.hoechstgebot.ToString("0,00"));
+            Console.WriteLine("Langbeschreibung: {0}", artikel.langbeschr);           
+            if (bieter != null)
+            {
+                Console.WriteLine("Höchstgebot:      {0} EUR", artikel.hoechstgebot.ToString("0,00"));
+                Console.WriteLine("Aktueller Bieter: {0}", bieter.name);
+            }
+            else
+            {
+                Console.WriteLine("Noch keine Gebote vorhanden.");
+            }
             Console.WriteLine("Ablaufdatum:      {0}", artikel.ablaufdatum);
             Console.WriteLine("Suchender:        {0}", suchender.name);
-            Console.WriteLine("Aktueller Bieter: {0}", bieter.name);
+            
             Console.WriteLine();
-            if (fachkonzept.gibAktBenutzer().id != artikel.anbieter_id)
+            if ((fachkonzept.gibAktBenutzer() != null) && (fachkonzept.gibAktBenutzer().id != artikel.anbieter_id))
             {
                 Console.WriteLine("[B] - Niedrigeres Gebot abgeben");
             }
-            if (fachkonzept.gibAktBenutzer().id == artikel.anbieter_id)
+            if ((fachkonzept.gibAktBenutzer() != null) && (fachkonzept.gibAktBenutzer().id == artikel.anbieter_id))
             {
                 Console.WriteLine("[A] - Artikel ändern");
                 Console.WriteLine("[E] - Auktion beenden");
