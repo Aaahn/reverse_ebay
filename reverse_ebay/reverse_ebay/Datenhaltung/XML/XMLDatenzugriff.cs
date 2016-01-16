@@ -176,7 +176,7 @@ namespace reverse_ebay
         public List<Benutzer> getUserList()
         {
             loadUserFile();
-            List<Benutzer> userList = null;
+            List<Benutzer> userList = new List<Benutzer>();
             IEnumerable<XElement> users =
                 from el in UserXML.Elements("user")
                 select el;
@@ -738,9 +738,9 @@ namespace reverse_ebay
         }
         public List<Artikel> getItemList()
         {
+            List<Artikel> itemList = new List<Artikel>();
             try {
                 loadItemFile();
-                List<Artikel> itemList = null;
                 IEnumerable<XElement> items =
                     from el in ItemXML.Elements("item")
                     select el;
@@ -750,7 +750,7 @@ namespace reverse_ebay
                 }
                 return itemList;
             }
-            catch { return null; }
+            catch { return itemList; }
 
         }
         private Boolean itemExists(int id)

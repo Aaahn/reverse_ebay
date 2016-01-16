@@ -47,9 +47,9 @@ namespace reverse_ebay
         }
         public Boolean einloggen(string name, string passwort)
         {
-            Benutzer benutzer = datenhaltung.getUserByName(name);
             try
             {
+                Benutzer benutzer = datenhaltung.getUserByName(name);
                 if (benutzer.passwort == passwort)
                 {
                     aktBenutzer = benutzer;
@@ -71,11 +71,11 @@ namespace reverse_ebay
             {
                 benutzeradressen = aktBenutzer.adressen;
                 return benutzeradressen;
-            } catch { return benutzeradressen; }
+            } catch { return null; }
         }
         public List<Artikel> meineArtikel(bool nuroffen)
         {
-            List<Artikel> benutzerartikel = null;
+            List<Artikel> benutzerartikel = new List<Artikel>();
             try
             {
                 benutzerartikel = datenhaltung.getItemList();
@@ -194,11 +194,11 @@ namespace reverse_ebay
 
             
         }
-        public List<Artikel> gibArtikelListe(string suchstring = null)
+        public List<Artikel> gibArtikelListe(string suchstring = "")
         {
             // Derzeit ist nur eine Volltextsuch auf die Kurzbeschreibung möglich
             List<Artikel> artikelListe = datenhaltung.getItemList();
-            if ((suchstring != null) && (artikelListe != null))
+            if ((suchstring != "") && (artikelListe.Count > 0))
             {
                 foreach (Artikel artikel in artikelListe)
                 {

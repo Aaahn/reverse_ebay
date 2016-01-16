@@ -1,4 +1,7 @@
-﻿namespace reverse_ebay
+﻿using System;
+using System.Collections.Generic;
+
+namespace reverse_ebay
 {
     class Start
     {
