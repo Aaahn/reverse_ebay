@@ -105,40 +105,30 @@ namespace reverse_ebay
         // BenutzerAdressen-Management
         public bool erzeugeBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
-            bool status = false;
-            Adresse temp_adresse = benutzeradresse.adresse;
-            int adresse_id = 0;
+            Adresse temp_adresse = datenhaltung.getAddress(benutzeradresse.adresse.str_nr,
+                                                           benutzeradresse.adresse.plz,
+                                                           benutzeradresse.adresse.ort,
+                                                           benutzeradresse.adresse.land);
 
-            List<Adresse> adressliste = datenhaltung.getAddressList();
-            foreach (Adresse adresse in adressliste)
+            if (temp_adresse == null)
             {
-                if (temp_adresse.str_nr == adresse.str_nr
-                    && temp_adresse.plz == adresse.plz
-                    && temp_adresse.ort == adresse.ort
-                    && temp_adresse.land == adresse.land)
-                {
-                    adresse_id = adresse.id;
-                }
+                datenhaltung.insertAddress(benutzeradresse.adresse.str_nr,
+                                           benutzeradresse.adresse.plz,
+                                           benutzeradresse.adresse.ort,
+                                           benutzeradresse.adresse.land);
+                temp_adresse = datenhaltung.getAddress(benutzeradresse.adresse.str_nr,
+                                                       benutzeradresse.adresse.plz,
+                                                       benutzeradresse.adresse.ort,
+                                                       benutzeradresse.adresse.land);
             }
 
-            if (adresse_id == 0)
-            {
-                datenhaltung.insertAddress(temp_adresse.str_nr, temp_adresse.plz, temp_adresse.ort, temp_adresse.land);
-            }
-            
-            if (datenhaltung.insertAddress(temp_adresse.str_nr, temp_adresse.plz, temp_adresse.ort, temp_adresse.land))
-            {
-                
-                status = datenhaltung.insertUserAddress(benutzeradresse.benutzer_id,
-                                                        adresse_id, 
-                                                        benutzeradresse.vname, 
-                                                        benutzeradresse.nname,
-                                                        benutzeradresse.addr_zusatz, 
-                                                        benutzeradresse.rech_addr, 
-                                                        benutzeradresse.lief_addr);
-            }
-            
-            return status;
+            return datenhaltung.insertUserAddress(benutzeradresse.benutzer_id,
+                                                    temp_adresse.id, 
+                                                    benutzeradresse.vname, 
+                                                    benutzeradresse.nname,
+                                                    benutzeradresse.addr_zusatz, 
+                                                    benutzeradresse.rech_addr, 
+                                                    benutzeradresse.lief_addr);
         }
         public bool aendereBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {

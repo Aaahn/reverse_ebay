@@ -29,6 +29,7 @@ namespace reverse_ebay
         bool updateUserAddress(int user_id, int address_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr);
         bool deleteUserAddress(int user_id, int address_id);
         BenutzerAdresse getUserAddress(int user_id, int address_id);
+        List<BenutzerAdresse> getUserAdressList();
 
         //Artikel-Zugriff
         bool insertItem(string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id);

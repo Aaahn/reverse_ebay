@@ -402,7 +402,7 @@ namespace reverse_ebay
         public List<Adresse> getAddressList()
         {
             loadAddressFile();
-            List<Adresse> addressList = null;
+            List<Adresse> addressList = new List<Adresse>();
             IEnumerable<XElement> addresses =
                 from el in AddressXML.Elements("address")
                 select el;
@@ -607,6 +607,19 @@ namespace reverse_ebay
                 return null;
             }
         }
+        public List<BenutzerAdresse> getUserAdressList()
+        {
+            loadUserAddressFile();
+            List<BenutzerAdresse> useraddressList = new List<BenutzerAdresse>();
+            IEnumerable<XElement> useraddresses =
+                from el in UserAddressXML.Elements("user_address")
+                select el;
+            foreach (XElement el in useraddresses)
+            {
+                useraddressList.Add(getUserAddress((int)el.Element("user_id"), (int)el.Element("address_id")));
+            }
+            return useraddressList;
+        }
         private bool useraddressExists(int user_id, int address_id)
         {
             loadUserAddressFile();
@@ -764,20 +777,16 @@ namespace reverse_ebay
         }
         public List<Artikel> getItemList()
         {
+            loadItemFile();
             List<Artikel> itemList = new List<Artikel>();
-            try {
-                loadItemFile();
-                IEnumerable<XElement> items =
-                    from el in ItemXML.Elements("item")
-                    select el;
-                foreach (XElement el in items)
-                {
-                    itemList.Add(getItem((int)el.Element("id")));
-                }
-                return itemList;
+            IEnumerable<XElement> items =
+                from el in ItemXML.Elements("item")
+                select el;
+            foreach (XElement el in items)
+            {
+                itemList.Add(getItem((int)el.Element("id")));
             }
-            catch { return itemList; }
-
+            return itemList;
         }
         private int itemExists(int id)
         {

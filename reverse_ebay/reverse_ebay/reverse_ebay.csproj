@@ -63,6 +63,8 @@
     <Compile Include="Datenhaltung\SQL\SQLDatenzugriff.cs" />
     <Compile Include="Datenhaltung\XML\XMLDatenzugriff.cs" />
     <Compile Include="Fachkonzept\Fachkonzept1\Fachkonzept1.cs" />
+    <Compile Include="Fachkonzept\Fachkonzept2\ReverseEbayFacade.cs" />
+    <Compile Include="Fachkonzept\Fachkonzept2\Fachkonzept2.cs" />
     <Compile Include="Oberflaeche\GUI\GUI_Register.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,9 +97,7 @@
       <DependentUpon>GUI_Register.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fachkonzept\Fachkonzept2\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Datenhaltung\SQL\ReverseEbaySQL.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
