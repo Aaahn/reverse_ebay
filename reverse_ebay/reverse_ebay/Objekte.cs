@@ -35,7 +35,7 @@ namespace reverse_ebay
 
         public BenutzerAdresse () { }
 
-        public BenutzerAdresse(Boolean rech_addr, Boolean lief_addr, string vname, string nname, string addr_zusatz, int benutzer_id, Adresse addresse)
+        public BenutzerAdresse(Boolean rech_addr, Boolean lief_addr, string vname, string nname, string addr_zusatz, int benutzer_id, Adresse adresse)
         {
             this.rech_addr = rech_addr;
             this.lief_addr = lief_addr;
