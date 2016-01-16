@@ -15,9 +15,9 @@ namespace reverse_ebay
     interface IFachkonzept
     {
         // Benutzer-Management
-        bool erzeugeBenutzer(string name, string passwort);
-        bool aendereBenutzer(int id, string name, string passwort);
-        bool loescheBenutzer(int id);
+        bool erzeugeBenutzer(Benutzer benutzer);
+        bool aendereBenutzer(Benutzer benutzer);
+        bool loescheBenutzer(Benutzer benutzer);
         Benutzer gibBenutzer(int id);
         bool einloggen(string name, string passwort);
         bool ausloggen();
@@ -31,15 +31,15 @@ namespace reverse_ebay
         bool loescheBenutzerAdresse(BenutzerAdresse benutzeradresse);
 
         // Artikel-Management
-        bool erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, DateTime ablaufdatum, double gebot);
-        bool aendereArtikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum);
-        bool loescheArtikel(int id);
+        bool erzeugeArtikel(Artikel artikel);
+        bool aendereArtikel(Artikel artikel);
+        bool loescheArtikel(Artikel artikel);
         Artikel gibArtikel(int id);
 
         // Sonstige Funktionen
         bool aufArtikelBieten(Artikel artikel, double gebot);
         List<Artikel> meineGeboteAnzeigen();
-        bool istArtikelAktiv(int id);
+        bool istArtikelAktiv(Artikel artikel);
         List<Artikel> gibArtikelListe(string suchstring);
 
     }

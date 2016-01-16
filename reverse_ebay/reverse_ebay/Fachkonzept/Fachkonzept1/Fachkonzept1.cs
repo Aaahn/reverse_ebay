@@ -25,20 +25,21 @@ namespace reverse_ebay
 
 
         // Benutzer-Management
-        public bool erzeugeBenutzer(string name, string passwort)
+        public bool erzeugeBenutzer(Benutzer benutzer)
         {
-            return datenhaltung.insertUser(name, passwort);
+            return datenhaltung.insertUser(benutzer.name, benutzer.passwort);
         }
-        public bool aendereBenutzer(int id, string name = null, string passwort = null)
+        public bool aendereBenutzer(Benutzer benutzer)
         {
-            Benutzer benutzer = datenhaltung.getUser(id);
-            if (name == null) { name = benutzer.name; }
-            if (passwort == null) { passwort = benutzer.passwort; }
-            return datenhaltung.updateUser(id, name, passwort);
+            if (datenhaltung.getUser(benutzer.id) != null)
+            {
+                return datenhaltung.updateUser(benutzer.id, benutzer.name, benutzer.passwort);
+            }
+            return false;
         }
-        public bool loescheBenutzer(int id)
+        public bool loescheBenutzer(Benutzer benutzer)
         {
-            return datenhaltung.deleteUser(id);
+            return datenhaltung.deleteUser(benutzer.id);
         }
         public Benutzer gibBenutzer(int id)
         {
@@ -49,7 +50,7 @@ namespace reverse_ebay
         {
             try
             {
-                Benutzer benutzer = datenhaltung.getUserByName(name);
+                Benutzer benutzer = datenhaltung.getUser(name);
                 if (benutzer.passwort == passwort)
                 {
                     aktBenutzer = benutzer;
@@ -141,30 +142,49 @@ namespace reverse_ebay
         }
         public bool aendereBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
-            return datenhaltung.updateUserAddress(benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr);
+            return datenhaltung.updateUserAddress(benutzeradresse.benutzer_id,
+                                                  benutzeradresse.adresse.id,
+                                                  benutzeradresse.vname,
+                                                  benutzeradresse.nname, 
+                                                  benutzeradresse.addr_zusatz, 
+                                                  benutzeradresse.rech_addr,
+                                                  benutzeradresse.lief_addr);
         }
         public bool loescheBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
-            return datenhaltung.deleteUserAddress(benutzer_id, adresse_id);
+            return datenhaltung.deleteUserAddress(benutzeradresse.benutzer_id, benutzeradresse.adresse.id);
         }
 
 
         // Artikel-Management
-        public bool erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double mindestgebot)
+        public bool erzeugeArtikel(Artikel artikel)
         {
-            return datenhaltung.insertItem(name, kurzbeschr, langbeschr, ablaufdatum, mindestgebot, bieter_id, anbieter_id);
+            return datenhaltung.insertItem(artikel.name, 
+                                           artikel.kurzbeschr,
+                                           artikel.langbeschr,
+                                           artikel.ablaufdatum,
+                                           artikel.hoechstgebot,
+                                           0, 
+                                           aktBenutzer.id);
         }
-        public bool aendereArtikel(int id, string name = null, string kurzbeschr = null, string langbeschr = null, DateTime ablaufdatum = default(DateTime))
+        public bool aendereArtikel(Artikel artikel)
         {
-            Artikel artikel = datenhaltung.getItem(id);
-            if (name == null) { name = artikel.name; }
-            if (kurzbeschr == null) { kurzbeschr = artikel.kurzbeschr; }
-            if (langbeschr == null) { kurzbeschr = artikel.langbeschr; }
-            return datenhaltung.updateItem(id, name, kurzbeschr, langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+            if (datenhaltung.getItem(artikel.id) != null)
+            {
+                return datenhaltung.updateItem(artikel.id,
+                                               artikel.name,
+                                               artikel.kurzbeschr,
+                                               artikel.langbeschr,
+                                               artikel.ablaufdatum,
+                                               artikel.hoechstgebot,
+                                               artikel.bieter_id,
+                                               aktBenutzer.id);
+            }
+            return false;
         }
-        public bool loescheArtikel(int id)
+        public bool loescheArtikel(Artikel artikel)
         {
-            return datenhaltung.deleteItem(id);
+            return datenhaltung.deleteItem(artikel.id);
         }
         public Artikel gibArtikel(int id)
         {
@@ -191,19 +211,17 @@ namespace reverse_ebay
             }
             return meineGeboteListe;
         }
-        public bool istArtikelAktiv(int artikel_id)
+        public bool istArtikelAktiv(Artikel artikel)
         {
-            Artikel artikel = datenhaltung.getItem(artikel_id);
-            if (artikel.ablaufdatum > DateTime.Now)
+            List<Artikel> artikelListe = datenhaltung.getItemList();
+            foreach (Artikel art in artikelListe)
             {
-                return true;
+                if (art.id == artikel.id && art.ablaufdatum > DateTime.Now)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
-
-            
+            return false;
         }
         public List<Artikel> gibArtikelListe(string suchstring = "")
         {
