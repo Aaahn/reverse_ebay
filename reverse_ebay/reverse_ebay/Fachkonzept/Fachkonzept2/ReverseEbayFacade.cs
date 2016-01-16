@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,17 +13,17 @@ namespace reverse_ebay
 
         private Benutzer aktBenutzer;
         private List<Artikel> aktBenutzer_ArtikelListe;
+        private List<BenutzerAdresse> aktBenutzer_AdressenListe;
         private List<Artikel> alleArtikelListe;
         private List<Benutzer> alleBenutzerListe;
-        private List<BenutzerAdresse> aktBenutzer_AdressenListe;
 
         public ReverseEbayFacade(IDatenhaltung _datenhaltung)
         {
             this.datenhaltung = _datenhaltung;
             this.aktBenutzer_ArtikelListe = new List<Artikel>();
+            this.aktBenutzer_AdressenListe = new List<BenutzerAdresse>();
             this.alleArtikelListe = new List<Artikel>();
             this.alleBenutzerListe = new List<Benutzer>();
-            this.aktBenutzer_AdressenListe = new List<BenutzerAdresse>();
         }
 
         // Laden / Entladen der Facade
@@ -84,18 +85,22 @@ namespace reverse_ebay
         }
         public List<Artikel> gibAktBenutzerArtikelListe()
         {
+            aktBenutzer_ArtikelListe.Sort();
             return aktBenutzer_ArtikelListe;
         }
         public List<Artikel> gibAlleArtikelListe()
         {
+            alleArtikelListe.Sort();
             return alleArtikelListe;
         }
         public List<Benutzer> gibAlleBenutzerListe()
         {
+            alleBenutzerListe.Sort();
             return alleBenutzerListe;
         }
         public List<BenutzerAdresse> gibAktBenutzerAdressenListe()
         {
+            aktBenutzer_AdressenListe.Sort();
             return aktBenutzer_AdressenListe;
         }
 
@@ -274,6 +279,5 @@ namespace reverse_ebay
             }
             catch { return false; }
         }
-
     }
 }

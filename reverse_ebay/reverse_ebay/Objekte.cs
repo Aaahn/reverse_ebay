@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace reverse_ebay
 {
-    class Adresse
+    class Adresse : IComparable
     {
         public int id { get; set; }
         public string str_nr { get; set; }
@@ -21,9 +21,15 @@ namespace reverse_ebay
             this.ort = ort;
             this.land = land;
         }
+
+        int IComparable.CompareTo(object obj)
+        {
+            Adresse a = (Adresse)obj;
+            return String.Compare(this.plz, a.plz);
+        }
     }
 
-    class BenutzerAdresse
+    class BenutzerAdresse : IComparable
     {
         public Boolean rech_addr { get; set; }
         public Boolean lief_addr { get; set; }
@@ -45,9 +51,15 @@ namespace reverse_ebay
             this.benutzer_id = benutzer_id;
             this.adresse = adresse;
         }
+
+        int IComparable.CompareTo(object obj)
+        {
+            BenutzerAdresse ba = (BenutzerAdresse)obj;
+            return String.Compare(this.nname, ba.nname);
+        }
     }
 
-    class Benutzer
+    class Benutzer : IComparable
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -62,9 +74,15 @@ namespace reverse_ebay
             this.passwort = passwort;
             this.adressen = adressen;
         }
+
+        int IComparable.CompareTo(object obj)
+        {
+            Benutzer b = (Benutzer)obj;
+            return String.Compare(this.name, b.name);
+        }
     }
 
-    class Artikel
+    class Artikel : IComparable
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -86,6 +104,12 @@ namespace reverse_ebay
             this.hoechstgebot = hoechstgebot;
             this.bieter_id = bieter_id;
             this.anbieter_id = anbieter_id;
+        }
+
+        int IComparable.CompareTo(object obj)
+        {
+            Artikel ar = (Artikel)obj;
+            return String.Compare(this.name, ar.name);
         }
     }
 }

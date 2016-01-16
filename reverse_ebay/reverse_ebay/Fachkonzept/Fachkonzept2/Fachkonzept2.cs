@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace reverse_ebay
 {
-    class Fachkonzept2
+    class Fachkonzept2 : IFachkonzept
     {
         private ReverseEbayFacade reverseEbayFacade;
 
@@ -151,23 +151,21 @@ namespace reverse_ebay
         }
         public List<Artikel> meineGeboteAnzeigen()
         {
-            List<Artikel> artikelListe = datenhaltung.getItemList();
             List<Artikel> meineGeboteListe = new List<Artikel>();
-            foreach (Artikel artikel in artikelListe)
+            foreach (Artikel tempArtikel in reverseEbayFacade.gibAlleArtikelListe())
             {
-                if (artikel.bieter_id == aktBenutzer.id)
+                if (tempArtikel.bieter_id == reverseEbayFacade.gibAktBenutzer().id)
                 {
-                    meineGeboteListe.Add(artikel);
+                    meineGeboteListe.Add(tempArtikel);
                 }
             }
             return meineGeboteListe;
         }
         public bool istArtikelAktiv(Artikel artikel)
         {
-            List<Artikel> artikelListe = datenhaltung.getItemList();
-            foreach (Artikel art in artikelListe)
+            foreach (Artikel tempArtikel in reverseEbayFacade.gibAlleArtikelListe())
             {
-                if (art.id == artikel.id && art.ablaufdatum > DateTime.Now)
+                if (tempArtikel.id == artikel.id && tempArtikel.ablaufdatum > DateTime.Now)
                 {
                     return true;
                 }
@@ -177,18 +175,18 @@ namespace reverse_ebay
         public List<Artikel> gibArtikelListe(string suchstring = "")
         {
             // Derzeit ist nur eine Volltextsuch auf die Kurzbeschreibung möglich
-            List<Artikel> artikelListe = datenhaltung.getItemList();
-            List<Artikel> meineArtikelListe = new List<Artikel>();
+            List<Artikel> artikelListe = reverseEbayFacade.gibAlleArtikelListe();
+            List<Artikel> artikelSuchListe = new List<Artikel>();
             if ((suchstring != "") && (artikelListe.Count > 0))
             {
                 foreach (Artikel artikel in artikelListe)
                 {
                     if (artikel.kurzbeschr == suchstring)
                     {
-                        meineArtikelListe.Add(artikel);
+                        artikelSuchListe.Add(artikel);
                     }
                 }
-                return meineArtikelListe;
+                return artikelSuchListe;
             }
             else
             {
