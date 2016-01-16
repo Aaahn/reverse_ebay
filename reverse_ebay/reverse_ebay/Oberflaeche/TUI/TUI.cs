@@ -194,7 +194,7 @@ namespace reverse_ebay
             Console.WriteLine();
             Console.WriteLine("Name:             {0}", artikel.name);
             Console.WriteLine("Kurzbeschreibung: {0}", artikel.kurzbeschr);
-            Console.WriteLine("Langbeschreibung: {0}", artikel.langbeschr);           
+            Console.WriteLine("Langbeschreibung: {0}", artikel.langbeschr);        
             if (bieter != null)
             {
                 Console.WriteLine("Höchstgebot:      {0} EUR", artikel.hoechstgebot.ToString("0,00"));
@@ -202,20 +202,28 @@ namespace reverse_ebay
             }
             else
             {
+                if (artikel.hoechstgebot != 0)
+                {
+                    Console.WriteLine("Preisobergrenze:  {0}", artikel.hoechstgebot);
+                }
                 Console.WriteLine("Noch keine Gebote vorhanden.");
             }
             Console.WriteLine("Ablaufdatum:      {0}", artikel.ablaufdatum);
             Console.WriteLine("Suchender:        {0}", suchender.name);
             
             Console.WriteLine();
-            if ((fachkonzept.gibAktBenutzer() != null) && (fachkonzept.gibAktBenutzer().id != artikel.anbieter_id))
+            if (fachkonzept.gibAktBenutzer() != null)
             {
-                Console.WriteLine("[B] - Niedrigeres Gebot abgeben");
-            }
-            if ((fachkonzept.gibAktBenutzer() != null) && (fachkonzept.gibAktBenutzer().id == artikel.anbieter_id))
-            {
-                Console.WriteLine("[A] - Artikel ändern");
-                Console.WriteLine("[E] - Auktion beenden");
+                if (fachkonzept.gibAktBenutzer().id != artikel.anbieter_id)
+                {
+                    Console.WriteLine("[B] - Niedrigeres Gebot abgeben");
+                }
+                if (fachkonzept.gibAktBenutzer().id == artikel.anbieter_id)
+                {
+                    Console.WriteLine("[A] - Artikel ändern");
+                    Console.WriteLine("[E] - Auktion beenden");
+                }
+                Console.WriteLine("[M] - zurück zu Mein Menü");
             }
             Console.WriteLine("[Z] - Zurück zum Hauptmenü");
             Console.WriteLine();
@@ -235,6 +243,11 @@ namespace reverse_ebay
                 case "a":
                     // Ändern
                     ArtikelAendernMenue(artikel);
+                    break;
+                case "M":
+                case "m":
+                    // Ändern
+                    UserMenue(fachkonzept.gibAktBenutzer());
                     break;
                 case "E":
                 case "e":
@@ -293,38 +306,42 @@ namespace reverse_ebay
 
         private void ArtikelEinfuegen (Benutzer benutzer)
         {
-            string name, k_beschr, l_beschr;
-
+            Artikel neuerArtikel = new Artikel();
             Console.Clear();
             Console.WriteLine("Wunsch eintragen");
             Console.WriteLine("----------------");
             Console.Write("Name:             ");
-            name = Console.ReadLine();
-            while (name.Equals(""))
+            neuerArtikel.name = Console.ReadLine();
+            while (neuerArtikel.name.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie einen Namen ein.");
                 Console.Write("Name:             ");
-                name = Console.ReadLine();
+                neuerArtikel.name = Console.ReadLine();
             }
             Console.Write("Kurzbeschreibung: ");
-            k_beschr = Console.ReadLine();
-            while (k_beschr.Equals(""))
+            neuerArtikel.kurzbeschr = Console.ReadLine();
+            while (neuerArtikel.kurzbeschr.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie eine Kurzbeschreibung ein.");
                 Console.Write("Kurzbeschreibung: ");
-                k_beschr = Console.ReadLine();
+                neuerArtikel.kurzbeschr = Console.ReadLine();
             }
             Console.Write("Langbeschreibung: ");
-            l_beschr = Console.ReadLine();
-            while (l_beschr.Equals(""))
+            neuerArtikel.langbeschr = Console.ReadLine();
+            while (neuerArtikel.langbeschr.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie eine Langbeschreibung ein.");
                 Console.Write("Langbeschreibung: ");
-                l_beschr = Console.ReadLine();
+                neuerArtikel.langbeschr = Console.ReadLine();
             }
+            Console.Write("Preisobergrenze:      ");
+            neuerArtikel.hoechstgebot = ValidateDouble(Console.ReadLine());
+            
+            neuerArtikel.anbieter_id = fachkonzept.gibAktBenutzer().id; //TODO
+            neuerArtikel.ablaufdatum = DateTime.Now.AddDays(14);
 
             Console.WriteLine();
-            if (fachkonzept.erzeugeArtikel(name,k_beschr,l_beschr,benutzer.id,-1,DateTime.Now.AddDays(14),-1.0))
+            if (fachkonzept.erzeugeArtikel(neuerArtikel))
             {
                 Console.WriteLine("Anlegen erfolgreich!");
             }
@@ -333,6 +350,22 @@ namespace reverse_ebay
                 Console.WriteLine("Anlegen nicht erfolgreich!");
             }
         }
+        private double ValidateDouble (string eingabe)
+        {
+            double number;
+            try
+            {
+                number = Convert.ToDouble(eingabe);
+                return number;
+            }
+            catch
+            {
+                Console.WriteLine("Bitte geben Sie ein gültiges Höchstgebot im Format 0.00 an.");
+                Console.Write("Preisobergrenze:      ");
+                return ValidateDouble(Console.ReadLine());
+            }
+        }
+
         private void ArtikelAendernMenue (Artikel artikel)
         {
             string eingabe;
@@ -423,7 +456,8 @@ namespace reverse_ebay
         {
             if (!name.Equals(artikel.name))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, name, artikel.kurzbeschr, artikel.langbeschr,artikel.ablaufdatum))
+                Artikel andererArtikel = new Artikel(artikel.id, name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+                if (fachkonzept.aendereArtikel(andererArtikel))
                 {
                     artikel.name = name;
                     return true;
@@ -435,7 +469,8 @@ namespace reverse_ebay
         {
             if (!kurzbeschr.Equals(artikel.kurzbeschr))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, kurzbeschr, artikel.langbeschr, artikel.ablaufdatum))
+                Artikel andererArtikel = new Artikel(artikel.id, artikel.name, kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+                if (fachkonzept.aendereArtikel(andererArtikel))
                 {
                     artikel.kurzbeschr = kurzbeschr;
                     return true;
@@ -447,7 +482,8 @@ namespace reverse_ebay
         {
             if (!langbeschr.Equals(artikel.langbeschr))
             {
-                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, langbeschr, artikel.ablaufdatum))
+                Artikel andererArtikel = new Artikel(artikel.id, artikel.name, artikel.kurzbeschr, langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+                if (fachkonzept.aendereArtikel(andererArtikel))
                 {
                     artikel.langbeschr = langbeschr;
                     return true;
@@ -461,7 +497,8 @@ namespace reverse_ebay
             DateTime jetzt = DateTime.Now;
             if (artikel.ablaufdatum > jetzt)
             {
-                if (fachkonzept.aendereArtikel(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum))
+                Artikel andererArtikel = new Artikel(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, DateTime.Now, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
+                if (fachkonzept.aendereArtikel(andererArtikel))
                 {
                     return true;
                 }
@@ -491,17 +528,22 @@ namespace reverse_ebay
 
         private void RegistrierenMenue()
         {
-            string name, passwort;
+            Benutzer neuerBenutzer = new Benutzer();
             Console.Clear();
             Console.WriteLine("Registrieren");
             Console.WriteLine("------------");
             Console.WriteLine();
             Console.Write("Name:     ");
-            name = Console.ReadLine();
+            neuerBenutzer.name = Console.ReadLine();
+            while (neuerBenutzer.name.Equals(""))
+            {
+                Console.WriteLine("Bitte geben Sie einen Namen ein.");
+                Console.Write("Name:     ");
+                neuerBenutzer.name = Console.ReadLine();
+            }
             Console.Write("Passwort: ");
-            passwort = Console.ReadLine();
-
-            if (!fachkonzept.erzeugeBenutzer(name, passwort))
+            neuerBenutzer.passwort = Console.ReadLine();
+            if (!fachkonzept.erzeugeBenutzer(neuerBenutzer))
             {
                 Console.WriteLine("Registrierung nicht erfolgreich. Bitte versuchen Sie es erneut.");
                 Console.Read();
@@ -608,9 +650,10 @@ namespace reverse_ebay
         }
         private bool AendereBenutzerName(Benutzer benutzer, string name)
         {
-            if (!name.Equals(benutzer.name))
+            if ((!name.Equals(benutzer.name)) && (!name.Equals("")))
             {
-                if (fachkonzept.aendereBenutzer(benutzer.id, name, benutzer.passwort))
+                Benutzer andererBenutzer = new Benutzer(benutzer.id, name, benutzer.passwort, benutzer.adressen);
+                if (fachkonzept.aendereBenutzer(andererBenutzer))
                 {
                     benutzer.name = name;
                     return true;
@@ -622,7 +665,8 @@ namespace reverse_ebay
         {
             if (!passwort.Equals(benutzer.passwort))
             {
-                if (fachkonzept.aendereBenutzer(benutzer.id, benutzer.name, passwort))
+                Benutzer andererBenutzer = new Benutzer(benutzer.id, benutzer.name, passwort, benutzer.adressen);
+                if (fachkonzept.aendereBenutzer(andererBenutzer))
                 {
                     benutzer.passwort = passwort;
                     return true;
@@ -698,58 +742,60 @@ namespace reverse_ebay
         }
         private void AdresseEinfuegen(Benutzer benutzer)
         {
-            string vname, nname, addr_zusatz, strNr, plz, ort, land, rech, lief;
-            bool rech_addr, lief_addr;
+            BenutzerAdresse neueBenutzerAdresse = new BenutzerAdresse();
+            neueBenutzerAdresse.adresse = new Adresse();
+
+            string rech, lief;
             Console.Write("Vorname:      ");
-            vname = Console.ReadLine();
-            while (vname.Equals(""))
+            neueBenutzerAdresse.vname = Console.ReadLine();
+            while (neueBenutzerAdresse.vname.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie einen Vornamen ein.");
                 Console.Write("Vorname:      ");
-                vname = Console.ReadLine();
+                neueBenutzerAdresse.vname = Console.ReadLine();
             }
             Console.Write("Nachname:     ");
-            nname = Console.ReadLine();
-            while (nname.Equals(""))
+            neueBenutzerAdresse.nname = Console.ReadLine();
+            while (neueBenutzerAdresse.nname.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie einen Nachnamen ein.");
                 Console.Write("Nachname:     ");
-                nname = Console.ReadLine();
+                neueBenutzerAdresse.nname = Console.ReadLine();
             }
             Console.Write("Adresszusatz: ");
-            addr_zusatz = Console.ReadLine();
+            neueBenutzerAdresse.addr_zusatz = Console.ReadLine();
             Console.Write("Straße, Nr.:  ");
-            strNr = Console.ReadLine();
-            while (strNr.Equals(""))
+            neueBenutzerAdresse.adresse.str_nr = Console.ReadLine();
+            while (neueBenutzerAdresse.adresse.str_nr.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie Straße und Hausnummer ein.");
                 Console.Write("Straße, Nr.:  ");
-                strNr = Console.ReadLine();
+                neueBenutzerAdresse.adresse.str_nr = Console.ReadLine();
             }
             Console.Write("Postleitzahl: ");
-            plz = Console.ReadLine();
-            while (plz.Equals(""))
+            neueBenutzerAdresse.adresse.plz = Console.ReadLine();
+            while (neueBenutzerAdresse.adresse.plz.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie eine Postleitzahl ein.");
                 Console.Write("Postleitzahl: ");
-                plz = Console.ReadLine();
+                neueBenutzerAdresse.adresse.plz = Console.ReadLine();
 
             }
             Console.Write("Ort:          ");
-            ort = Console.ReadLine();
-            while (ort.Equals(""))
+            neueBenutzerAdresse.adresse.ort = Console.ReadLine();
+            while (neueBenutzerAdresse.adresse.ort.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie einen Ort ein.");
                 Console.Write("Ort:          ");
-                ort = Console.ReadLine();
+                neueBenutzerAdresse.adresse.ort = Console.ReadLine();
             }
             Console.Write("Land:         ");
-            land = Console.ReadLine();
-            while (land.Equals(""))
+            neueBenutzerAdresse.adresse.land = Console.ReadLine();
+            while (neueBenutzerAdresse.adresse.land.Equals(""))
             {
                 Console.WriteLine("Bitte geben Sie ein Land ein.");
                 Console.Write("Land:         ");
-                land = Console.ReadLine();
+                neueBenutzerAdresse.adresse.land = Console.ReadLine();
             }
             Console.Write("Rechnungsadresse? [J/N]: ");
             rech = Console.ReadLine();
@@ -758,7 +804,7 @@ namespace reverse_ebay
                 Console.Write("Rechnungsadresse? [J/N]: ");
                 rech = Console.ReadLine();
             }
-            rech_addr = (rech.Equals("J") ? true : false);
+            neueBenutzerAdresse.rech_addr = (rech.Equals("J") ? true : false);
 
             Console.Write("Lieferadresse? [J/N]:    ");
             lief = Console.ReadLine();
@@ -768,9 +814,10 @@ namespace reverse_ebay
                 Console.Write("Lieferadresse? [J/N]:    ");
                 lief = Console.ReadLine();
             }
-            lief_addr = (lief.Equals("J") ? true : false);
+            neueBenutzerAdresse.lief_addr = (lief.Equals("J") ? true : false);
 
-            if (fachkonzept.erzeugeBenutzerAdresse(fachkonzept.gibAktBenutzer().id,0,vname, nname, addr_zusatz, rech_addr, lief_addr))
+
+            if (fachkonzept.erzeugeBenutzerAdresse(neueBenutzerAdresse))
             {
                 Console.WriteLine("Erstellen erfolgreich!");
                 Console.Read();
@@ -943,7 +990,8 @@ namespace reverse_ebay
         {
             if ((!vname.Equals(adresse.vname)) && (!vname.Equals("")))
             {
-                if (fachkonzept.aendereBenutzerAdresse(adresse.benutzer_id,adresse.adresse.id,vname,adresse.nname,adresse.addr_zusatz,adresse.rech_addr,adresse.lief_addr))
+                BenutzerAdresse andereBenutzeradresse = new BenutzerAdresse(adresse.rech_addr, adresse.lief_addr, vname, adresse.nname, adresse.addr_zusatz, adresse.benutzer_id, adresse.adresse);
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzeradresse))
                 {
                     adresse.vname = vname;
                     return true;
@@ -955,7 +1003,8 @@ namespace reverse_ebay
         {
             if ((!nname.Equals(adresse.nname)) && (nname != ""))
             {
-                if (fachkonzept.aendereBenutzerAdresse(adresse.benutzer_id, adresse.adresse.id, adresse.vname, nname, adresse.addr_zusatz, adresse.rech_addr, adresse.lief_addr))
+                BenutzerAdresse andereBenutzeradresse = new BenutzerAdresse(adresse.rech_addr, adresse.lief_addr, adresse.vname, nname, adresse.addr_zusatz, adresse.benutzer_id, adresse.adresse);
+                if (fachkonzept.aendereBenutzerAdresse(andereBenutzeradresse))
                 {
                     adresse.nname = nname;
                     return true;

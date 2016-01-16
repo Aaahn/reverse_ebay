@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace reverse_ebay.Oberflaeche.GUI
+namespace reverse_ebay
 {
     class GUI_Register:Form
     {
@@ -18,6 +18,18 @@ namespace reverse_ebay.Oberflaeche.GUI
         private Button abbrechenButton;
         private Button registerButton;
         private TextBox nameTextbox;
+        IFachkonzept fachkonzept;
+
+        public GUI_Register()
+        {
+            InitializeComponent();
+        }
+
+        public GUI_Register(IFachkonzept fachkonzept)
+        {
+            this.fachkonzept = fachkonzept;
+            InitializeComponent();
+        }
 
         private void InitializeComponent()
         {
@@ -43,6 +55,7 @@ namespace reverse_ebay.Oberflaeche.GUI
             // 
             this.passwortTextbox.Location = new System.Drawing.Point(186, 68);
             this.passwortTextbox.Name = "passwortTextbox";
+            this.passwortTextbox.PasswordChar = '*';
             this.passwortTextbox.Size = new System.Drawing.Size(222, 22);
             this.passwortTextbox.TabIndex = 6;
             // 
@@ -78,8 +91,10 @@ namespace reverse_ebay.Oberflaeche.GUI
             // 
             this.passwort2Textbox.Location = new System.Drawing.Point(186, 93);
             this.passwort2Textbox.Name = "passwort2Textbox";
+            this.passwort2Textbox.PasswordChar = '*';
             this.passwort2Textbox.Size = new System.Drawing.Size(222, 22);
             this.passwort2Textbox.TabIndex = 10;
+            this.passwort2Textbox.UseSystemPasswordChar = true;
             // 
             // passwort2Label
             // 
@@ -98,6 +113,7 @@ namespace reverse_ebay.Oberflaeche.GUI
             this.abbrechenButton.TabIndex = 12;
             this.abbrechenButton.Text = "Abbrechen";
             this.abbrechenButton.UseVisualStyleBackColor = true;
+            this.abbrechenButton.Click += new System.EventHandler(this.AbbrechenOnClick);
             // 
             // registerButton
             // 
@@ -107,6 +123,7 @@ namespace reverse_ebay.Oberflaeche.GUI
             this.registerButton.TabIndex = 13;
             this.registerButton.Text = "Registrieren";
             this.registerButton.UseVisualStyleBackColor = true;
+            this.registerButton.Click += new System.EventHandler(this.RegistrierenOnClick);
             // 
             // GUI_Register
             // 
@@ -127,6 +144,36 @@ namespace reverse_ebay.Oberflaeche.GUI
             this.ResumeLayout(false);
             this.PerformLayout();
 
+        }
+
+        private void AbbrechenOnClick(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void RegistrierenOnClick(object sender, EventArgs e)
+        {
+            if (passwortTextbox.Text.Equals(passwort2Textbox.Text))
+            {
+                errorLabel.Text = "Die Passwörter müssen übereinstimmen";
+                return;
+            }
+            if ((nameTextbox.Text.Equals("")) || (passwortTextbox.Text.Equals("")) || (passwort2Textbox.Text.Equals("")))
+            {
+                errorLabel.Text = "Bitte alle Felder ausfüllen!";
+                return;
+            }
+            Benutzer neuerBenutzer = new Benutzer();
+            neuerBenutzer.name = nameTextbox.Text;
+            neuerBenutzer.passwort = passwortTextbox.Text;
+            if (fachkonzept.erzeugeBenutzer(neuerBenutzer))
+            {
+                Close();
+            }
+            else
+            {
+                errorLabel.Text = "Login war nicht erfolgreich. Bitte versuchen Sie es erneut!";
+            }
         }
     }
 }

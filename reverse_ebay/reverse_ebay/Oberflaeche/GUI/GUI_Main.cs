@@ -11,7 +11,7 @@ namespace reverse_ebay
         private ToolStripMenuItem anmeldenToolStripMenuItem;
         private ToolStripMenuItem registrierenToolStripMenuItem;
         private DataGridView dataGridView1;
-        private DataGridView dataGridView2;
+        private DataGridView artikelDataGrid;
         private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn kurzbeschrDataGridViewTextBoxColumn;
@@ -33,6 +33,7 @@ namespace reverse_ebay
         {
             this.fachkonzept = fachkonzept;
             InitializeComponent();
+            UpdateData();
         }
 
         private void InitializeComponent()
@@ -43,7 +44,7 @@ namespace reverse_ebay
             this.registrierenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wunschEintragenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.artikelDataGrid = new System.Windows.Forms.DataGridView();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.kurzbeschrDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,7 +56,7 @@ namespace reverse_ebay
             this.artikelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.artikelDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.artikelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,11 +103,11 @@ namespace reverse_ebay
             this.dataGridView1.Size = new System.Drawing.Size(814, 462);
             this.dataGridView1.TabIndex = 1;
             // 
-            // dataGridView2
+            // artikelDataGrid
             // 
-            this.dataGridView2.AutoGenerateColumns = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.artikelDataGrid.AutoGenerateColumns = false;
+            this.artikelDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.artikelDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDataGridViewTextBoxColumn,
             this.nameDataGridViewTextBoxColumn,
             this.kurzbeschrDataGridViewTextBoxColumn,
@@ -115,12 +116,12 @@ namespace reverse_ebay
             this.hoechstgebotDataGridViewTextBoxColumn,
             this.bieteridDataGridViewTextBoxColumn,
             this.anbieteridDataGridViewTextBoxColumn});
-            this.dataGridView2.DataSource = this.artikelBindingSource;
-            this.dataGridView2.Location = new System.Drawing.Point(0, 30);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(816, 461);
-            this.dataGridView2.TabIndex = 2;
+            this.artikelDataGrid.DataSource = this.artikelBindingSource;
+            this.artikelDataGrid.Location = new System.Drawing.Point(0, 30);
+            this.artikelDataGrid.Name = "artikelDataGrid";
+            this.artikelDataGrid.RowTemplate.Height = 24;
+            this.artikelDataGrid.Size = new System.Drawing.Size(816, 461);
+            this.artikelDataGrid.TabIndex = 2;
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -182,7 +183,7 @@ namespace reverse_ebay
             // GUI_Main
             // 
             this.ClientSize = new System.Drawing.Size(818, 496);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.artikelDataGrid);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -190,10 +191,15 @@ namespace reverse_ebay
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.artikelDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.artikelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
+        }
+
+        private void UpdateData()
+        {
 
         }
 
@@ -215,9 +221,11 @@ namespace reverse_ebay
             if (fachkonzept.gibAktBenutzer() == null)
             {
                 anmeldenToolStripMenuItem.Text = "Anmelden";
+                registrierenToolStripMenuItem.Text = "Registrieren";
             } else
             {
                 anmeldenToolStripMenuItem.Text = "Abmelden";
+                registrierenToolStripMenuItem.Text = "Meine Seite";
             }
         }
 
@@ -225,8 +233,8 @@ namespace reverse_ebay
         {
             if (fachkonzept.gibAktBenutzer() == null)
             {
-                GUI_Login loginPage = new GUI_Login(fachkonzept);
-                loginPage.ShowDialog();
+                GUI_Register registerPage = new GUI_Register(fachkonzept);
+                registerPage.ShowDialog();
             }
             Reload();
         }

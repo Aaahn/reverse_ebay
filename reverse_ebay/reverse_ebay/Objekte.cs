@@ -11,6 +11,8 @@ namespace reverse_ebay
         public string ort { get; set; }
         public string land { get; set; }
 
+        public Adresse () { }
+
         public Adresse(int id, string str_nr, string plz, string ort, string land = "Deutschland")
         {
             this.id = id;
@@ -31,6 +33,8 @@ namespace reverse_ebay
         public int benutzer_id { get; set; }
         public Adresse adresse { get; set; }
 
+        public BenutzerAdresse () { }
+
         public BenutzerAdresse(Boolean rech_addr, Boolean lief_addr, string vname, string nname, string addr_zusatz, int benutzer_id, Adresse addresse)
         {
             this.rech_addr = rech_addr;
@@ -50,6 +54,7 @@ namespace reverse_ebay
         public string passwort { get; set; }
         public List<BenutzerAdresse> adressen { get; set; }
 
+        public Benutzer () { }
         public Benutzer(int id, string name, string passwort, List<BenutzerAdresse> adressen)
         {
             this.id = id;
@@ -70,6 +75,7 @@ namespace reverse_ebay
         public int bieter_id { get; set; }
         public int anbieter_id { get; set; }
 
+        public Artikel() { }
         public Artikel(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id) 
         {
             this.id = id;
