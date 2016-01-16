@@ -53,6 +53,7 @@ namespace reverse_ebay
                 if (benutzer.passwort == passwort)
                 {
                     aktBenutzer = benutzer;
+
                     return true;
                 } else { return false; }
             }
@@ -100,36 +101,49 @@ namespace reverse_ebay
         }
 
 
-        // Adressen-Management
-        public bool erzeugeAdresse(string str_nr, string plz, string ort, string land)
-        {
-            return datenhaltung.insertAddress(str_nr, plz, ort, land);
-        }
-        public bool aendereAdresse(int id, string str_nr = null, string plz = null, string ort = null, string land = null)
-        {
-            Adresse adresse = datenhaltung.getAddress(id);
-            if (str_nr == null) { str_nr = adresse.str_nr; }
-            if (plz == null) { plz = adresse.plz; }
-            if (ort == null) { ort = adresse.ort; }
-            if (land == null) { land = adresse.land; }
-            return datenhaltung.updateAddress(id, str_nr, plz, ort, land);
-        }
-        public bool loescheAdresse(int id)
-        {
-            return datenhaltung.deleteAddress(id);
-        }
-
-
         // BenutzerAdressen-Management
-        public bool erzeugeBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
+        public bool erzeugeBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
-            return datenhaltung.insertUserAddress(benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr);
+            bool status = false;
+            Adresse temp_adresse = benutzeradresse.adresse;
+            int adresse_id = 0;
+
+            List<Adresse> adressliste = datenhaltung.getAddressList();
+            foreach (Adresse adresse in adressliste)
+            {
+                if (temp_adresse.str_nr == adresse.str_nr
+                    && temp_adresse.plz == adresse.plz
+                    && temp_adresse.ort == adresse.ort
+                    && temp_adresse.land == adresse.land)
+                {
+                    adresse_id = adresse.id;
+                }
+            }
+
+            if (adresse_id == 0)
+            {
+                datenhaltung.insertAddress(temp_adresse.str_nr, temp_adresse.plz, temp_adresse.ort, temp_adresse.land);
+            }
+            
+            if (datenhaltung.insertAddress(temp_adresse.str_nr, temp_adresse.plz, temp_adresse.ort, temp_adresse.land))
+            {
+                
+                status = datenhaltung.insertUserAddress(benutzeradresse.benutzer_id,
+                                                        adresse_id, 
+                                                        benutzeradresse.vname, 
+                                                        benutzeradresse.nname,
+                                                        benutzeradresse.addr_zusatz, 
+                                                        benutzeradresse.rech_addr, 
+                                                        benutzeradresse.lief_addr);
+            }
+            
+            return status;
         }
-        public bool aendereBenutzerAdresse(int benutzer_id, int adresse_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
+        public bool aendereBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
             return datenhaltung.updateUserAddress(benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr);
         }
-        public bool loescheBenutzerAdresse(int benutzer_id, int adresse_id)
+        public bool loescheBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
             return datenhaltung.deleteUserAddress(benutzer_id, adresse_id);
         }
