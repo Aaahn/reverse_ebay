@@ -81,7 +81,6 @@ namespace reverse_ebay
         }
         public List<Artikel> meineArtikel(bool nuroffen)
         {
-            
             List<Artikel> artikelListe = datenhaltung.getItemList();
             List<Artikel> benutzerArtikelListe = new List<Artikel>();
             foreach (Artikel artikel in artikelListe)
@@ -212,7 +211,12 @@ namespace reverse_ebay
         // Sonstige Funktionen
         public bool aufArtikelBieten(Artikel artikel, double gebot)
         {
-            return datenhaltung.updateItem(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, gebot, aktBenutzer.id, artikel.anbieter_id);
+            Artikel tempArtikel = datenhaltung.getItem(artikel.id);
+            if (artikel.hoechstgebot >= 0 && artikel.hoechstgebot < tempArtikel.hoechstgebot)
+            {
+                return datenhaltung.updateItem(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, gebot, aktBenutzer.id, artikel.anbieter_id);
+            }
+            return false;
         }
         public List<Artikel> meineGeboteAnzeigen()
         {
