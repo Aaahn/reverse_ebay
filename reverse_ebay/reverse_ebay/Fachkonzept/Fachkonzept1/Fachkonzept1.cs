@@ -25,18 +25,18 @@ namespace reverse_ebay
 
 
         // Benutzer-Management
-        public Boolean erzeugeBenutzer(string name, string passwort)
+        public bool erzeugeBenutzer(string name, string passwort)
         {
             return datenhaltung.insertUser(name, passwort);
         }
-        public Boolean aendereBenutzer(int id, string name = null, string passwort = null)
+        public bool aendereBenutzer(int id, string name = null, string passwort = null)
         {
             Benutzer benutzer = datenhaltung.getUser(id);
             if (name == null) { name = benutzer.name; }
             if (passwort == null) { passwort = benutzer.passwort; }
             return datenhaltung.updateUser(id, name, passwort);
         }
-        public Boolean loescheBenutzer(int id)
+        public bool loescheBenutzer(int id)
         {
             return datenhaltung.deleteUser(id);
         }
@@ -45,7 +45,7 @@ namespace reverse_ebay
             try { return datenhaltung.getUser(id); }
             catch { return null; }
         }
-        public Boolean einloggen(string name, string passwort)
+        public bool einloggen(string name, string passwort)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace reverse_ebay
             catch { return false; }
             
         }
-        public Boolean ausloggen()
+        public bool ausloggen()
         {
             aktBenutzer = null;
             if (aktBenutzer == null) { return true; } else { return false; }
@@ -75,41 +75,37 @@ namespace reverse_ebay
         }
         public List<Artikel> meineArtikel(bool nuroffen)
         {
-            List<Artikel> benutzerartikel = new List<Artikel>();
-            try
+            
+            List<Artikel> artikelListe = datenhaltung.getItemList();
+            List<Artikel> benutzerArtikelListe = new List<Artikel>();
+            foreach (Artikel artikel in artikelListe)
             {
-                benutzerartikel = datenhaltung.getItemList();
-                foreach (Artikel artikel in benutzerartikel)
+                if(artikel.anbieter_id == aktBenutzer.id)
                 {
-                    if(artikel.anbieter_id != aktBenutzer.id)
+                    if (nuroffen)
                     {
-                        if (nuroffen)
+                        if (artikel.ablaufdatum < DateTime.Now)
                         {
-                            if (artikel.ablaufdatum < DateTime.Now)
-                            {
-                                benutzerartikel.Remove(artikel);
-                            }
+                            benutzerArtikelListe.Add(artikel);
                         }
-                        else
-                        {
-                            benutzerartikel.Remove(artikel);
-                        }
-                        
                     }
-                }
-                return benutzerartikel;
-            }
-            catch { return null; }
+                    else
+                    {
+                        benutzerArtikelListe.Add(artikel);
+                    }
 
+                }
+            }
+            return benutzerArtikelListe;
         }
 
 
         // Adressen-Management
-        public Boolean erzeugeAdresse(string str_nr, string plz, string ort, string land)
+        public bool erzeugeAdresse(string str_nr, string plz, string ort, string land)
         {
             return datenhaltung.insertAddress(str_nr, plz, ort, land);
         }
-        public Boolean aendereAdresse(int id, string str_nr = null, string plz = null, string ort = null, string land = null)
+        public bool aendereAdresse(int id, string str_nr = null, string plz = null, string ort = null, string land = null)
         {
             Adresse adresse = datenhaltung.getAddress(id);
             if (str_nr == null) { str_nr = adresse.str_nr; }
@@ -118,7 +114,7 @@ namespace reverse_ebay
             if (land == null) { land = adresse.land; }
             return datenhaltung.updateAddress(id, str_nr, plz, ort, land);
         }
-        public Boolean loescheAdresse(int id)
+        public bool loescheAdresse(int id)
         {
             return datenhaltung.deleteAddress(id);
         }
@@ -140,11 +136,11 @@ namespace reverse_ebay
 
 
         // Artikel-Management
-        public Boolean erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double mindestgebot)
+        public bool erzeugeArtikel(string name, string kurzbeschr, string langbeschr, int anbieter_id, int bieter_id, DateTime ablaufdatum, double mindestgebot)
         {
             return datenhaltung.insertItem(name, kurzbeschr, langbeschr, ablaufdatum, mindestgebot, bieter_id, anbieter_id);
         }
-        public Boolean aendereArtikel(int id, string name = null, string kurzbeschr = null, string langbeschr = null, DateTime ablaufdatum = default(DateTime))
+        public bool aendereArtikel(int id, string name = null, string kurzbeschr = null, string langbeschr = null, DateTime ablaufdatum = default(DateTime))
         {
             Artikel artikel = datenhaltung.getItem(id);
             if (name == null) { name = artikel.name; }
@@ -152,7 +148,7 @@ namespace reverse_ebay
             if (langbeschr == null) { kurzbeschr = artikel.langbeschr; }
             return datenhaltung.updateItem(id, name, kurzbeschr, langbeschr, artikel.ablaufdatum, artikel.hoechstgebot, artikel.bieter_id, artikel.anbieter_id);
         }
-        public Boolean loescheArtikel(int id)
+        public bool loescheArtikel(int id)
         {
             return datenhaltung.deleteItem(id);
         }
@@ -164,23 +160,24 @@ namespace reverse_ebay
 
 
         // Sonstige Funktionen
-        public Boolean aufArtikelBieten(Artikel artikel, double gebot)
+        public bool aufArtikelBieten(Artikel artikel, double gebot)
         {
             return datenhaltung.updateItem(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, gebot, aktBenutzer.id, artikel.anbieter_id);
         }
         public List<Artikel> meineGeboteAnzeigen()
         {
             List<Artikel> artikelListe = datenhaltung.getItemList();
+            List<Artikel> meineGeboteListe = new List<Artikel>();
             foreach (Artikel artikel in artikelListe)
             {
-                if(artikel.bieter_id != aktBenutzer.id)
+                if(artikel.bieter_id == aktBenutzer.id)
                 {
-                    artikelListe.Remove(artikel);
+                    meineGeboteListe.Add(artikel);
                 }
             }
-            return artikelListe;
+            return meineGeboteListe;
         }
-        public Boolean istArtikelAktiv(int artikel_id)
+        public bool istArtikelAktiv(int artikel_id)
         {
             Artikel artikel = datenhaltung.getItem(artikel_id);
             if (artikel.ablaufdatum > DateTime.Now)
@@ -198,17 +195,22 @@ namespace reverse_ebay
         {
             // Derzeit ist nur eine Volltextsuch auf die Kurzbeschreibung möglich
             List<Artikel> artikelListe = datenhaltung.getItemList();
+            List<Artikel> meineArtikelListe = new List<Artikel>();
             if ((suchstring != "") && (artikelListe.Count > 0))
             {
                 foreach (Artikel artikel in artikelListe)
                 {
-                    if (artikel.kurzbeschr != suchstring)
+                    if (artikel.kurzbeschr == suchstring)
                     {
-                        artikelListe.Remove(artikel);
+                        meineArtikelListe.Add(artikel);
                     }
                 }
+                return meineArtikelListe;
             }
-            return artikelListe;
+            else
+            {
+                return artikelListe;
+            }
         }
 
     }
