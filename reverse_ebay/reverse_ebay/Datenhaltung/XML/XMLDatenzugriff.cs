@@ -134,7 +134,7 @@ namespace reverse_ebay
             }
             else
             {
-                return null;
+                return new Benutzer(0, "nonexistent", "nonexistent", new List<BenutzerAdresse>());
             }
         }
         public Benutzer getUserByName(string name)
