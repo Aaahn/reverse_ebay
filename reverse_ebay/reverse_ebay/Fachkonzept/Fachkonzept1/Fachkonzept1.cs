@@ -271,17 +271,17 @@ namespace reverse_ebay
         {
             // Derzeit ist nur eine Volltextsuch auf die Kurzbeschreibung möglich
             List<Artikel> artikelListe = datenhaltung.getItemList();
-            List<Artikel> meineArtikelListe = new List<Artikel>();
+            List<Artikel> artikelSuchListe = new List<Artikel>();
             if ((suchstring != "") && (artikelListe.Count > 0))
             {
                 foreach (Artikel artikel in artikelListe)
                 {
                     if (artikel.kurzbeschr == suchstring)
                     {
-                        meineArtikelListe.Add(artikel);
+                        artikelSuchListe.Add(artikel);
                     }
                 }
-                return meineArtikelListe;
+                return artikelSuchListe;
             }
             else
             {
