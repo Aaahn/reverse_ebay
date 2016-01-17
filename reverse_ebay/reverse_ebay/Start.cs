@@ -7,7 +7,7 @@ namespace reverse_ebay
     {
         static void Main(string[] args)
         {
-            var programm = new TUI(new Fachkonzept1(new XMLDatenzugriff()));
+            var programm = new GUI(new Fachkonzept1(new XMLDatenzugriff()));
 
             programm.start();
         }
