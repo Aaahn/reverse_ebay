@@ -275,6 +275,10 @@ namespace reverse_ebay
         {
             try
             {
+                if (benutzeradresse.adresse.id == 0)
+                {
+                    benutzeradresse.adresse = datenhaltung.getAddress(benutzeradresse.adresse.str_nr, benutzeradresse.adresse.plz, benutzeradresse.adresse.ort, benutzeradresse.adresse.land);
+                }
                 if (datenhaltung.deleteUserAddress(benutzeradresse.benutzer_id, benutzeradresse.adresse.id))
                 {
                     aktualisiereBenutzerdaten();
