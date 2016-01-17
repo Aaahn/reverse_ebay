@@ -522,6 +522,7 @@ namespace reverse_ebay
 
                 sqlCommand = new SqlCommand("DELETE FROM [dbo].[T_BenutzerAdresse] WHERE [benutzer_id] = @param1 AND [adresse_id] = @param2;", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
+                sqlCommand.Parameters.Add(param2);
                 sqlCommand.ExecuteNonQuery();
 
                 closeSQL();
