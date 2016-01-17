@@ -33,15 +33,15 @@ namespace reverse_ebay
 
         private void InitializeComponent()
         {
-            this.nameTextbox = new System.Windows.Forms.TextBox();
-            this.passwortTextbox = new System.Windows.Forms.TextBox();
-            this.nameLabel = new System.Windows.Forms.Label();
-            this.errorLabel = new System.Windows.Forms.Label();
-            this.passwortLabel = new System.Windows.Forms.Label();
-            this.passwort2Textbox = new System.Windows.Forms.TextBox();
-            this.passwort2Label = new System.Windows.Forms.Label();
-            this.abbrechenButton = new System.Windows.Forms.Button();
-            this.registerButton = new System.Windows.Forms.Button();
+            this.nameTextbox = new TextBox();
+            this.passwortTextbox = new TextBox();
+            this.nameLabel = new Label();
+            this.errorLabel = new Label();
+            this.passwortLabel = new Label();
+            this.passwort2Textbox = new TextBox();
+            this.passwort2Label = new Label();
+            this.abbrechenButton = new Button();
+            this.registerButton = new Button();
             this.SuspendLayout();
             // 
             // nameTextbox
@@ -113,7 +113,7 @@ namespace reverse_ebay
             this.abbrechenButton.TabIndex = 13;
             this.abbrechenButton.Text = "Abbrechen";
             this.abbrechenButton.UseVisualStyleBackColor = true;
-            this.abbrechenButton.Click += new System.EventHandler(this.AbbrechenOnClick);
+            this.abbrechenButton.Click += new EventHandler(this.AbbrechenOnClick);
             // 
             // registerButton
             // 
@@ -123,7 +123,7 @@ namespace reverse_ebay
             this.registerButton.TabIndex = 12;
             this.registerButton.Text = "Registrieren";
             this.registerButton.UseVisualStyleBackColor = true;
-            this.registerButton.Click += new System.EventHandler(this.RegistrierenOnClick);
+            this.registerButton.Click += new EventHandler(this.RegistrierenOnClick);
             // 
             // GUI_Register
             // 

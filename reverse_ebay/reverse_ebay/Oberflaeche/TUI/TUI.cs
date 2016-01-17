@@ -987,6 +987,30 @@ namespace reverse_ebay
                         }
                         Console.Read();
                         break;
+                    case 8:
+                        string lief;
+                        //Lieferadresse ändern
+                        Console.WriteLine();
+                        Console.Write("Lieferadresse: ");
+                        Console.WriteLine((benutzerAdresse.lief_addr ? "Ja" : "Nein"));
+                        Console.Write("Lieferadresse? [J/N]: ");
+                        lief = Console.ReadLine();
+                        while ((!lief.Equals("J")) && (!lief.Equals("N")))
+                        {
+                            Console.WriteLine("Bitte geben Sie gültige Zeichen (J für \"Ja\" oder N für \"Nein\") ein.");
+                            Console.Write("Lieferadresse? [J/N]: ");
+                            lief = Console.ReadLine();
+                        }
+                        if (!AendereRechnungsadresse(benutzerAdresse, (lief.Equals("J") ? true : false)))
+                        {
+                            Console.WriteLine("Ändern nicht erfolgreich. Bitte versuchen Sie es erneut.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ändern erfolgreich.");
+                        }
+                        Console.Read();
+                        break;
                 }
             }
             catch

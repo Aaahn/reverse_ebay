@@ -9,7 +9,7 @@ namespace reverse_ebay
         private Label nameLabel;
         private Label passwortLabel;
         private Label errorLabel;
-        private TextBox passwortTextbox;
+        public TextBox passwortTextbox;
         private TextBox nameTextbox;
         private Button loginButton;
         private Button abbrechenButton;
@@ -27,13 +27,13 @@ namespace reverse_ebay
 
         private void InitializeComponent()
         {
-            this.nameLabel = new System.Windows.Forms.Label();
-            this.passwortLabel = new System.Windows.Forms.Label();
-            this.errorLabel = new System.Windows.Forms.Label();
-            this.passwortTextbox = new System.Windows.Forms.TextBox();
-            this.nameTextbox = new System.Windows.Forms.TextBox();
-            this.loginButton = new System.Windows.Forms.Button();
-            this.abbrechenButton = new System.Windows.Forms.Button();
+            this.nameLabel = new Label();
+            this.passwortLabel = new Label();
+            this.errorLabel = new Label();
+            this.passwortTextbox = new TextBox();
+            this.nameTextbox = new TextBox();
+            this.loginButton = new Button();
+            this.abbrechenButton = new Button();
             this.SuspendLayout();
             // 
             // nameLabel
@@ -68,8 +68,11 @@ namespace reverse_ebay
             // 
             this.passwortTextbox.Location = new System.Drawing.Point(97, 67);
             this.passwortTextbox.Name = "passwortTextbox";
+            this.passwortTextbox.PasswordChar = '*';
             this.passwortTextbox.Size = new System.Drawing.Size(222, 22);
             this.passwortTextbox.TabIndex = 4;
+            this.passwortTextbox.UseSystemPasswordChar = true;
+            this.passwortTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.passwortTextbox_KeyPress);
             // 
             // nameTextbox
             // 
@@ -86,7 +89,7 @@ namespace reverse_ebay
             this.loginButton.TabIndex = 5;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
-            this.loginButton.Click += new System.EventHandler(this.LoginOnClick);
+            this.loginButton.Click += new EventHandler(this.LoginOnClick);
             // 
             // abbrechenButton
             // 
@@ -96,7 +99,7 @@ namespace reverse_ebay
             this.abbrechenButton.TabIndex = 6;
             this.abbrechenButton.Text = "Abbrechen";
             this.abbrechenButton.UseVisualStyleBackColor = true;
-            this.abbrechenButton.Click += new System.EventHandler(this.AbbrechenOnClick);
+            this.abbrechenButton.Click += new EventHandler(this.AbbrechenOnClick);
             // 
             // GUI_Login
             // 
@@ -113,7 +116,7 @@ namespace reverse_ebay
             this.Controls.Add(this.nameLabel);
             this.Name = "GUI_Login";
             this.Text = "Login";
-            this.Load += new System.EventHandler(this.GUI_Login_Load);
+            this.Load += new EventHandler(this.GUI_Login_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,6 +146,14 @@ namespace reverse_ebay
         private void AbbrechenOnClick(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void passwortTextbox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                LoginOnClick(sender, e);
+            }
         }
     }
 }

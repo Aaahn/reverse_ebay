@@ -65,6 +65,12 @@
     <Compile Include="Fachkonzept\Fachkonzept1\Fachkonzept1.cs" />
     <Compile Include="Fachkonzept\Fachkonzept2\ReverseEbayFacade.cs" />
     <Compile Include="Fachkonzept\Fachkonzept2\Fachkonzept2.cs" />
+    <Compile Include="Oberflaeche\GUI\GUI_NameAendern.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Oberflaeche\GUI\GUI_PasswortAendern.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Oberflaeche\GUI\GUI_Register.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +98,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Oberflaeche\GUI\GUI_Main.resx">
       <DependentUpon>GUI_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Oberflaeche\GUI\GUI_NameAendern.resx">
+      <DependentUpon>GUI_NameAendern.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Oberflaeche\GUI\GUI_PasswortAendern.resx">
+      <DependentUpon>GUI_PasswortAendern.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Oberflaeche\GUI\GUI_Register.resx">
       <DependentUpon>GUI_Register.cs</DependentUpon>
