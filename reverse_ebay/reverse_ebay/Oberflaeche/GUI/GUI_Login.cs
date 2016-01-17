@@ -69,14 +69,14 @@ namespace reverse_ebay
             this.passwortTextbox.Location = new System.Drawing.Point(97, 67);
             this.passwortTextbox.Name = "passwortTextbox";
             this.passwortTextbox.Size = new System.Drawing.Size(222, 22);
-            this.passwortTextbox.TabIndex = 3;
+            this.passwortTextbox.TabIndex = 4;
             // 
             // nameTextbox
             // 
             this.nameTextbox.Location = new System.Drawing.Point(97, 40);
             this.nameTextbox.Name = "nameTextbox";
             this.nameTextbox.Size = new System.Drawing.Size(222, 22);
-            this.nameTextbox.TabIndex = 4;
+            this.nameTextbox.TabIndex = 3;
             // 
             // loginButton
             // 

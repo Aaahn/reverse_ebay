@@ -110,7 +110,7 @@ namespace reverse_ebay
             this.abbrechenButton.Location = new System.Drawing.Point(272, 122);
             this.abbrechenButton.Name = "abbrechenButton";
             this.abbrechenButton.Size = new System.Drawing.Size(136, 30);
-            this.abbrechenButton.TabIndex = 12;
+            this.abbrechenButton.TabIndex = 13;
             this.abbrechenButton.Text = "Abbrechen";
             this.abbrechenButton.UseVisualStyleBackColor = true;
             this.abbrechenButton.Click += new System.EventHandler(this.AbbrechenOnClick);
@@ -120,7 +120,7 @@ namespace reverse_ebay
             this.registerButton.Location = new System.Drawing.Point(12, 122);
             this.registerButton.Name = "registerButton";
             this.registerButton.Size = new System.Drawing.Size(136, 30);
-            this.registerButton.TabIndex = 13;
+            this.registerButton.TabIndex = 12;
             this.registerButton.Text = "Registrieren";
             this.registerButton.UseVisualStyleBackColor = true;
             this.registerButton.Click += new System.EventHandler(this.RegistrierenOnClick);
@@ -153,12 +153,12 @@ namespace reverse_ebay
 
         private void RegistrierenOnClick(object sender, EventArgs e)
         {
-            if (passwortTextbox.Text.Equals(passwort2Textbox.Text))
+            if (!passwortTextbox.Text.Equals(passwort2Textbox.Text))
             {
                 errorLabel.Text = "Die Passwörter müssen übereinstimmen";
                 return;
             }
-            if ((nameTextbox.Text.Equals("")) || (passwortTextbox.Text.Equals("")) || (passwort2Textbox.Text.Equals("")))
+            if (nameTextbox.Text.Equals(""))
             {
                 errorLabel.Text = "Bitte alle Felder ausfüllen!";
                 return;
