@@ -854,6 +854,7 @@ namespace reverse_ebay
             Console.WriteLine((benutzerAdresse.lief_addr ? "Ja" : "Nein"));
             Console.WriteLine();
             Console.WriteLine("    - Zahl eingeben um zu bearbeiten");
+            Console.WriteLine("[L] - Adresse löschen");
             Console.WriteLine("[A] - Zurück zum Adressmenü");
             Console.WriteLine("[M] - Zurück zum Benutzermenü");
             Console.WriteLine("[Z] - Zurück zum Hauptmenü");
@@ -1024,6 +1025,21 @@ namespace reverse_ebay
             {
                 switch (eingabe)
                 {
+                    case "L":
+                    case "l":
+                        //Zurück zum Adressmenü
+                        if (fachkonzept.loescheBenutzerAdresse(benutzerAdresse))
+                        {
+                            AdressMenue(fachkonzept.gibAktBenutzer());
+                        }
+                        else
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("Das Löschen war nicht erfolgreich.");
+                            Console.Read();
+                            AdressMgtMenue(benutzerAdresse);
+                        }
+                        break;
                     case "A":
                     case "a":
                         //Zurück zum Adressmenü
