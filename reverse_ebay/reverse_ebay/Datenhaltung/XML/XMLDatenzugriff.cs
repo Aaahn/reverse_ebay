@@ -539,7 +539,7 @@ namespace reverse_ebay
                     status = true;
                 }
             }
-            else if (user_id == 0 & address_id != 0)
+            else if (user_id == 0 && address_id != 0)
             {
                 IEnumerable<XElement> useraddresses =
                         from el in AddressXML.Elements("user_address")
