@@ -750,8 +750,11 @@ namespace reverse_ebay
             BenutzerAdresse neueBenutzerAdresse = new BenutzerAdresse();
             neueBenutzerAdresse.adresse = new Adresse();
             neueBenutzerAdresse.benutzer_id = benutzer.id;
-
+            Console.Clear();
             string rech, lief;
+            Console.WriteLine("Adresse einfügen");
+            Console.WriteLine("----------------");
+            Console.WriteLine();
             Console.Write("Vorname:      ");
             neueBenutzerAdresse.vname = Console.ReadLine();
             while (neueBenutzerAdresse.vname.Equals(""))
@@ -834,6 +837,10 @@ namespace reverse_ebay
         {
             string eingabe;
             int auswahl;
+            Console.Clear();
+            Console.WriteLine("Adresse ändern");
+            Console.WriteLine("--------------");
+            Console.WriteLine();
             Console.WriteLine("[0] Vorname:      {0}", benutzerAdresse.vname);
             Console.WriteLine("[1] Nachname:     {0}", benutzerAdresse.nname);
             Console.WriteLine("[2] Adresszusatz: {0}", benutzerAdresse.addr_zusatz);
