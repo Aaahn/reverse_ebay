@@ -542,7 +542,7 @@ namespace reverse_ebay
             else if (user_id == 0 && address_id != 0)
             {
                 IEnumerable<XElement> useraddresses =
-                        from el in AddressXML.Elements("user_address")
+                        from el in UserAddressXML.Elements("user_address")
                         where (int)el.Element("address_id") == address_id
                         select el;
 
@@ -554,7 +554,7 @@ namespace reverse_ebay
             else if (user_id != 0 && address_id == 0)
             {
                 IEnumerable<XElement> useraddresses =
-                        from el in AddressXML.Elements("user_address")
+                        from el in UserAddressXML.Elements("user_address")
                         where (int)el.Element("user_id") == user_id
                         select el;
 
