@@ -244,7 +244,7 @@ namespace reverse_ebay
         {
             loadAddressFile();
             int new_id = (int)AddressXML.Attribute("lastUsedID") + 1;
-            if (addressExists(new_id) == 0 & addressExists(str_nr, plz, ort, land) == 0)
+            if (addressExists(new_id) == 0 && addressExists(str_nr, plz, ort, land) == 0)
             {
                 XElement address = new XElement("address");
 
@@ -528,7 +528,7 @@ namespace reverse_ebay
                     XElement useraddress = null;
                     IEnumerable<XElement> useraddresses =
                         from el in AddressXML.Elements("user_address")
-                        where (int)el.Element("user_id") == user_id & (int)el.Element("address_id") == address_id
+                        where (int)el.Element("user_id") == user_id && (int)el.Element("address_id") == address_id
                         select el;
 
                     foreach (XElement el in useraddresses) { useraddress = el; }
