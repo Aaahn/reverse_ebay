@@ -8,7 +8,7 @@ namespace reverse_ebay
 {
     class Fachkonzept1 : IFachkonzept
     {
-        private Benutzer aktBenutzer { get; set; }
+        private Benutzer aktBenutzer;
         private IDatenhaltung datenhaltung;
 
         public Fachkonzept1(IDatenhaltung _datenhaltung)
@@ -156,7 +156,7 @@ namespace reverse_ebay
                                                            benutzeradresse.adresse.ort,
                                                            benutzeradresse.adresse.land);
 
-            int adresse_id;
+            int adresse_id = temp_adresse.id;
             if (temp_adresse == null)
             {
                 adresse_id = datenhaltung.insertAddress(benutzeradresse.adresse.str_nr,
@@ -164,10 +164,7 @@ namespace reverse_ebay
                                                         benutzeradresse.adresse.ort,
                                                         benutzeradresse.adresse.land);
             }
-            else
-            {
-                adresse_id = temp_adresse.id;
-            }
+
             if (datenhaltung.updateUserAddress(benutzeradresse.benutzer_id,
                                                   adresse_id,
                                                   benutzeradresse.vname,
@@ -183,6 +180,10 @@ namespace reverse_ebay
         }
         public bool loescheBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
+            if (benutzeradresse.adresse.id == 0)
+            {
+                benutzeradresse.adresse = datenhaltung.getAddress(benutzeradresse.adresse.str_nr, benutzeradresse.adresse.plz, benutzeradresse.adresse.ort, benutzeradresse.adresse.land);
+            }
             if (datenhaltung.deleteUserAddress(benutzeradresse.benutzer_id, benutzeradresse.adresse.id))
             {
                 aktualisiereBenutzerdaten();
@@ -285,7 +286,7 @@ namespace reverse_ebay
             }
             else
             {
-                return artikelListe;
+                    return artikelListe;
             }
         }
 

@@ -22,8 +22,8 @@ namespace reverse_ebay
             this.datenhaltung = _datenhaltung;
             this.aktBenutzer_ArtikelListe = new List<Artikel>();
             this.aktBenutzer_AdressenListe = new List<BenutzerAdresse>();
-            this.alleArtikelListe = new List<Artikel>();
-            this.alleBenutzerListe = new List<Benutzer>();
+            this.alleArtikelListe = datenhaltung.getItemList();
+            this.alleBenutzerListe = datenhaltung.getUserList();
         }
 
         // Laden / Entladen der Facade
@@ -34,20 +34,23 @@ namespace reverse_ebay
                 Benutzer tempBenutzer = datenhaltung.getUser(benutzer.name);
                 if (tempBenutzer.passwort == benutzer.passwort)
                 {
+                    alleArtikelListe = datenhaltung.getItemList();
+                    alleBenutzerListe = datenhaltung.getUserList();
+
+                    // Aktueller Benutzer
                     aktBenutzer = tempBenutzer;
 
-                    List<Artikel> tempArtikelListe = datenhaltung.getItemList();
-                    foreach (Artikel artikel in tempArtikelListe)
+                    // Artikel-Liste des aktuellen Benutzers
+                    foreach (Artikel artikel in alleArtikelListe)
                     {
                         if (artikel.anbieter_id == aktBenutzer.id)
                         {
                             aktBenutzer_ArtikelListe.Add(artikel);
                         }
                     }
-                    alleArtikelListe = tempArtikelListe;
 
-                    List<BenutzerAdresse> tempBenutzerAdressenListe = datenhaltung.getUserAdressList();
-                    foreach (BenutzerAdresse benutzerAdresse in tempBenutzerAdressenListe)
+                    // Adressen-Liste des aktuellen Benutzers
+                    foreach (BenutzerAdresse benutzerAdresse in datenhaltung.getUserAdressList())
                     {
                         if (benutzerAdresse.benutzer_id == aktBenutzer.id)
                         {
@@ -75,7 +78,7 @@ namespace reverse_ebay
         {
             Benutzer tempBenutzer = aktBenutzer;
             schliesseBenutzer();
-            oeffneBenutzer(tempBenutzer);
+            oeffneBenutzer(tempBenutzer);       
         }
 
         // Zugriffsfunktionen
@@ -123,6 +126,8 @@ namespace reverse_ebay
             {
                 if (datenhaltung.updateUser(aktBenutzer.id, benutzer.name, benutzer.passwort))
                 {
+                    aktBenutzer.name = benutzer.name;
+                    aktBenutzer.passwort = benutzer.passwort;
                     aktualisiereBenutzerdaten();
                     return true;
                 }
