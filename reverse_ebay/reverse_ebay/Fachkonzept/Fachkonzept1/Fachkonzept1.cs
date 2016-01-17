@@ -66,7 +66,7 @@ namespace reverse_ebay
                     return true;
                 } else { return false; }
             }
-            catch { return false; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
             
         }
         public bool ausloggen()

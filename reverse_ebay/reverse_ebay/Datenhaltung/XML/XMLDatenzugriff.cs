@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.IO;
 
 namespace reverse_ebay
 {
@@ -349,8 +346,6 @@ namespace reverse_ebay
                     select el;
 
                 foreach (XElement el in addresses) { address = el; }
-
-                List<BenutzerAdresse> adressen = new List<BenutzerAdresse>();
 
                 Adresse adresse = new Adresse(
                     (int)address.Element("id"),
