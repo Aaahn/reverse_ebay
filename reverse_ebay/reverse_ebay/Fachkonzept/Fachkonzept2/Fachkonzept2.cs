@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace reverse_ebay
 {
+    /* 
+     * Das Fachkonzept 2 gibt die erhaltene Datenhaltung an die Facade, damit 
+     * diese eine Verbindung zu den Daten erhält. Ansonsten benötigt es keine weiteren
+     * Attribute, da sie für das Fachkonzept nicht notwendig sind. 
+     * Die Manipulation der Daten über die Datenhaltung wird ausschließlich in der
+     * Facade verwaltet, inklusive sämtlicher Einschränkungen.
+     * Für die Ausgabe der Daten stellt die Facade eigene Attribute zur 
+     * Verfügung (dazu mehr in der Datei reverseEbayFacade.cs). Wie die Daten dann 
+     * verwendet werden, also was der Benutzer (in unserem Fall das Fachkonzept 2)
+     * mit den Daten macht, ist für die Facade nicht relevant. Sie stellt die Daten
+     * nur zur Verfügung.
+     */
     class Fachkonzept2 : IFachkonzept
     {
         private ReverseEbayFacade reverseEbayFacade;
@@ -172,26 +181,50 @@ namespace reverse_ebay
             }
             return false;
         }
-        public List<Artikel> gibArtikelListe(string suchstring = "")
+        public List<Artikel> gibArtikelListe(bool nuroffen, string suchstring = "")
         {
             // Derzeit ist nur eine Volltextsuch auf die Kurzbeschreibung möglich
             List<Artikel> artikelListe = reverseEbayFacade.gibAlleArtikelListe();
-            List<Artikel> artikelSuchListe = new List<Artikel>();
-            if ((suchstring != "") && (artikelListe.Count > 0))
+            List<Artikel> artikelAusgabeListe = new List<Artikel>();
+
+            if ((artikelListe.Count > 0))
             {
-                foreach (Artikel artikel in artikelListe)
+                if ((suchstring == "") && !nuroffen)
                 {
-                    if (artikel.kurzbeschr == suchstring)
+                    return artikelListe;
+                }
+                else if ((suchstring != "") && !nuroffen)
+                {
+                    foreach (Artikel artikel in artikelListe)
                     {
-                        artikelSuchListe.Add(artikel);
+                        if (artikel.kurzbeschr == suchstring)
+                        {
+                            artikelAusgabeListe.Add(artikel);
+                        }
                     }
                 }
-                return artikelSuchListe;
+                else if ((suchstring == "") && nuroffen)
+                {
+                    foreach (Artikel artikel in artikelListe)
+                    {
+                        if (artikel.ablaufdatum > DateTime.Now)
+                        {
+                            artikelAusgabeListe.Add(artikel);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Artikel artikel in artikelListe)
+                    {
+                        if ((artikel.ablaufdatum > DateTime.Now) && (artikel.kurzbeschr == suchstring))
+                        {
+                            artikelAusgabeListe.Add(artikel);
+                        }
+                    }
+                }
             }
-            else
-            {
-                return artikelListe;
-            }
+            return artikelAusgabeListe;
         }
     }
 }

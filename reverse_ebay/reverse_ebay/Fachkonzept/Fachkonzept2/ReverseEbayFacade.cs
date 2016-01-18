@@ -1,12 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace reverse_ebay
 {
+    /*
+     * Die Facade beinhaltet neben der Datenhaltung noch 5 Attribute,
+     * die alle Daten beinhalten sollen, die das Fachkonzept benötigt.
+     * Neben dem aktuell aktiven Benutzer sind das noch:
+     * - eine Liste aller Artikel des Benutzers
+     * - eine Liste aller Adressen des Benutzers
+     * - eine Liste aller Artikel
+     * - eine Liste aller Benutzer
+     * Alle nicht-benutzerabhängigen Daten werden schon beim Initialisieren
+     * der Facade geladen, alle benutzerspezifischen Daten in der Methode
+     * oeffneBenutzer().
+     * Nach jeder Änderung von Daten wird die Funktion aktualisiereBenutzerdaten()
+     * ausgeführt, um die geänderten Daten dem Fachkonzept zur Verfügung zu stellen.
+     * Dabei wird der Benutzer einfach einmal geschlossen und neu geöffnet.
+     * In den einzelnen Methoden wird dann auf die Datenhaltung zugegriffen, 
+     * ohne dass das Fachkonzept weiß, wie das durchgeführt wird.
+     */
     class ReverseEbayFacade
     {
         private IDatenhaltung datenhaltung;

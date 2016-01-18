@@ -40,7 +40,7 @@ namespace reverse_ebay
         bool aufArtikelBieten(Artikel artikel, double gebot);
         List<Artikel> meineGeboteAnzeigen();
         bool istArtikelAktiv(Artikel artikel);
-        List<Artikel> gibArtikelListe(string suchstring);
+        List<Artikel> gibArtikelListe(bool nuroffen, string suchstring);
 
     }
 }
