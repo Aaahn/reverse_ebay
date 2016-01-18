@@ -223,9 +223,12 @@ namespace reverse_ebay
 
                 sqlDataReader = sqlCommand.ExecuteReader();
                 int user_id = 0;
-                while (sqlDataReader.Read())
+                if (sqlDataReader.HasRows)
                 {
-                    user_id = (int)sqlDataReader["id"];
+                    while (sqlDataReader.Read())
+                    {
+                        user_id = (int)sqlDataReader["id"];
+                    }
                 }
 
                 closeSQL();
@@ -264,9 +267,12 @@ namespace reverse_ebay
 
                 sqlCommand = new SqlCommand("SELECT @@IDENTITY AS 'new_id';", sqlConnection);
                 sqlDataReader = sqlCommand.ExecuteReader();
-                while (sqlDataReader.Read())
+                if (sqlDataReader.HasRows)
                 {
-                    new_id = Convert.ToInt32(sqlDataReader["new_id"]);
+                    while (sqlDataReader.Read())
+                    {
+                        new_id = Convert.ToInt32(sqlDataReader["new_id"]);
+                    }
                 }
 
                 closeSQL();
@@ -344,13 +350,16 @@ namespace reverse_ebay
 
                 sqlDataReader = sqlCommand.ExecuteReader();
                 Adresse tempAddress = null;
-                while (sqlDataReader.Read())
+                if (sqlDataReader.HasRows)
                 {
-                    tempAddress = new Adresse(Convert.ToInt32(sqlDataReader["id"]),
-                                              Convert.ToString(sqlDataReader["str_nr"]).Trim(),
-                                              Convert.ToString(sqlDataReader["plz"]).Trim(),
-                                              Convert.ToString(sqlDataReader["ort"]).Trim(),
-                                              Convert.ToString(sqlDataReader["land"]).Trim());
+                    while (sqlDataReader.Read())
+                    {
+                        tempAddress = new Adresse(Convert.ToInt32(sqlDataReader["id"]),
+                                                  Convert.ToString(sqlDataReader["str_nr"]).Trim(),
+                                                  Convert.ToString(sqlDataReader["plz"]).Trim(),
+                                                  Convert.ToString(sqlDataReader["ort"]).Trim(),
+                                                  Convert.ToString(sqlDataReader["land"]).Trim());
+                    }
                 }
 
                 closeSQL();
@@ -377,9 +386,13 @@ namespace reverse_ebay
                 sqlCommand = new SqlCommand("SELECT [id] FROM [dbo].[T_Adresse];", sqlConnection);
                 sqlDataReader = sqlCommand.ExecuteReader();
                 List<int> idList = new List<int>();
-                while (sqlDataReader.Read())
+
+                if (sqlDataReader.HasRows)
                 {
-                    idList.Add(Convert.ToInt32(sqlDataReader.GetValue(0)));
+                    while (sqlDataReader.Read())
+                    {
+                        idList.Add(Convert.ToInt32(sqlDataReader.GetValue(0)));
+                    }
                 }
 
                 closeSQL();
@@ -550,13 +563,16 @@ namespace reverse_ebay
                 sqlCommand.Parameters.Add(param2);
                 sqlDataReader = sqlCommand.ExecuteReader();
                 Adresse tempAddress = null;
-                while (sqlDataReader.Read())
+                if (sqlDataReader.HasRows)
                 {
-                    tempAddress = new Adresse(Convert.ToInt32(sqlDataReader["id"]),
-                                              Convert.ToString(sqlDataReader["str_nr"]).Trim(),
-                                              Convert.ToString(sqlDataReader["plz"]).Trim(),
-                                              Convert.ToString(sqlDataReader["ort"]).Trim(),
-                                              Convert.ToString(sqlDataReader["land"]).Trim());
+                    while (sqlDataReader.Read())
+                    {
+                        tempAddress = new Adresse(Convert.ToInt32(sqlDataReader["id"]),
+                                                  Convert.ToString(sqlDataReader["str_nr"]).Trim(),
+                                                  Convert.ToString(sqlDataReader["plz"]).Trim(),
+                                                  Convert.ToString(sqlDataReader["ort"]).Trim(),
+                                                  Convert.ToString(sqlDataReader["land"]).Trim());
+                    }
                 }
 
                 closeSQL();
@@ -569,15 +585,18 @@ namespace reverse_ebay
 
                 sqlDataReader = sqlCommand.ExecuteReader();
                 BenutzerAdresse tempUserAddress = null;
-                while (sqlDataReader.Read())
+                if (sqlDataReader.HasRows)
                 {
-                    tempUserAddress = new BenutzerAdresse(Convert.ToBoolean(sqlDataReader["rech_addr"]),
-                                                          Convert.ToBoolean(sqlDataReader["lief_addr"]),
-                                                          Convert.ToString(sqlDataReader["vname"]).Trim(),
-                                                          Convert.ToString(sqlDataReader["nname"]).Trim(),
-                                                          Convert.ToString(sqlDataReader["addr_zusatz"]).Trim(),
-                                                          Convert.ToInt32(sqlDataReader["benutzer_id"]),
-                                                          tempAddress);
+                    while (sqlDataReader.Read())
+                    {
+                        tempUserAddress = new BenutzerAdresse(Convert.ToBoolean(sqlDataReader["rech_addr"]),
+                                                              Convert.ToBoolean(sqlDataReader["lief_addr"]),
+                                                              Convert.ToString(sqlDataReader["vname"]).Trim(),
+                                                              Convert.ToString(sqlDataReader["nname"]).Trim(),
+                                                              Convert.ToString(sqlDataReader["addr_zusatz"]).Trim(),
+                                                              Convert.ToInt32(sqlDataReader["benutzer_id"]),
+                                                              tempAddress);
+                    }
                 }
 
                 closeSQL();
@@ -597,10 +616,13 @@ namespace reverse_ebay
                 sqlDataReader = sqlCommand.ExecuteReader();
                 List<int> userIDList = new List<int>();
                 List<int> addressIDList = new List<int>();
-                while (sqlDataReader.Read())
+                if (sqlDataReader.HasRows)
                 {
-                    userIDList.Add(Convert.ToInt32(sqlDataReader.GetValue(0)));
-                    addressIDList.Add(Convert.ToInt32(sqlDataReader.GetValue(1)));
+                    while (sqlDataReader.Read())
+                    {
+                        userIDList.Add(Convert.ToInt32(sqlDataReader.GetValue(0)));
+                        addressIDList.Add(Convert.ToInt32(sqlDataReader.GetValue(1)));
+                    }
                 }
 
                 closeSQL();
@@ -653,9 +675,12 @@ namespace reverse_ebay
 
                 sqlCommand = new SqlCommand("SELECT @@IDENTITY AS 'new_id';", sqlConnection);
                 sqlDataReader = sqlCommand.ExecuteReader();
-                while (sqlDataReader.Read())
+                if (sqlDataReader.HasRows)
                 {
-                    new_id = Convert.ToInt32(sqlDataReader["new_id"]);
+                    while (sqlDataReader.Read())
+                    {
+                        new_id = Convert.ToInt32(sqlDataReader["new_id"]);
+                    }
                 }
 
                 closeSQL();
@@ -738,21 +763,25 @@ namespace reverse_ebay
 
                 sqlDataReader = sqlCommand.ExecuteReader();
                 Artikel tempItem = null;
-                while (sqlDataReader.Read())
+                if (sqlDataReader.HasRows)
                 {
-                    int tempPurchID;
-                    if (sqlDataReader["bieter_id"].Equals(null))
+                    while (sqlDataReader.Read())
                     {
-                        tempPurchID = Convert.ToInt32(sqlDataReader["bieter_id"]);
-                    } else { tempPurchID = 0; }
-                    tempItem = new Artikel(Convert.ToInt32(sqlDataReader["id"]),
-                                           (Convert.ToString(sqlDataReader["name"])).Trim(),
-                                           (Convert.ToString(sqlDataReader["kurzbeschr"])).Trim(),
-                                           (Convert.ToString(sqlDataReader["langbeschr"])).Trim(),
-                                           Convert.ToDateTime(sqlDataReader["ablaufdatum"]),
-                                           Convert.ToDouble(sqlDataReader["hoechstgebot"]),
-                                           tempPurchID,
-                                           Convert.ToInt32(sqlDataReader["anbieter_id"]));
+                        int tempPurchID;
+                        if (sqlDataReader["bieter_id"].Equals(null))
+                        {
+                            tempPurchID = Convert.ToInt32(sqlDataReader["bieter_id"]);
+                        }
+                        else { tempPurchID = 0; }
+                        tempItem = new Artikel(Convert.ToInt32(sqlDataReader["id"]),
+                                               (Convert.ToString(sqlDataReader["name"])).Trim(),
+                                               (Convert.ToString(sqlDataReader["kurzbeschr"])).Trim(),
+                                               (Convert.ToString(sqlDataReader["langbeschr"])).Trim(),
+                                               Convert.ToDateTime(sqlDataReader["ablaufdatum"]),
+                                               Convert.ToDouble(sqlDataReader["hoechstgebot"]),
+                                               tempPurchID,
+                                               Convert.ToInt32(sqlDataReader["anbieter_id"]));
+                    }
                 }
 
                 closeSQL();
