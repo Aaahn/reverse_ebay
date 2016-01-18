@@ -161,7 +161,7 @@ namespace reverse_ebay
         {
             List<Artikel> artikel = new List<Artikel>();
             int versatz = runde * maxAnzahl, anzahl;
-            alleArtikel = fachkonzept.gibArtikelListe("");
+            alleArtikel = fachkonzept.gibArtikelListe(true,"");
             try { anzahl = alleArtikel.Count; } // TODO
             catch { anzahl = 0; }
 

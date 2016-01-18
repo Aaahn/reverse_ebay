@@ -927,7 +927,7 @@ namespace reverse_ebay
         {
             alleArtikelTabelle.Clear();
             meineArtikelTabelle.Clear();
-            List<Artikel> artikelListe = fachkonzept.gibArtikelListe("");
+            List<Artikel> artikelListe = fachkonzept.gibArtikelListe(true,"");
             
             foreach (Artikel einzelnerArtikel in artikelListe)
             {
