@@ -938,7 +938,14 @@ namespace reverse_ebay
                     neueZeile["Name"] = einzelnerArtikel.name;
                     neueZeile["Kurzbeschreibung"] = einzelnerArtikel.kurzbeschr;
                     neueZeile["Ablaufdatum"] = einzelnerArtikel.ablaufdatum;
-                    neueZeile["Gebot"] = string.Format("{0} EUR", einzelnerArtikel.hoechstgebot.ToString("0.00"));
+                    if (einzelnerArtikel.hoechstgebot != -1)
+                    {
+                        neueZeile["Gebot"] = string.Format("{0} EUR", einzelnerArtikel.hoechstgebot.ToString("0.00"));
+                    }
+                    else
+                    {
+                        neueZeile["Gebot"] = "-";
+                    }
                     if (fachkonzept.gibBenutzer(einzelnerArtikel.bieter_id) == null)
                     {
                         neueZeile["Geboten von"] = "-";
