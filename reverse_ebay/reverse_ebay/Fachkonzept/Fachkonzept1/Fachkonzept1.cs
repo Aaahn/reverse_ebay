@@ -219,7 +219,7 @@ namespace reverse_ebay
                                                artikel.ablaufdatum,
                                                artikel.hoechstgebot,
                                                artikel.bieter_id,
-                                               aktBenutzer.id);
+                                               artikel.anbieter_id);
             }
             return false;
         }
