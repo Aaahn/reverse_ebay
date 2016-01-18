@@ -1034,7 +1034,7 @@ namespace reverse_ebay
                     aktuellerArtikel.ablaufdatum = DateTime.Now.AddDays(14);
                     artikelGridView.Visible = true;
                     meineSeiteGroupBox.Visible = false;
-                    meineAdressenGroupBox.Visible = true;
+                    meineAdressenGroupBox.Visible = false;
                     artikelGroup.Visible = true;
                     meineAdressenToolStripMenuItem.Visible = true;
                     neuenWunschEintragenToolStripMenuItem.Visible = false;
