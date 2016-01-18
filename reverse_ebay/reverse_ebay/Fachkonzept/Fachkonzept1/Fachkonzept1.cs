@@ -254,7 +254,7 @@ namespace reverse_ebay
         // Sonstige Funktionen
         public bool aufArtikelBieten(Artikel artikel, double gebot)
         {
-            if (gebot >= 0 && gebot < artikel.hoechstgebot)
+            if ((gebot >= 0) && (gebot < artikel.hoechstgebot))
             {
                 return datenhaltung.updateItem(artikel.id, artikel.name, artikel.kurzbeschr, artikel.langbeschr, artikel.ablaufdatum, gebot, aktBenutzer.id, artikel.anbieter_id);
             }

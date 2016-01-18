@@ -423,7 +423,7 @@ namespace reverse_ebay
         }
         private int addressExists(string str_nr, string plz, string ort, string land)
         {
-            loadUserFile();
+            loadAddressFile();
             IEnumerable<XElement> addressList = null;
             try
             {
