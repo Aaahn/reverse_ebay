@@ -119,6 +119,12 @@ namespace reverse_ebay
             this.artikelGridView = new System.Windows.Forms.DataGridView();
             this.meineSeiteGroupBox = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.kurzbeschreibungDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ablaufdatumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gebotDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gebotenVonDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameAendernButton = new System.Windows.Forms.Button();
             this.passwortAendernButton = new System.Windows.Forms.Button();
             this.nameLabel = new System.Windows.Forms.Label();
@@ -183,12 +189,6 @@ namespace reverse_ebay
             // alleArtikelTabelle
             // 
             this.alleArtikelTabelle.TableName = "Alle Artikel";
-            meineArtikelTabelle.Columns.Add("ID", typeof(int));
-            meineArtikelTabelle.Columns.Add("Name", typeof(string));
-            meineArtikelTabelle.Columns.Add("Kurzbeschreibung", typeof(string));
-            meineArtikelTabelle.Columns.Add("Ablaufdatum", typeof(DateTime));
-            meineArtikelTabelle.Columns.Add("Gebot", typeof(string));
-            meineArtikelTabelle.Columns.Add("Geboten von", typeof(string));
             // 
             // menuStrip1
             // 
@@ -267,14 +267,67 @@ namespace reverse_ebay
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoGenerateColumns = true;
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iDDataGridViewTextBoxColumn,
+            this.nameDataGridViewTextBoxColumn,
+            this.kurzbeschreibungDataGridViewTextBoxColumn,
+            this.ablaufdatumDataGridViewTextBoxColumn,
+            this.gebotDataGridViewTextBoxColumn,
+            this.gebotenVonDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.meineArtikelTabelle;
             this.dataGridView1.Location = new System.Drawing.Point(11, 63);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(789, 390);
             this.dataGridView1.TabIndex = 3;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ZelleOnClick);
+            // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // kurzbeschreibungDataGridViewTextBoxColumn
+            // 
+            this.kurzbeschreibungDataGridViewTextBoxColumn.DataPropertyName = "Kurzbeschreibung";
+            this.kurzbeschreibungDataGridViewTextBoxColumn.HeaderText = "Kurzbeschreibung";
+            this.kurzbeschreibungDataGridViewTextBoxColumn.Name = "kurzbeschreibungDataGridViewTextBoxColumn";
+            this.kurzbeschreibungDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // ablaufdatumDataGridViewTextBoxColumn
+            // 
+            this.ablaufdatumDataGridViewTextBoxColumn.DataPropertyName = "Ablaufdatum";
+            this.ablaufdatumDataGridViewTextBoxColumn.HeaderText = "Ablaufdatum";
+            this.ablaufdatumDataGridViewTextBoxColumn.Name = "ablaufdatumDataGridViewTextBoxColumn";
+            this.ablaufdatumDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // gebotDataGridViewTextBoxColumn
+            // 
+            this.gebotDataGridViewTextBoxColumn.DataPropertyName = "Gebot";
+            this.gebotDataGridViewTextBoxColumn.HeaderText = "Gebot";
+            this.gebotDataGridViewTextBoxColumn.Name = "gebotDataGridViewTextBoxColumn";
+            this.gebotDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // gebotenVonDataGridViewTextBoxColumn
+            // 
+            this.gebotenVonDataGridViewTextBoxColumn.DataPropertyName = "Geboten von";
+            this.gebotenVonDataGridViewTextBoxColumn.HeaderText = "Geboten von";
+            this.gebotenVonDataGridViewTextBoxColumn.Name = "gebotenVonDataGridViewTextBoxColumn";
+            this.gebotenVonDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // nameAendernButton
             // 
@@ -806,6 +859,15 @@ namespace reverse_ebay
                 alleArtikelTabelle.Columns.Add("Gebot", typeof(string));
                 alleArtikelTabelle.Columns.Add("Geboten von", typeof(string));
             }
+            if (meineArtikelTabelle.Columns.Count == 0)
+            {
+                meineArtikelTabelle.Columns.Add("ID", typeof(int));
+                meineArtikelTabelle.Columns.Add("Name", typeof(string));
+                meineArtikelTabelle.Columns.Add("Kurzbeschreibung", typeof(string));
+                meineArtikelTabelle.Columns.Add("Ablaufdatum", typeof(DateTime));
+                meineArtikelTabelle.Columns.Add("Gebot", typeof(string));
+                meineArtikelTabelle.Columns.Add("Geboten von", typeof(string));
+            }
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -894,21 +956,21 @@ namespace reverse_ebay
                 foreach (Artikel einzelnerArtikel in meineArtikel)
                 {
 
-                    DataRow neueZeile = meineArtikelTabelle.NewRow();
-                    neueZeile["ID"] = einzelnerArtikel.id;
-                    neueZeile["Name"] = einzelnerArtikel.name;
-                    neueZeile["Kurzbeschreibung"] = einzelnerArtikel.kurzbeschr;
-                    neueZeile["Ablaufdatum"] = einzelnerArtikel.ablaufdatum;
-                    neueZeile["Gebot"] = string.Format("{0} EUR", einzelnerArtikel.hoechstgebot.ToString("0.00"));
+                    DataRow neueZeile2 = meineArtikelTabelle.NewRow();
+                    neueZeile2["ID"] = einzelnerArtikel.id;
+                    neueZeile2["Name"] = einzelnerArtikel.name;
+                    neueZeile2["Kurzbeschreibung"] = einzelnerArtikel.kurzbeschr;
+                    neueZeile2["Ablaufdatum"] = einzelnerArtikel.ablaufdatum;
+                    neueZeile2["Gebot"] = string.Format("{0} EUR", einzelnerArtikel.hoechstgebot.ToString("0.00"));
                     if (fachkonzept.gibBenutzer(einzelnerArtikel.bieter_id) == null)
                     {
-                        neueZeile["Geboten von"] = "-";
+                        neueZeile2["Geboten von"] = "-";
                     }
                     else
                     {
-                        neueZeile["Geboten von"] = fachkonzept.gibBenutzer(einzelnerArtikel.bieter_id).name;
+                        neueZeile2["Geboten von"] = fachkonzept.gibBenutzer(einzelnerArtikel.bieter_id).name;
                     }
-                    meineArtikelTabelle.Rows.Add(neueZeile);
+                    meineArtikelTabelle.Rows.Add(neueZeile2);
                 }
                 this.nameLabel.Text = String.Format("Name: {0}", fachkonzept.gibAktBenutzer().name);
             }
@@ -1372,7 +1434,7 @@ namespace reverse_ebay
         #region Artikelmanagement
         private void ZelleOnClick(object sender, DataGridViewCellEventArgs e)
         {
-            aktuellerArtikel = fachkonzept.gibArtikel(Convert.ToInt32(artikelGridView.Rows[artikelGridView.SelectedCells[0].RowIndex].Cells[0].Value));
+            aktuellerArtikel = fachkonzept.gibArtikel(Convert.ToInt32(((DataGridView)sender).Rows[((DataGridView)sender).SelectedCells[0].RowIndex].Cells[0].Value));
             aktuellerStatus = status.ArtikelAnsicht;
             Reload();
         }
