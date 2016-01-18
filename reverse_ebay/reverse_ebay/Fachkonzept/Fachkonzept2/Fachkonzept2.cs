@@ -181,26 +181,50 @@ namespace reverse_ebay
             }
             return false;
         }
-        public List<Artikel> gibArtikelListe(string suchstring = "")
+        public List<Artikel> gibArtikelListe(bool nuroffen, string suchstring = "")
         {
             // Derzeit ist nur eine Volltextsuch auf die Kurzbeschreibung möglich
             List<Artikel> artikelListe = reverseEbayFacade.gibAlleArtikelListe();
-            List<Artikel> artikelSuchListe = new List<Artikel>();
-            if ((suchstring != "") && (artikelListe.Count > 0))
+            List<Artikel> artikelAusgabeListe = new List<Artikel>();
+
+            if ((artikelListe.Count > 0))
             {
-                foreach (Artikel artikel in artikelListe)
+                if ((suchstring == "") && !nuroffen)
                 {
-                    if (artikel.kurzbeschr == suchstring)
+                    return artikelListe;
+                }
+                else if ((suchstring != "") && !nuroffen)
+                {
+                    foreach (Artikel artikel in artikelListe)
                     {
-                        artikelSuchListe.Add(artikel);
+                        if (artikel.kurzbeschr == suchstring)
+                        {
+                            artikelAusgabeListe.Add(artikel);
+                        }
                     }
                 }
-                return artikelSuchListe;
+                else if ((suchstring == "") && nuroffen)
+                {
+                    foreach (Artikel artikel in artikelListe)
+                    {
+                        if (artikel.ablaufdatum > DateTime.Now)
+                        {
+                            artikelAusgabeListe.Add(artikel);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Artikel artikel in artikelListe)
+                    {
+                        if ((artikel.ablaufdatum > DateTime.Now) && (artikel.kurzbeschr == suchstring))
+                        {
+                            artikelAusgabeListe.Add(artikel);
+                        }
+                    }
+                }
             }
-            else
-            {
-                return artikelListe;
-            }
+            return artikelAusgabeListe;
         }
     }
 }
