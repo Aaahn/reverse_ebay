@@ -151,32 +151,49 @@ namespace reverse_ebay
         }
         public bool aendereBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {
-            Adresse temp_adresse = datenhaltung.getAddress(benutzeradresse.adresse.str_nr,
-                                                           benutzeradresse.adresse.plz,
-                                                           benutzeradresse.adresse.ort,
-                                                           benutzeradresse.adresse.land);
-
-            int adresse_id = temp_adresse.id;
-            if (temp_adresse == null)
+            Adresse temp_adresse = new Adresse();
+            int adresse_id;
+            try
             {
-                adresse_id = datenhaltung.insertAddress(benutzeradresse.adresse.str_nr,
-                                                        benutzeradresse.adresse.plz,
-                                                        benutzeradresse.adresse.ort,
-                                                        benutzeradresse.adresse.land);
-            }
-
-            if (datenhaltung.updateUserAddress(benutzeradresse.benutzer_id,
+                temp_adresse = datenhaltung.getAddress(benutzeradresse.adresse.str_nr, benutzeradresse.adresse.plz, benutzeradresse.adresse.ort, benutzeradresse.adresse.land);
+                adresse_id = temp_adresse.id;
+                if (datenhaltung.updateUserAddress(benutzeradresse.benutzer_id,
                                                   adresse_id,
                                                   benutzeradresse.vname,
                                                   benutzeradresse.nname,
                                                   benutzeradresse.addr_zusatz,
                                                   benutzeradresse.rech_addr,
                                                   benutzeradresse.lief_addr))
-            {
-                aktualisiereBenutzerdaten();
-                return true;
+                {
+                    aktualisiereBenutzerdaten();
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch
+            {
+                adresse_id = datenhaltung.insertAddress(benutzeradresse.adresse.str_nr,
+                                                        benutzeradresse.adresse.plz,
+                                                        benutzeradresse.adresse.ort,
+                                                        benutzeradresse.adresse.land);
+                if (adresse_id != 0)
+                {
+                    if (datenhaltung.insertUserAddress(benutzeradresse.benutzer_id,
+                                                  adresse_id,
+                                                  benutzeradresse.vname,
+                                                  benutzeradresse.nname,
+                                                  benutzeradresse.addr_zusatz,
+                                                  benutzeradresse.rech_addr,
+                                                  benutzeradresse.lief_addr))
+                    {
+                        aktualisiereBenutzerdaten();
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            
         }
         public bool loescheBenutzerAdresse(BenutzerAdresse benutzeradresse)
         {

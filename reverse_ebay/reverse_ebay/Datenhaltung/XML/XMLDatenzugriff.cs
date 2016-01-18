@@ -433,11 +433,10 @@ namespace reverse_ebay
 
             foreach (XElement adress in addressList)
             {
-                
-                if (((string)adress.Element("str_nr") == str_nr) 
-                  && ((string)adress.Element("plz") == plz)
-                  && ((string)adress.Element("ort") == ort)
-                  && ((string)adress.Element("land") == land))
+                if ((Convert.ToString(adress.Element("str_nr")) == str_nr) 
+                  && (Convert.ToString(adress.Element("plz")) == plz)
+                  && (Convert.ToString(adress.Element("ort")) == ort)
+                  && (Convert.ToString(adress.Element("land")) == land))
                 {
                     return (int)adress.Element("id");
                 }
@@ -617,7 +616,7 @@ namespace reverse_ebay
             IEnumerable<XElement> useraddressList = null;
             try {
                 useraddressList = UserAddressXML.Elements();
-            } catch { return true; }
+            } catch { return false; }
             
             foreach (XElement useraddress in useraddressList)
             {

@@ -36,7 +36,10 @@ namespace reverse_ebay
         {
             try
             {
-                sqlCommand.Parameters.Clear();
+                if (sqlCommand != null)
+                {
+                    sqlCommand.Parameters.Clear();
+                }
                 sqlCommand = null;
                 sqlDataReader = null;
                 sqlConnection.Close();
@@ -62,7 +65,7 @@ namespace reverse_ebay
 
                 openSQL();
 
-                sqlCommand = new SqlCommand("INSERT INTO [dbo].[T_Benutzer] (name, passwort)" +
+                sqlCommand = new SqlCommand("INSERT INTO [dbo].[T_Benutzer] (name, passwort) " +
                                             "VALUES (@param1, @param2);", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
                 sqlCommand.Parameters.Add(param2);
@@ -81,7 +84,7 @@ namespace reverse_ebay
                 closeSQL();
 
                 return new_id;
-            } catch {  return 0; }
+            } catch (Exception e) { Console.WriteLine(e.ToString());  return 0; }
 
         }
         public bool updateUser(int id, string name, string passwort)
@@ -106,7 +109,7 @@ namespace reverse_ebay
                 closeSQL();
 
                 return true;
-            } catch { return false; }
+            } catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
 
         }
         public bool deleteUser(int id)
@@ -126,15 +129,14 @@ namespace reverse_ebay
 
                 return true;
             }
-            catch { return false; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
         }
         public Benutzer getUser(int id)
         {
             try
             {
                 List<BenutzerAdresse> tempUserAddressList = new List<BenutzerAdresse>();
-                List<BenutzerAdresse> test = getUserAdressList();
-                foreach (BenutzerAdresse useradress in test)
+                foreach (BenutzerAdresse useradress in getUserAdressList())
                 {
                     if (useradress.benutzer_id == id)
                     {
@@ -156,9 +158,9 @@ namespace reverse_ebay
                 {
                     while (sqlDataReader.Read())
                     {                        
-                        tempUser = new Benutzer((int)sqlDataReader["id"],
-                                                ((string)sqlDataReader["name"]).Trim(),
-                                                ((string)sqlDataReader["passwort"]).Trim(),
+                        tempUser = new Benutzer(Convert.ToInt32(sqlDataReader["id"]),
+                                                Convert.ToString(sqlDataReader["name"]).Trim(),
+                                                Convert.ToString(sqlDataReader["passwort"]).Trim(),
                                                 tempUserAddressList);
                     }
                 }
@@ -176,7 +178,7 @@ namespace reverse_ebay
             {
                 return getUser(getUserIDbyName(name));
             }
-            catch { return null; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return null; }
         }
         public List<Benutzer> getUserList()
         {
@@ -205,7 +207,7 @@ namespace reverse_ebay
 
                 return userList;
             }
-            catch { return userList; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return userList; }
         }
         private int getUserIDbyName(string name)
         {
@@ -230,7 +232,7 @@ namespace reverse_ebay
 
                 return user_id;
             }
-            catch { return 0; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return 0; }
         }
 
 
@@ -252,7 +254,7 @@ namespace reverse_ebay
 
                 openSQL();
 
-                sqlCommand = new SqlCommand("INSERT INTO [dbo].[T_Adresse] (str_nr, plz, ort, land)" +
+                sqlCommand = new SqlCommand("INSERT INTO [dbo].[T_Adresse] (str_nr, plz, ort, land) " +
                                             "VALUES(@param1, @param2, @param3, @param4);", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
                 sqlCommand.Parameters.Add(param2);
@@ -273,7 +275,7 @@ namespace reverse_ebay
 
                 return new_id;
             }
-            catch { return 0; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return 0; }
         }
         public bool updateAddress(int id, string str_nr, string plz, string ort, string land)
         {
@@ -293,7 +295,7 @@ namespace reverse_ebay
                 openSQL();
 
                 sqlCommand = new SqlCommand("UPDATE [dbo].[T_Adresse]" +
-                                            "SET [str_nr] = @param2, [plz] = @param3, [ort] = @param4, [land] = @param5" +
+                                            "SET [str_nr] = @param2, [plz] = @param3, [ort] = @param4, [land] = @param5 " +
                                             "WHERE[id] = @param1; ", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
                 sqlCommand.Parameters.Add(param2);
@@ -306,7 +308,7 @@ namespace reverse_ebay
 
                 return true;
             }
-            catch { return false; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
         }
         public bool deleteAddress(int id)
         {
@@ -325,7 +327,7 @@ namespace reverse_ebay
 
                 return true;
             }
-            catch { return false; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
         }
         public Adresse getAddress(int id)
         {
@@ -344,18 +346,18 @@ namespace reverse_ebay
                 Adresse tempAddress = null;
                 while (sqlDataReader.Read())
                 {
-                    tempAddress = new Adresse((int)sqlDataReader["id"],
-                                              ((string)sqlDataReader["str_nr"]).Trim(),
-                                              ((string)sqlDataReader["plz"]).Trim(),
-                                              ((string)sqlDataReader["ort"]).Trim(),
-                                              ((string)sqlDataReader["land"]).Trim());
+                    tempAddress = new Adresse(Convert.ToInt32(sqlDataReader["id"]),
+                                              Convert.ToString(sqlDataReader["str_nr"]).Trim(),
+                                              Convert.ToString(sqlDataReader["plz"]).Trim(),
+                                              Convert.ToString(sqlDataReader["ort"]).Trim(),
+                                              Convert.ToString(sqlDataReader["land"]).Trim());
                 }
 
                 closeSQL();
 
                 return tempAddress;
             }
-            catch { return null; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return null; }
         }
         public Adresse getAddress(string str_nr, string plz, string ort, string land)
         {
@@ -363,7 +365,7 @@ namespace reverse_ebay
             {
                 return getAddress(getAddressIDbyAddressData(str_nr, plz, ort, land));
             }
-            catch { return null; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return null; }
         }
         public List<Adresse> getAddressList()
         {
@@ -389,7 +391,7 @@ namespace reverse_ebay
 
                 return addressList;
             }
-            catch { return addressList; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return addressList; }
         }
         private int getAddressIDbyAddressData(string str_nr, string plz, string ort, string land)
         {
@@ -406,10 +408,10 @@ namespace reverse_ebay
 
                 openSQL();
 
-                sqlCommand = new SqlCommand("SELECT [id] FROM [dbo].[T_Adresse]" +
-                                            "WHERE [str_nr] = @param1" +
-                                            "AND [plz] = @param2" +
-                                            "AND [ort] = @param3" +
+                sqlCommand = new SqlCommand("SELECT [id] FROM [dbo].[T_Adresse] " +
+                                            "WHERE [str_nr] = @param1 " +
+                                            "AND [plz] = @param2 " +
+                                            "AND [ort] = @param3 " +
                                             "AND [land] = @param4;", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
                 sqlCommand.Parameters.Add(param2);
@@ -421,7 +423,7 @@ namespace reverse_ebay
                 {
                     while (sqlDataReader.Read())
                     {
-                        user_id = (int)sqlDataReader["id"];
+                        user_id = Convert.ToInt32(sqlDataReader["id"]);
                     }
                 }
 
@@ -429,7 +431,7 @@ namespace reverse_ebay
 
                 return user_id;
             }
-            catch { return 0; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return 0; }
         }
 
 
@@ -455,7 +457,7 @@ namespace reverse_ebay
 
                 openSQL();
 
-                sqlCommand = new SqlCommand("INSERT INTO [dbo].[T_BenutzerAdresse] (benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr)" +
+                sqlCommand = new SqlCommand("INSERT INTO [dbo].[T_BenutzerAdresse] (benutzer_id, adresse_id, vname, nname, addr_zusatz, rech_addr, lief_addr) " +
                                             "VALUES(@param1, @param2, @param3, @param4, @param5, @param6, @param7);", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
                 sqlCommand.Parameters.Add(param2);
@@ -470,7 +472,7 @@ namespace reverse_ebay
 
                 return true;
             }
-            catch { return false; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
         }
         public bool updateUserAddress(int user_id, int address_id, string vname, string nname, string addr_zusatz, bool rech_addr, bool lief_addr)
         {
@@ -493,14 +495,16 @@ namespace reverse_ebay
 
                 openSQL();
 
-                sqlCommand = new SqlCommand("UPDATE [dbo].[T_BenutzerAdresse]" +
-                                            "SET [vname] = @param3, [nname] = @param4, [addr_zusatz] = @param5, [rech_addr] = @param6, [lief_Addr] = @param7" +
+                sqlCommand = new SqlCommand("UPDATE [dbo].[T_BenutzerAdresse] " +
+                                            "SET [vname] = @param3, [nname] = @param4, [addr_zusatz] = @param5, [rech_addr] = @param6, [lief_Addr] = @param7 " +
                                             "WHERE [benutzer_id] = @param1 AND [adresse_id] = @param2; ", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
                 sqlCommand.Parameters.Add(param2);
                 sqlCommand.Parameters.Add(param3);
                 sqlCommand.Parameters.Add(param4);
                 sqlCommand.Parameters.Add(param5);
+                sqlCommand.Parameters.Add(param6);
+                sqlCommand.Parameters.Add(param7);
                 sqlCommand.ExecuteNonQuery();
 
                 closeSQL();
@@ -529,7 +533,7 @@ namespace reverse_ebay
 
                 return true;
             }
-            catch { return false; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
         }
         public BenutzerAdresse getUserAddress(int user_id, int address_id)
         {
@@ -637,8 +641,8 @@ namespace reverse_ebay
 
                 openSQL();
 
-                sqlCommand = new SqlCommand("INSERT INTO [dbo].[T_Artikel] (name, kurzbeschr, langbeschr, ablaufdatum, hoechstgebot, anbieter_id)" +
-                                            "VALUES(@param1, @param2, @param3, @param4, @param5, @param6);", sqlConnection);
+                sqlCommand = new SqlCommand("INSERT INTO [dbo].[T_Artikel] (name, kurzbeschr, langbeschr, ablaufdatum, hoechstgebot, anbieter_id) " +
+                                            "VALUES (@param1, @param2, @param3, @param4, @param5, @param6);", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
                 sqlCommand.Parameters.Add(param2);
                 sqlCommand.Parameters.Add(param3);
@@ -658,7 +662,7 @@ namespace reverse_ebay
 
                 return new_id;
             }
-            catch { return 0; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return 0; }
         }
         public bool updateItem(int id, string name, string kurzbeschr, string langbeschr, DateTime ablaufdatum, double hoechstgebot, int bieter_id, int anbieter_id)
         {
@@ -684,8 +688,8 @@ namespace reverse_ebay
                 openSQL();
 
                 sqlCommand = new SqlCommand("UPDATE [dbo].[T_Artikel]" +
-                                            "SET [name] = @param2, [kurzbeschr] = @param3, [langbeschr] = @param4, [ablaufdatum] = @param5, [hoechstgebot] = @param6, [bieter_id] = @param7, [anbieter_id] = @param8" +
-                                            "WHERE[id] = @param1; ", sqlConnection);
+                                            "SET [name] = @param2, [kurzbeschr] = @param3, [langbeschr] = @param4, [ablaufdatum] = @param5, [hoechstgebot] = @param6, [bieter_id] = @param7, [anbieter_id] = @param8 " +
+                                            "WHERE [id] = @param1; ", sqlConnection);
                 sqlCommand.Parameters.Add(param1);
                 sqlCommand.Parameters.Add(param2);
                 sqlCommand.Parameters.Add(param3);
@@ -697,7 +701,7 @@ namespace reverse_ebay
 
                 return true;
             }
-            catch { return false; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
         }
         public bool deleteItem(int id)
         {
@@ -716,7 +720,7 @@ namespace reverse_ebay
 
                 return true;
             }
-            catch { return false; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return false; }
         }
         public Artikel getItem(int id)
         {
@@ -755,7 +759,7 @@ namespace reverse_ebay
 
                 return tempItem;
             }
-            catch { return null; }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return null; }
         }
         public List<Artikel> getItemList()
         {
@@ -784,7 +788,7 @@ namespace reverse_ebay
 
                 return itemList;
             }
-            catch { return new List<Artikel>(); }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return new List<Artikel>(); }
         }
     }
 }
